@@ -1,15 +1,19 @@
 """
-Sync repository to QuantLet with updated URLs.
+Sync repository to QuantLet with updated URLs and fresh PDF compilation.
 
 This script:
 1. Clones/updates the QuantLet neural-networks-introduction repository
-2. Copies all files from current directory to QuantLet repo
+2. Cleans target directory and copies ONLY essential files:
+   - Chart folders (01-20)
+   - quantlet_tools folder
 3. Updates all URLs to point to QuantLet repository:
    - CHART_METADATA in Python files
    - metainfo.txt files
-   - LaTeX branding overlays
    - QR codes
-4. Prepares for commit (but doesn't push automatically)
+4. Copies latest .tex file and updates LaTeX branding
+5. Compiles fresh PDF with QuantLet URLs
+6. Removes .tex file (keeps only compiled PDF)
+7. Prepares for commit (but doesn't push automatically)
 
 Usage:
     python quantlet_tools/sync_to_quantlet.py
@@ -43,32 +47,72 @@ def clone_or_update_repo(target_dir):
         subprocess.run(['git', 'clone', QUANTLET_REPO_URL, str(target_dir)], check=True)
         print(">> Clone successful")
 
-def copy_files(source_dir, target_dir):
-    """Copy all files from source to target, excluding git folders."""
-    exclude = {'.git', '__pycache__', 'temp', 'previous', QUANTLET_REPO_NAME}
+def clean_target_directory(target_dir):
+    """Remove all files except .git folder."""
+    print(f">> Cleaning target directory (keeping .git)...")
+    cleaned_count = 0
 
-    print(f"\n>> Copying files from {source_dir.name} to {target_dir.name}...")
-    copied_count = 0
-
-    for item in source_dir.iterdir():
-        if item.name in exclude:
+    for item in target_dir.iterdir():
+        if item.name == '.git':
             continue
-
-        target_path = target_dir / item.name
 
         try:
             if item.is_dir():
-                if target_path.exists():
-                    shutil.rmtree(target_path)
-                shutil.copytree(item, target_path)
-                copied_count += 1
+                shutil.rmtree(item)
+                cleaned_count += 1
             else:
-                shutil.copy2(item, target_path)
-                copied_count += 1
+                item.unlink()
+                cleaned_count += 1
         except Exception as e:
-            print(f"Warning: Could not copy {item.name}: {e}")
+            print(f"Warning: Could not remove {item.name}: {e}")
 
-    print(f">> Copied {copied_count} items")
+    print(f">> Removed {cleaned_count} old items")
+
+def copy_files(source_dir, target_dir):
+    """Copy only chart folders and quantlet_tools (PDF will be compiled fresh)."""
+    print(f"\n>> Copying selective files to {target_dir.name}...")
+    copied_items = []
+
+    # 1. Copy chart folders (numbered folders)
+    chart_folders = sorted([d for d in source_dir.iterdir()
+                           if d.is_dir() and d.name[:2].isdigit()])
+
+    print(f">> Copying {len(chart_folders)} chart folders...")
+    for chart_dir in chart_folders:
+        target_path = target_dir / chart_dir.name
+        try:
+            if target_path.exists():
+                shutil.rmtree(target_path)
+            shutil.copytree(chart_dir, target_path)
+            copied_items.append(chart_dir.name)
+        except Exception as e:
+            print(f"Warning: Could not copy {chart_dir.name}: {e}")
+
+    # 2. Copy quantlet_tools folder
+    quantlet_tools = source_dir / "quantlet_tools"
+    if quantlet_tools.exists():
+        print(f">> Copying quantlet_tools folder...")
+        target_path = target_dir / "quantlet_tools"
+        try:
+            if target_path.exists():
+                shutil.rmtree(target_path)
+            shutil.copytree(quantlet_tools, target_path)
+            copied_items.append("quantlet_tools")
+        except Exception as e:
+            print(f"Warning: Could not copy quantlet_tools: {e}")
+
+    # 3. Copy .gitignore if exists
+    gitignore = source_dir / ".gitignore"
+    if gitignore.exists():
+        print(f">> Copying .gitignore...")
+        target_path = target_dir / ".gitignore"
+        try:
+            shutil.copy2(gitignore, target_path)
+            copied_items.append(".gitignore")
+        except Exception as e:
+            print(f"Warning: Could not copy .gitignore: {e}")
+
+    print(f">> Copied {len(copied_items)} items: {len(chart_folders)} charts + tools")
 
 def update_chart_metadata_urls(chart_dir, folder_name):
     """Update CHART_METADATA URLs in Python files."""
@@ -138,6 +182,16 @@ def regenerate_qr_code(chart_dir, folder_name):
         print(f"    Warning: Could not regenerate QR code: {e}")
         return False
 
+def find_latest_tex(source_dir):
+    """Find the most recently modified .tex file in the source directory."""
+    tex_files = list(source_dir.glob("*.tex"))
+    if not tex_files:
+        return None
+
+    # Sort by modification time, newest first
+    latest_tex = max(tex_files, key=lambda p: p.stat().st_mtime)
+    return latest_tex
+
 def update_latex_branding(tex_file):
     """Update tikz overlay URLs in LaTeX files."""
     if not tex_file.exists():
@@ -162,6 +216,51 @@ def update_latex_branding(tex_file):
 
     return False
 
+def compile_pdf(tex_file):
+    """Compile LaTeX file to PDF using pdflatex."""
+    if not tex_file.exists():
+        return False
+
+    print(f"\n>> Compiling PDF from {tex_file.name}...")
+
+    try:
+        # Run pdflatex twice for proper references
+        for run in [1, 2]:
+            print(f"  >> pdflatex run {run}/2...")
+            result = subprocess.run(
+                ['pdflatex', '-interaction=nonstopmode', tex_file.name],
+                cwd=tex_file.parent,
+                capture_output=True,
+                text=True,
+                timeout=60
+            )
+
+            if result.returncode != 0:
+                print(f"  Warning: pdflatex run {run} had errors (but may have still produced PDF)")
+
+        # Clean up auxiliary files
+        aux_files = ['aux', 'log', 'nav', 'out', 'snm', 'toc']
+        for ext in aux_files:
+            aux_file = tex_file.with_suffix(f'.{ext}')
+            if aux_file.exists():
+                aux_file.unlink()
+
+        # Check if PDF was created
+        pdf_file = tex_file.with_suffix('.pdf')
+        if pdf_file.exists():
+            print(f"  >> PDF compiled successfully: {pdf_file.name}")
+            return True
+        else:
+            print(f"  Warning: PDF was not created")
+            return False
+
+    except subprocess.TimeoutExpired:
+        print(f"  Error: PDF compilation timed out")
+        return False
+    except Exception as e:
+        print(f"  Error: Could not compile PDF: {e}")
+        return False
+
 def main():
     source_dir = Path.cwd()
     target_dir = source_dir.parent / QUANTLET_REPO_NAME
@@ -178,12 +277,27 @@ def main():
     print("\n[STEP 1] Clone/Update Repository")
     clone_or_update_repo(target_dir)
 
-    # Step 2: Copy all files
-    print("\n[STEP 2] Copy Files")
+    # Step 2: Clean target directory
+    print("\n[STEP 2] Clean Target Directory")
+    clean_target_directory(target_dir)
+
+    # Step 3: Copy essential files
+    print("\n[STEP 3] Copy Files")
     copy_files(source_dir, target_dir)
 
-    # Step 3: Update all URLs
-    print("\n[STEP 3] Update URLs")
+    # Step 4: Copy latest .tex file
+    print("\n[STEP 4] Copy Latest .tex File")
+    latest_tex = find_latest_tex(source_dir)
+    if latest_tex:
+        print(f">> Copying latest .tex file: {latest_tex.name}")
+        target_tex = target_dir / latest_tex.name
+        shutil.copy2(latest_tex, target_tex)
+    else:
+        print("Error: No .tex file found in source directory")
+        return
+
+    # Step 5: Update all URLs to QuantLet
+    print("\n[STEP 5] Update URLs to QuantLet")
 
     # Find all chart folders (numbered folders)
     chart_folders = sorted([d for d in target_dir.iterdir()
@@ -208,11 +322,20 @@ def main():
         if regenerate_qr_code(chart_dir, folder_name):
             total_updates += 1
 
-    # Step 4: Update LaTeX files
-    print("\n[STEP 4] Update LaTeX Files")
-    for tex_file in target_dir.glob("*.tex"):
-        if update_latex_branding(tex_file):
-            total_updates += 1
+    # Step 6: Update LaTeX branding
+    print("\n[STEP 6] Update LaTeX Branding")
+    if update_latex_branding(target_tex):
+        total_updates += 1
+
+    # Step 7: Compile PDF with QuantLet links
+    print("\n[STEP 7] Compile PDF")
+    pdf_compiled = compile_pdf(target_tex)
+
+    # Step 8: Clean up - remove .tex file (keep only PDF)
+    if pdf_compiled:
+        print("\n[STEP 8] Cleanup")
+        print(f">> Removing .tex file (keeping compiled PDF)...")
+        target_tex.unlink()
 
     # Summary
     print("\n" + "=" * 70)
@@ -221,6 +344,9 @@ def main():
     print(f">> Synchronized to: {target_dir}")
     print(f">> Updated {total_updates} components")
     print(f">> All URLs now point to: {NEW_GITHUB_BASE}")
+    if pdf_compiled:
+        pdf_name = target_tex.with_suffix('.pdf').name
+        print(f">> Compiled PDF: {pdf_name}")
     print("\n" + "=" * 70)
     print("NEXT STEPS")
     print("=" * 70)
@@ -230,7 +356,7 @@ def main():
     print(f"   git diff")
     print(f"\n2. Commit and push:")
     print(f"   git add .")
-    print(f"   git commit -m \"Sync from source repository with updated QuantLet URLs\"")
+    print(f"   git commit -m \"Update: Sync with QuantLet URLs and recompiled PDF\"")
     print(f"   git push")
     print("=" * 70)
 
