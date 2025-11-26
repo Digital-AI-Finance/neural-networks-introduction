@@ -1,0 +1,19 @@
+Name of Quantlet: '12_decision_boundary_concept'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Linear vs curved decision boundaries comparison'
+
+Keywords: 'neural network, visualization'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-24'
+
+Datafile: 'None'
+
+Input: 'decision_boundary_concept.py'
+
+Output: 'decision_boundary_concept.pdf, qr_code.png'
+
+Example: 'python decision_boundary_concept.py'

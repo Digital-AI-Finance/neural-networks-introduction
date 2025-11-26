@@ -1,0 +1,19 @@
+Name of Quantlet: '16_feature_hierarchy'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Layer-by-layer data transformation visualization'
+
+Keywords: 'neural network, visualization'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-24'
+
+Datafile: 'None'
+
+Input: 'feature_hierarchy.py'
+
+Output: 'feature_hierarchy.pdf, qr_code.png'
+
+Example: 'python feature_hierarchy.py'

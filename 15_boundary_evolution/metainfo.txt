@@ -1,0 +1,19 @@
+Name of Quantlet: '15_boundary_evolution'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Real trained neural networks showing curved decision boundaries'
+
+Keywords: 'neural network, visualization'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-24'
+
+Datafile: 'None'
+
+Input: 'boundary_evolution.py'
+
+Output: 'boundary_evolution.pdf, qr_code.png'
+
+Example: 'python boundary_evolution.py'

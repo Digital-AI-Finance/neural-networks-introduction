@@ -1,0 +1,19 @@
+Name of Quantlet: '08_gradient_descent'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Neural network visualization chart'
+
+Keywords: 'neural network, visualization, gradient descent'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-23'
+
+Datafile: 'None'
+
+Input: 'gradient_descent.py'
+
+Output: 'gradient_descent.pdf, qr_code.png'
+
+Example: 'python gradient_descent.py'

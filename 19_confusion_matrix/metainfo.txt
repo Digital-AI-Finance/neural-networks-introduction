@@ -1,0 +1,19 @@
+Name of Quantlet: '19_confusion_matrix'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Classification performance metrics visualization'
+
+Keywords: 'neural network, visualization, classification'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-24'
+
+Datafile: 'None'
+
+Input: 'confusion_matrix.py'
+
+Output: 'confusion_matrix.pdf, qr_code.png'
+
+Example: 'python confusion_matrix.py'

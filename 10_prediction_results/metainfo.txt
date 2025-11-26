@@ -1,0 +1,19 @@
+Name of Quantlet: '10_prediction_results'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Neural network visualization chart'
+
+Keywords: 'neural network, visualization, prediction'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-23'
+
+Datafile: 'None'
+
+Input: 'prediction_results.py'
+
+Output: 'prediction_results.pdf, qr_code.png'
+
+Example: 'python prediction_results.py'

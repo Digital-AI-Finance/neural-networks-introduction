@@ -1,0 +1,19 @@
+Name of Quantlet: '04_linear_limitation'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Neural network visualization chart'
+
+Keywords: 'neural network, visualization'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-23'
+
+Datafile: 'None'
+
+Input: 'linear_limitation.py'
+
+Output: 'linear_limitation.pdf, qr_code.png'
+
+Example: 'python linear_limitation.py'

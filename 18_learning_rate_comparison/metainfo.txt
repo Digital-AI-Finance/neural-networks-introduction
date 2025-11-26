@@ -1,0 +1,19 @@
+Name of Quantlet: '18_learning_rate_comparison'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Effect of learning rate on convergence speed'
+
+Keywords: 'neural network, visualization'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-24'
+
+Datafile: 'None'
+
+Input: 'learning_rate_comparison.py'
+
+Output: 'learning_rate_comparison.pdf, qr_code.png'
+
+Example: 'python learning_rate_comparison.py'

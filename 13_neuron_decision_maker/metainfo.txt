@@ -1,0 +1,19 @@
+Name of Quantlet: '13_neuron_decision_maker'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Buy/sell threshold decision visualization'
+
+Keywords: 'neural network, visualization, neuron'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-24'
+
+Datafile: 'None'
+
+Input: 'neuron_decision_maker.py'
+
+Output: 'neuron_decision_maker.pdf, qr_code.png'
+
+Example: 'python neuron_decision_maker.py'

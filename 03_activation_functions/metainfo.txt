@@ -1,0 +1,19 @@
+Name of Quantlet: '03_activation_functions'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Comparison of step function, sigmoid, ReLU, and tanh activations'
+
+Keywords: 'neural network, activation function, visualization'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-23'
+
+Datafile: 'None'
+
+Input: 'activation_functions.py'
+
+Output: 'activation_functions.pdf, qr_code.png'
+
+Example: 'python activation_functions.py'

@@ -1,0 +1,1979 @@
+\documentclass[8pt,aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+% Color definitions from template
+\definecolor{mlblue}{RGB}{0,102,204}
+\definecolor{mlpurple}{RGB}{51,51,178}
+\definecolor{mllavender}{RGB}{173,173,224}
+\definecolor{mllavender2}{RGB}{193,193,232}
+\definecolor{mllavender3}{RGB}{204,204,235}
+\definecolor{mllavender4}{RGB}{214,214,239}
+\definecolor{mlorange}{RGB}{255, 127, 14}
+\definecolor{mlgreen}{RGB}{44, 160, 44}
+\definecolor{mlred}{RGB}{214, 39, 40}
+\definecolor{mlgray}{RGB}{127, 127, 127}
+
+% Additional colors
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{midgray}{RGB}{180, 180, 180}
+
+% Apply custom colors to Madrid theme
+\setbeamercolor{palette primary}{bg=mllavender3,fg=mlpurple}
+\setbeamercolor{palette secondary}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{palette tertiary}{bg=mllavender,fg=white}
+\setbeamercolor{palette quaternary}{bg=mlpurple,fg=white}
+
+\setbeamercolor{structure}{fg=mlpurple}
+\setbeamercolor{section in toc}{fg=mlpurple}
+\setbeamercolor{subsection in toc}{fg=mlblue}
+\setbeamercolor{title}{fg=mlpurple}
+\setbeamercolor{frametitle}{fg=mlpurple,bg=mllavender3}
+\setbeamercolor{block title}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{block body}{bg=mllavender4,fg=black}
+
+% Remove navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% Clean itemize/enumerate
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+
+% Reduce margins for more content space
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+
+% Command for bottom annotation
+\newcommand{\bottomnote}[1]{%
+\vfill
+\vspace{-2mm}
+\textcolor{mllavender2}{\rule{\textwidth}{0.4pt}}
+\vspace{1mm}
+\footnotesize
+\textbf{#1}
+}
+
+% Title page information
+\title{Introduction to Neural Networks}
+\subtitle{From Brain to Business: How Machines Learn to Predict}
+\author{Neural Networks for Business Applications}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}[plain]
+\titlepage
+
+\vspace{0.2cm}
+\begin{block}{Learning Objectives}
+\small
+\begin{itemize}
+\item \textbf{Explain} how biological neurons inspire artificial neural networks
+\item \textbf{Calculate} the output of an artificial neuron given inputs and weights
+\item \textbf{Design} a simple multilayer network architecture
+\item \textbf{Trace} information flow through forward propagation
+\item \textbf{Describe} how networks learn by minimizing prediction errors
+\item \textbf{Evaluate} when neural networks are appropriate for business
+\end{itemize}
+\end{block}
+\end{frame}
+
+\begin{frame}[t]{The Prediction Challenge: Can We Predict Markets?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Business Question}
+
+Can we predict if a stock price will rise or fall tomorrow?
+
+\begin{itemize}
+\item Traditional: Statistical analysis, expert intuition
+\item Challenge: Markets are \textcolor{mlred}{complex, non-linear}
+\item Many factors: price, volume, sentiment, volatility
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{The Limitation}
+
+Rule-based systems cannot capture all interactions
+
+\column{0.48\textwidth}
+\textbf{Why This Matters}
+
+\begin{itemize}
+\item Better investment decisions
+\item Risk management
+\item Portfolio optimization
+\item Automated trading strategies
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{What We Need}
+
+A system that learns patterns from data, not explicit rules
+\end{columns}
+
+\bottomnote{Our journey begins with understanding how nature solved similar prediction problems}
+\end{frame}
+
+\begin{frame}[t]{Why Simple Rules Fail: Market Data Complexity}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{11_problem_visualization/problem_visualization.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/11_problem_visualization/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/11_problem_visualization/}{\includegraphics[width=0.6cm]{11_problem_visualization/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/11_problem_visualization/}{\tiny\texttt{\textcolor{gray}{11\_problem\_visualization}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/11_problem_visualization/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/11_problem_visualization/}{\includegraphics[width=0.6cm]{11_problem_visualization/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/11_problem_visualization/}{\tiny\texttt{\textcolor{gray}{11\_problem\_visualization}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: Can you draw a single line that separates green (up) from red (down) in any panel?}
+\end{frame}
+
+
+\begin{frame}[t]{What We Need: A Learning System}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{System Requirements}
+
+\begin{enumerate}
+\item Process multiple inputs simultaneously
+\item Learn patterns from historical data
+\item Handle \textbf{non-linear} relationships
+\item Improve predictions over time
+\item Generalize to new conditions
+\end{enumerate}
+
+\vspace{0.3em}
+\textbf{Key Insight}
+
+We need a system that learns, not one we program
+
+\column{0.48\textwidth}
+\textbf{Inspiration from Nature}
+
+The human brain solves complex pattern recognition every day
+
+\vspace{0.3em}
+\textbf{Brain Capabilities}
+\begin{itemize}
+\item Processes millions of inputs
+\item Learns from experience
+\item Handles ambiguity
+\item Generalizes to new situations
+\end{itemize}
+
+\vspace{0.3em}
+\textit{Can we mimic this for business predictions?}
+\end{columns}
+
+\bottomnote{Next: Understanding biological neurons as the foundation}
+\end{frame}
+
+\begin{frame}[t]{The Goal: Learn Complex Decision Boundaries}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{12_decision_boundary_concept/decision_boundary_concept.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/12_decision_boundary_concept/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/12_decision_boundary_concept/}{\includegraphics[width=0.6cm]{12_decision_boundary_concept/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/12_decision_boundary_concept/}{\tiny\texttt{\textcolor{gray}{12\_decision\_boundary\_concept}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/12_decision_boundary_concept/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/12_decision_boundary_concept/}{\includegraphics[width=0.6cm]{12_decision_boundary_concept/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/12_decision_boundary_concept/}{\tiny\texttt{\textcolor{gray}{12\_decision\_boundary\_concept}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: The rightmost panel shows what neural networks can learn - curved boundaries that adapt to data}
+\end{frame}
+
+
+\begin{frame}[t]
+\vfill
+\centering
+\begin{beamercolorbox}[sep=8pt,center]{title}
+\usebeamerfont{title}\Large Part 1: Foundations\par
+\end{beamercolorbox}
+\vspace{0.3cm}
+{\normalsize From biological neurons to artificial intelligence}
+\vspace{0.3cm}
+
+\textit{Let's begin with the inspiration from nature}
+\vspace{0.3cm}
+
+{\small \textcolor{mlpurple}{\textbf{[1]}} -- \textcolor{mllavender2}{[2]} -- \textcolor{mllavender2}{[3]} -- \textcolor{mllavender2}{[4]} -- \textcolor{mllavender2}{[5]}}
+\vfill
+\end{frame}
+
+
+\begin{frame}[t]{Nature's Computer: How Your Brain Makes Predictions}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Biological Neuron Structure}
+
+\begin{itemize}
+\item \textbf{Dendrites:} Receive signals
+\item \textbf{Soma:} Integrates weighted signals
+\item \textbf{Axon:} Transmits output
+\item \textbf{Synapses:} Variable connection strengths
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Key Principle}
+
+Fire when weighted sum exceeds threshold
+
+\column{0.48\textwidth}
+\textbf{Business AI Insights}
+
+\begin{enumerate}
+\item Multiple inputs combined
+\item Weighted connections (importance)
+\item Non-linear activation (thresholds)
+\item Layered processing (abstraction)
+\end{enumerate}
+
+\vspace{0.3em}
+\textit{Mathematical models can learn the same way!}
+\end{columns}
+
+\bottomnote{Next: See the visual comparison of biological vs artificial neurons}
+\end{frame}
+
+\begin{frame}[t]{From Concept to Computation: Neuron as Decision Maker}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{13_neuron_decision_maker/neuron_decision_maker.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/13_neuron_decision_maker/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/13_neuron_decision_maker/}{\includegraphics[width=0.6cm]{13_neuron_decision_maker/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/13_neuron_decision_maker/}{\tiny\texttt{\textcolor{gray}{13\_neuron\_decision\_maker}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/13_neuron_decision_maker/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/13_neuron_decision_maker/}{\includegraphics[width=0.6cm]{13_neuron_decision_maker/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/13_neuron_decision_maker/}{\tiny\texttt{\textcolor{gray}{13\_neuron\_decision\_maker}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: The decision boundary (purple line) divides the space into BUY and SELL zones based on weighted inputs}
+\end{frame}
+
+
+\begin{frame}[t]{From Biology to Artificial Intelligence}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{01_biological_neuron/biological_vs_artificial.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/01_biological_neuron/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/01_biological_neuron/}{\includegraphics[width=0.6cm]{01_biological_neuron/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/01_biological_neuron/}{\tiny\texttt{\textcolor{gray}{01\_biological\_neuron}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/01_biological_neuron/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/01_biological_neuron/}{\includegraphics[width=0.6cm]{01_biological_neuron/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/01_biological_neuron/}{\tiny\texttt{\textcolor{gray}{01\_biological\_neuron}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: Which biological components map directly to mathematical operations?}
+\end{frame}
+
+\begin{frame}[t]{The Artificial Neuron: Mathematical Model}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Step 1: Weighted Sum}
+
+$$z = \sum_{i=1}^{n} w_i x_i + b$$
+
+\begin{itemize}
+\item $x_i$: Inputs (market data)
+\item $w_i$: Weights (\textcolor{mlred}{learned})
+\item $b$: Bias (baseline)
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Step 2: Activation}
+
+$$y = \sigma(z) = \frac{1}{1+e^{-z}}$$
+
+\begin{itemize}
+\item Adds non-linearity
+\item Output: probability (0 to 1)
+\item Mimics neuron firing
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Complete:} $y = \sigma\left(\sum w_i x_i + b\right)$
+\end{columns}
+
+\bottomnote{Next: See a concrete example with real market numbers}
+\end{frame}
+
+
+\begin{frame}[t]{Practice: Calculate a Neuron's Output}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Given Values}
+
+\begin{itemize}
+\item Inputs: $x_1 = 1.2$, $x_2 = 0.8$
+\item Weights: $w_1 = 0.3$, $w_2 = 0.5$
+\item Bias: $b = -0.2$
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Step 1: Weighted Sum}
+
+$z = w_1 x_1 + w_2 x_2 + b$
+
+$z = (0.3)(1.2) + (0.5)(0.8) + (-0.2)$
+
+$z = 0.36 + 0.40 - 0.20 = \textbf{0.56}$
+
+\column{0.48\textwidth}
+\textbf{Step 2: Apply Sigmoid}
+
+$$\sigma(z) = \frac{1}{1 + e^{-z}} = \frac{1}{1 + e^{-0.56}}$$
+
+$\sigma(0.56) = \frac{1}{1 + 0.571} = \frac{1}{1.571} = \textbf{0.636}$
+
+\vspace{0.5em}
+\textbf{Interpretation}
+
+63.6\% confidence: price will rise
+
+\vspace{0.5em}
+\textcolor{mlblue}{\textbf{Your Turn:}} What if $w_1 = 0.6$?
+\end{columns}
+
+\bottomnote{Work through this calculation -- it's the foundation of all neural network predictions}
+\end{frame}
+
+\begin{frame}[t]{Single Neuron Computation: Step-by-Step Example}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{02_single_neuron_function/single_neuron_computation.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/02_single_neuron_function/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/02_single_neuron_function/}{\includegraphics[width=0.6cm]{02_single_neuron_function/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/02_single_neuron_function/}{\tiny\texttt{\textcolor{gray}{02\_single\_neuron\_function}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/02_single_neuron_function/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/02_single_neuron_function/}{\includegraphics[width=0.6cm]{02_single_neuron_function/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/02_single_neuron_function/}{\tiny\texttt{\textcolor{gray}{02\_single\_neuron\_function}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: How would changing the weights affect the final output probability?}
+\end{frame}
+\begin{frame}[t]{Discussion: Part 1 Reflection}
+\vfill
+\begin{center}
+\begin{beamercolorbox}[sep=12pt,center,rounded=true]{block body}
+\Large \textbf{Think -- Pair -- Share}
+\end{beamercolorbox}
+\end{center}
+
+\vspace{0.5cm}
+\begin{center}
+\large
+\textit{What other business processes might benefit from 'learning from data' instead of following explicit rules?}
+\end{center}
+
+\vspace{0.5cm}
+\begin{columns}[T]
+\column{0.32\textwidth}
+\begin{block}{\small 1. Think (1 min)}
+\small
+Reflect individually on the question
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{\small 2. Pair (2 min)}
+\small
+Discuss with a neighbor
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{\small 3. Share (2 min)}
+\small
+Share insights with class
+\end{block}
+\end{columns}
+\vfill
+\end{frame}
+
+
+
+\begin{frame}[t]
+\vfill
+\centering
+\begin{beamercolorbox}[sep=8pt,center]{title}
+\usebeamerfont{title}\Large Part 2: Building Blocks\par
+\end{beamercolorbox}
+\vspace{0.3cm}
+{\normalsize Activation functions and their role in learning}
+\vspace{0.3cm}
+
+\textit{Now that we understand neurons, let's explore what makes them powerful}
+\vspace{0.3cm}
+
+{\small \textcolor{mlgray}{[1]} -- \textcolor{mlpurple}{\textbf{[2]}} -- \textcolor{mllavender2}{[3]} -- \textcolor{mllavender2}{[4]} -- \textcolor{mllavender2}{[5]}}
+\vfill
+\end{frame}
+
+
+\begin{frame}[t]{Activation Functions: Why Non-Linearity Matters}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Problem}
+
+Without activation functions:
+\begin{itemize}
+\item Networks = linear regression
+\item Cannot learn complex patterns
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Three Common Functions}
+\begin{itemize}
+\item \textbf{Sigmoid:} (0,1) for probabilities
+\item \textbf{ReLU:} Fast, efficient
+\item \textbf{Tanh:} Zero-centered (-1,1)
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Business Non-Linearity}
+
+\begin{enumerate}
+\item Diminishing returns
+\item Threshold effects
+\item Saturation points
+\item Network effects
+\end{enumerate}
+
+\vspace{0.3em}
+\textit{Activation functions capture these patterns!}
+\end{columns}
+
+\bottomnote{Next: Visual comparison of these three activation functions}
+\end{frame}
+
+\begin{frame}[t]{Activation Functions: Visual Comparison}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{03_activation_functions/activation_functions.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/03_activation_functions/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/03_activation_functions/}{\includegraphics[width=0.6cm]{03_activation_functions/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/03_activation_functions/}{\tiny\texttt{\textcolor{gray}{03\_activation\_functions}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/03_activation_functions/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/03_activation_functions/}{\includegraphics[width=0.6cm]{03_activation_functions/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/03_activation_functions/}{\tiny\texttt{\textcolor{gray}{03\_activation\_functions}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: Where does each function's output change most rapidly? Why does this matter?}
+\end{frame}
+
+\begin{frame}[t]{Advanced: The Vanishing Gradient Problem}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{14_sigmoid_saturation/sigmoid_saturation.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/14_sigmoid_saturation/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/14_sigmoid_saturation/}{\includegraphics[width=0.6cm]{14_sigmoid_saturation/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/14_sigmoid_saturation/}{\tiny\texttt{\textcolor{gray}{14\_sigmoid\_saturation}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/14_sigmoid_saturation/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/14_sigmoid_saturation/}{\includegraphics[width=0.6cm]{14_sigmoid_saturation/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/14_sigmoid_saturation/}{\tiny\texttt{\textcolor{gray}{14\_sigmoid\_saturation}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Advanced insight: Sigmoid's tiny gradients in saturation zones slow learning -- ReLU solves this in deep networks}
+\end{frame}
+
+
+\begin{frame}[t]{The Limitation: Why One Neuron Is Not Enough}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What One Neuron Can Do}
+
+\begin{itemize}
+\item Single straight decision boundary
+\item Separate linearly separable patterns
+\item Simple rules only
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Analogy:} One rule for decisions
+
+\column{0.48\textwidth}
+\textbf{What One Neuron Cannot Do}
+
+\begin{itemize}
+\item Complex, curved boundaries
+\item XOR-like patterns
+\item Real-world market interactions
+\end{itemize}
+
+\vspace{0.5em}
+\begin{center}
+\Large \textcolor{mlgreen}{\textbf{Solution: Multiple Layers!}}
+\end{center}
+\end{columns}
+
+\bottomnote{Next: See the XOR problem that proves one neuron's limitation}
+\end{frame}
+
+\begin{frame}[t]{Visual Proof: The XOR Problem}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{04_linear_limitation/linear_limitation.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/04_linear_limitation/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/04_linear_limitation/}{\includegraphics[width=0.6cm]{04_linear_limitation/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/04_linear_limitation/}{\tiny\texttt{\textcolor{gray}{04\_linear\_limitation}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/04_linear_limitation/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/04_linear_limitation/}{\includegraphics[width=0.6cm]{04_linear_limitation/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/04_linear_limitation/}{\tiny\texttt{\textcolor{gray}{04\_linear\_limitation}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: Why is it impossible to draw a single straight line separating orange from blue?}
+\end{frame}
+
+\begin{frame}[t]{Solution: How Adding Neurons Creates Curved Boundaries}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{15_boundary_evolution/boundary_evolution.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/15_boundary_evolution/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/15_boundary_evolution/}{\includegraphics[width=0.6cm]{15_boundary_evolution/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/15_boundary_evolution/}{\tiny\texttt{\textcolor{gray}{15\_boundary\_evolution}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/15_boundary_evolution/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/15_boundary_evolution/}{\includegraphics[width=0.6cm]{15_boundary_evolution/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/15_boundary_evolution/}{\tiny\texttt{\textcolor{gray}{15\_boundary\_evolution}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Key insight: More neurons = more flexibility. Each neuron adds a decision line; combined, they form complex shapes}
+\end{frame}
+
+
+\begin{frame}[t]{Discussion: Part 2 Reflection}
+\vfill
+\begin{center}
+\begin{beamercolorbox}[sep=12pt,center,rounded=true]{block body}
+\Large \textbf{Think -- Pair -- Share}
+\end{beamercolorbox}
+\end{center}
+
+\vspace{0.5cm}
+\begin{center}
+\large
+\textit{Can you think of a business metric that shows diminishing returns or threshold effects?}
+\end{center}
+
+\vspace{0.5cm}
+\begin{columns}[T]
+\column{0.32\textwidth}
+\begin{block}{\small 1. Think (1 min)}
+\small
+Reflect individually on the question
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{\small 2. Pair (2 min)}
+\small
+Discuss with a neighbor
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{\small 3. Share (2 min)}
+\small
+Share insights with class
+\end{block}
+\end{columns}
+\vfill
+\end{frame}
+
+
+
+\begin{frame}[t]
+\vfill
+\centering
+\begin{beamercolorbox}[sep=8pt,center]{title}
+\usebeamerfont{title}\Large Part 3: Network Architecture\par
+\end{beamercolorbox}
+\vspace{0.3cm}
+{\normalsize Building layers of intelligence}
+\vspace{0.3cm}
+
+\textit{With building blocks ready, let's construct full networks}
+\vspace{0.3cm}
+
+{\small \textcolor{mlgray}{[1]} -- \textcolor{mlgray}{[2]} -- \textcolor{mlpurple}{\textbf{[3]}} -- \textcolor{mllavender2}{[4]} -- \textcolor{mllavender2}{[5]}}
+\vfill
+\end{frame}
+
+
+\begin{frame}[t]{Building the Network: Layers of Intelligence}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Multi-Layer Architecture}
+
+\begin{itemize}
+\item \textbf{Input:} Raw features (no computation)
+\item \textbf{Hidden:} Pattern detection
+\item \textbf{Output:} Final prediction
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Result:} Buy/Sell decision
+
+\column{0.48\textwidth}
+\textbf{Hierarchical Learning}
+
+\begin{itemize}
+\item \textcolor{mlblue}{Layer 1:} Simple patterns
+\item \textcolor{mlblue}{Layer 2:} Complex patterns
+\item \textcolor{mlblue}{Layer 3:} Strategic decisions
+\end{itemize}
+
+\vspace{0.3em}
+Each layer builds on previous abstractions
+\end{columns}
+
+\bottomnote{Next: See the full network architecture with all connections}
+\end{frame}
+
+\begin{frame}[t]{Neural Network Architecture Diagram}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{05_network_architecture/network_architecture.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/05_network_architecture/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/05_network_architecture/}{\includegraphics[width=0.6cm]{05_network_architecture/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/05_network_architecture/}{\tiny\texttt{\textcolor{gray}{05\_network\_architecture}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/05_network_architecture/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/05_network_architecture/}{\includegraphics[width=0.6cm]{05_network_architecture/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/05_network_architecture/}{\tiny\texttt{\textcolor{gray}{05\_network\_architecture}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: Count the connections. Why are there 36 weights total?}
+\end{frame}
+
+\begin{frame}[t]{Feature Hierarchy (Part 1): From Raw Data to Patterns}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Input Layer: Raw Numbers}
+
+The network receives:
+\begin{itemize}
+\item Stock prices: [102.3, 103.1, ...]
+\item Trading volume: [1.2M, 0.9M, ...]
+\item Sentiment scores: [0.6, 0.5, ...]
+\end{itemize}
+
+\vspace{0.3em}
+Just numbers -- no meaning yet!
+
+\column{0.48\textwidth}
+\textbf{Hidden Layer 1: Simple Patterns}
+
+The first layer detects:
+\begin{itemize}
+\item \textcolor{mlorange}{Upward trends}
+\item \textcolor{mlorange}{Downward trends}
+\item \textcolor{mlorange}{Momentum shifts}
+\item \textcolor{mlorange}{Volume spikes}
+\end{itemize}
+
+\vspace{0.3em}
+Finds basic features in the noise
+\end{columns}
+
+\bottomnote{First transformation: Raw numbers become recognizable patterns}
+\end{frame}
+
+\begin{frame}[t]{Feature Hierarchy (Part 2): From Patterns to Decisions}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Hidden Layer 2: Complex Patterns}
+
+Combines simple patterns:
+\begin{itemize}
+\item Trend + High volume = \textcolor{mlgreen}{Bullish}
+\item Trend + Low volume = \textcolor{mlred}{Bearish}
+\item Support/resistance levels
+\item Multi-day patterns
+\end{itemize}
+
+\vspace{0.3em}
+Strategic insights emerge!
+
+\column{0.48\textwidth}
+\textbf{Output Layer: Trading Decision}
+
+Final decision:
+\begin{itemize}
+\item \textcolor{mlgreen}{\textbf{BUY}}: 68\% confidence
+\item \textcolor{mlred}{SELL}: 32\% confidence
+\end{itemize}
+
+\vspace{0.3em}
+Since 68\% $>$ 50\% threshold:
+
+\begin{center}
+\Large \textcolor{mlgreen}{\textbf{ACTION: BUY}}
+\end{center}
+\end{columns}
+
+\bottomnote{Final transformation: Patterns become actionable trading signals}
+\end{frame}
+
+
+\begin{frame}[t]{Forward Propagation: How Networks Make Predictions}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Forward Pass}
+
+\begin{enumerate}
+\item \textbf{Input:} Feed market features
+\item \textbf{Hidden:} $a = \sigma(Wx + b)$
+\item \textbf{Output:} $y = \sigma(Wa + b)$
+\end{enumerate}
+
+\vspace{0.3em}
+All neurons compute in parallel!
+
+\column{0.48\textwidth}
+\textbf{Example}
+
+Input: price=105.2, volume=0.75
+
+Output: $y = 0.742$
+
+\vspace{0.3em}
+\textbf{Interpretation:}
+\begin{itemize}
+\item 74.2\% confidence price rises
+\item $y > 0.5$: \textcolor{mlgreen}{\textbf{BUY}}
+\item $y < 0.5$: \textcolor{mlred}{\textbf{SELL}}
+\end{itemize}
+\end{columns}
+
+\bottomnote{Next: See forward propagation with actual numbers and calculations}
+\end{frame}
+
+\begin{frame}[t]{Forward Propagation: Detailed Example}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{06_forward_propagation/forward_propagation.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/06_forward_propagation/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/06_forward_propagation/}{\includegraphics[width=0.6cm]{06_forward_propagation/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/06_forward_propagation/}{\tiny\texttt{\textcolor{gray}{06\_forward\_propagation}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/06_forward_propagation/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/06_forward_propagation/}{\includegraphics[width=0.6cm]{06_forward_propagation/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/06_forward_propagation/}{\tiny\texttt{\textcolor{gray}{06\_forward\_propagation}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: How do the hidden layer values combine to produce the final 0.742 output?}
+\end{frame}
+\begin{frame}[t]{Discussion: Part 3 Reflection}
+\vfill
+\begin{center}
+\begin{beamercolorbox}[sep=12pt,center,rounded=true]{block body}
+\Large \textbf{Think -- Pair -- Share}
+\end{beamercolorbox}
+\end{center}
+
+\vspace{0.5cm}
+\begin{center}
+\large
+\textit{For your industry, what would be the 'inputs' and 'outputs' of a useful neural network?}
+\end{center}
+
+\vspace{0.5cm}
+\begin{columns}[T]
+\column{0.32\textwidth}
+\begin{block}{\small 1. Think (1 min)}
+\small
+Reflect individually on the question
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{\small 2. Pair (2 min)}
+\small
+Discuss with a neighbor
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{\small 3. Share (2 min)}
+\small
+Share insights with class
+\end{block}
+\end{columns}
+\vfill
+\end{frame}
+
+
+
+\begin{frame}[t]
+\vfill
+\centering
+\begin{beamercolorbox}[sep=8pt,center]{title}
+\usebeamerfont{title}\Large Part 4: Learning Process\par
+\end{beamercolorbox}
+\vspace{0.3cm}
+{\normalsize How networks learn from mistakes}
+\vspace{0.3cm}
+
+\textit{We can make predictions -- now let's learn how to improve them}
+\vspace{0.3cm}
+
+{\small \textcolor{mlgray}{[1]} -- \textcolor{mlgray}{[2]} -- \textcolor{mlgray}{[3]} -- \textcolor{mlpurple}{\textbf{[4]}} -- \textcolor{mllavender2}{[5]}}
+\vfill
+\end{frame}
+
+
+\begin{frame}[t]{Learning from Mistakes: The Training Process}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Learning Steps}
+
+\begin{enumerate}
+\item \textbf{Predict} with random weights
+\item \textbf{Measure error:}
+$$L = \frac{1}{n}\sum(y - \hat{y})^2$$
+\item \textbf{Adjust weights:}
+$$w_{new} = w_{old} - \eta \nabla L$$
+\item \textbf{Repeat} until convergence
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Example}
+
+Predicted: 55\% rise, Actual: fell
+
+Error: $(0-0.55)^2 = 0.30$
+
+\vspace{0.3em}
+\textbf{Learning:}
+\begin{itemize}
+\item Calculate gradient direction
+\item Move weights to reduce error
+\end{itemize}
+
+\textit{Like a trader learning from mistakes}
+\end{columns}
+
+\bottomnote{Next: Visualize the loss landscape that we're trying to navigate}
+\end{frame}
+
+\begin{frame}[t]{Loss Landscape: The Error Surface}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{07_loss_landscape/loss_landscape.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/07_loss_landscape/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/07_loss_landscape/}{\includegraphics[width=0.6cm]{07_loss_landscape/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/07_loss_landscape/}{\tiny\texttt{\textcolor{gray}{07\_loss\_landscape}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/07_loss_landscape/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/07_loss_landscape/}{\includegraphics[width=0.6cm]{07_loss_landscape/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/07_loss_landscape/}{\tiny\texttt{\textcolor{gray}{07\_loss\_landscape}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: What happens if we start from different random initial weights?}
+\end{frame}
+
+\begin{frame}[t]{Gradient Descent: Learning by Stepping Downhill}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Algorithm}
+
+\begin{enumerate}
+\item Calculate gradient (slope)
+\item Step opposite direction
+\item Repeat until convergence
+\end{enumerate}
+
+\vspace{0.3em}
+\textbf{Learning Rate Trade-offs}
+\begin{itemize}
+\item \textcolor{mlgreen}{Too small:} Slow
+\item \textcolor{mlred}{Too large:} Unstable
+\item \textcolor{mlblue}{Just right:} Steady
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Business Analogy}
+
+Like a trader learning:
+
+\begin{itemize}
+\item Fast learning from obvious patterns
+\item Steady fine-tuning
+\item Convergence to optimal rules
+\end{itemize}
+
+\vspace{0.3em}
+Gradient shows fastest error reduction
+\end{columns}
+
+\bottomnote{Next: See how loss decreases over training iterations}
+\end{frame}
+
+\begin{frame}[t]{Gradient Descent: Optimization in Action}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{08_gradient_descent/gradient_descent.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/08_gradient_descent/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/08_gradient_descent/}{\includegraphics[width=0.6cm]{08_gradient_descent/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/08_gradient_descent/}{\tiny\texttt{\textcolor{gray}{08\_gradient\_descent}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/08_gradient_descent/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/08_gradient_descent/}{\includegraphics[width=0.6cm]{08_gradient_descent/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/08_gradient_descent/}{\tiny\texttt{\textcolor{gray}{08\_gradient\_descent}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: How does the step size (learning rate) affect how quickly we reach the minimum?}
+\end{frame}
+
+\begin{frame}[t]{Critical Concept: Overfitting vs Underfitting}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{17_overfitting_underfitting/overfitting_underfitting.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/17_overfitting_underfitting/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/17_overfitting_underfitting/}{\includegraphics[width=0.6cm]{17_overfitting_underfitting/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/17_overfitting_underfitting/}{\tiny\texttt{\textcolor{gray}{17\_overfitting\_underfitting}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/17_overfitting_underfitting/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/17_overfitting_underfitting/}{\includegraphics[width=0.6cm]{17_overfitting_underfitting/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/17_overfitting_underfitting/}{\tiny\texttt{\textcolor{gray}{17\_overfitting\_underfitting}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Key practical skill: Watch for diverging training/validation loss -- that's when to stop training!}
+\end{frame}
+
+
+\begin{frame}[t]{Discussion: Part 4 Reflection}
+\vfill
+\begin{center}
+\begin{beamercolorbox}[sep=12pt,center,rounded=true]{block body}
+\Large \textbf{Think -- Pair -- Share}
+\end{beamercolorbox}
+\end{center}
+
+\vspace{0.5cm}
+\begin{center}
+\large
+\textit{How is gradient descent similar to how businesses optimize through trial and error?}
+\end{center}
+
+\vspace{0.5cm}
+\begin{columns}[T]
+\column{0.32\textwidth}
+\begin{block}{\small 1. Think (1 min)}
+\small
+Reflect individually on the question
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{\small 2. Pair (2 min)}
+\small
+Discuss with a neighbor
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{\small 3. Share (2 min)}
+\small
+Share insights with class
+\end{block}
+\end{columns}
+\vfill
+\end{frame}
+
+
+
+\begin{frame}[t]
+\vfill
+\centering
+\begin{beamercolorbox}[sep=8pt,center]{title}
+\usebeamerfont{title}\Large Part 5: Application\par
+\end{beamercolorbox}
+\vspace{0.3cm}
+{\normalsize Putting it all together with market prediction}
+\vspace{0.3cm}
+
+\textit{Theory complete -- let's apply everything to a real case}
+\vspace{0.3cm}
+
+{\small \textcolor{mlgray}{[1]} -- \textcolor{mlgray}{[2]} -- \textcolor{mlgray}{[3]} -- \textcolor{mlgray}{[4]} -- \textcolor{mlpurple}{\textbf{[5]}}}
+\vfill
+\end{frame}
+
+
+\begin{frame}[t]{Putting It Together: Market Prediction Case Study}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Business Application}
+
+\begin{itemize}
+\item \textbf{Goal:} Predict price direction
+\item \textbf{Data:} 60 days market data
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Input Features}
+\begin{enumerate}
+\item Stock Price
+\item Trading Volume
+\item Market Sentiment
+\item Volatility Index
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Target Variable}
+
+Binary: 1 = up, 0 = down
+
+Network outputs: $p(\text{rise})$
+
+\vspace{0.3em}
+\textbf{Setup}
+\begin{itemize}
+\item Train: 45 days
+\item Test: 15 days
+\item Network: 4-6-1
+\end{itemize}
+\end{columns}
+
+\bottomnote{Next: See the actual market data used for training}
+\end{frame}
+
+\begin{frame}[t]{Market Data: Input Features for Neural Network}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{09_market_prediction_data/market_prediction_data.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/09_market_prediction_data/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/09_market_prediction_data/}{\includegraphics[width=0.6cm]{09_market_prediction_data/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/09_market_prediction_data/}{\tiny\texttt{\textcolor{gray}{09\_market\_prediction\_data}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/09_market_prediction_data/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/09_market_prediction_data/}{\includegraphics[width=0.6cm]{09_market_prediction_data/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/09_market_prediction_data/}{\tiny\texttt{\textcolor{gray}{09\_market\_prediction\_data}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: Which features seem most correlated with the price direction markers?}
+\end{frame}
+
+\begin{frame}[t]{Training Results: Before vs After}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Experiment}
+
+\begin{itemize}
+\item Before: Random weights (coin flip)
+\item After: Learned weights
+\item Test: 30 days unseen data
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Results}
+\begin{itemize}
+\item \textcolor{mlred}{Before:} 50\% accuracy
+\item \textcolor{mlgreen}{After:} 70\% accuracy
+\item \textbf{Gain:} +20 points
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{What Network Learned}
+
+\begin{itemize}
+\item Volume + price + sentiment patterns
+\item Volatility indicates uncertainty
+\item Sentiment confirms trends
+\end{itemize}
+
+\textit{Discovered from data alone!}
+
+\vspace{0.3em}
+70\% is good for markets (100\% impossible)
+\end{columns}
+
+\bottomnote{Next: See detailed before/after comparison with prediction accuracy}
+\end{frame}
+
+\begin{frame}[t]{Prediction Results: Before vs After Training}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{10_prediction_results/prediction_results.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/10_prediction_results/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/10_prediction_results/}{\includegraphics[width=0.6cm]{10_prediction_results/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/10_prediction_results/}{\tiny\texttt{\textcolor{gray}{10\_prediction\_results}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/10_prediction_results/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/10_prediction_results/}{\includegraphics[width=0.6cm]{10_prediction_results/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/10_prediction_results/}{\tiny\texttt{\textcolor{gray}{10\_prediction\_results}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Observe: Where does the trained model still make errors? What might explain these?}
+\end{frame}
+
+\begin{frame}[t]{Understanding Model Performance: Confusion Matrix}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{19_confusion_matrix/confusion_matrix.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/19_confusion_matrix/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/19_confusion_matrix/}{\includegraphics[width=0.6cm]{19_confusion_matrix/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/19_confusion_matrix/}{\tiny\texttt{\textcolor{gray}{19\_confusion\_matrix}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/19_confusion_matrix/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/19_confusion_matrix/}{\includegraphics[width=0.6cm]{19_confusion_matrix/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/19_confusion_matrix/}{\tiny\texttt{\textcolor{gray}{19\_confusion\_matrix}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Business insight: 70\% accuracy means different things for trading -- precision determines false BUY rate}
+\end{frame}
+
+
+\begin{frame}[t]{Discussion: Part 5 Reflection}
+\vfill
+\begin{center}
+\begin{beamercolorbox}[sep=12pt,center,rounded=true]{block body}
+\Large \textbf{Think -- Pair -- Share}
+\end{beamercolorbox}
+\end{center}
+
+\vspace{0.5cm}
+\begin{center}
+\large
+\textit{What data would you need to predict customer behavior in your domain?}
+\end{center}
+
+\vspace{0.5cm}
+\begin{columns}[T]
+\column{0.32\textwidth}
+\begin{block}{\small 1. Think (1 min)}
+\small
+Reflect individually on the question
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{\small 2. Pair (2 min)}
+\small
+Discuss with a neighbor
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{\small 3. Share (2 min)}
+\small
+Share insights with class
+\end{block}
+\end{columns}
+\vfill
+\end{frame}
+
+\begin{frame}[t]{The Business Case: Strategy Backtest Results}
+\begin{center}
+\vspace{0.3em}
+\includegraphics[width=0.95\textwidth,height=0.80\textheight,keepaspectratio]{20_trading_backtest/trading_backtest.pdf}
+\end{center}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/20_trading_backtest/}{\includegraphics[width=0.8cm]{logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/20_trading_backtest/}{\includegraphics[width=0.6cm]{20_trading_backtest/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/20_trading_backtest/}{\tiny\texttt{\textcolor{gray}{20\_trading\_backtest}}}
+};
+\end{tikzpicture}
+
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/20_trading_backtest/}{\includegraphics[width=0.8cm]{quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.5] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/20_trading_backtest/}{\includegraphics[width=0.6cm]{20_trading_backtest/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/20_trading_backtest/}{\tiny\texttt{\textcolor{gray}{20\_trading\_backtest}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Bottom line: 70\% accuracy translates to meaningful outperformance -- this is why neural networks matter for business}
+\end{frame}
+
+
+\begin{frame}[t]{Summary: Three Key Insights}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Definition}
+
+\vspace{0.3em}
+\textcolor{mlpurple}{\textbf{1. Neurons Compute Weighted Sums}}
+
+Each neuron:
+$$y = \sigma\left(\sum w_i x_i + b\right)$$
+
+\begin{itemize}
+\item Weighted inputs
+\item Non-linear activation
+\item Parallel processing
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{2. Networks Learn from Errors}}
+
+Gradient descent:
+$$w_{new} = w_{old} - \eta \nabla L$$
+
+\begin{itemize}
+\item Measure prediction error
+\item Adjust weights
+\item Minimize loss function
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{3. Patterns Emerge from Data}}
+
+\begin{itemize}
+\item No explicit rules
+\item Discovers relationships
+\item Generalizes to new data
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Business Example}
+
+\vspace{0.3em}
+\textcolor{mlgreen}{\textit{Market Prediction}}
+
+Input: Price (0.8), Volume (0.6)
+
+Computation:
+\begin{itemize}
+\item $(0.6 \times 0.8) + (0.4 \times 0.6) = 0.72$
+\item $\sigma(0.72) = 0.67$
+\item $0.67 > 0.5$ $\rightarrow$ \textbf{BUY}
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlgreen}{\textit{Learning Process}}
+
+\begin{itemize}
+\item Predicted: 55\% rise, Actual: fell
+\item Error: $(0 - 0.55)^2 = 0.30$
+\item Adjust: Reduce weights on price
+\item Next time: Better prediction
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlgreen}{\textit{Discovered Patterns}}
+
+\begin{itemize}
+\item Volume + sentiment $\rightarrow$ direction
+\item 70\% accuracy (no manual rules!)
+\item Outperforms buy-and-hold
+\end{itemize}
+\end{columns}
+
+\bottomnote{Master these three principles and you understand neural networks}
+\end{frame}
+
+
+\begin{frame}[t]{Quick Check: Test Your Understanding}
+\begin{columns}[T]
+\column{0.55\textwidth}
+\textbf{Q1: What does the activation function do?}
+\begin{enumerate}[(a)]
+\item Stores the input data
+\item \textcolor{mlgreen}{\textbf{Adds non-linearity to enable complex patterns}}
+\item Calculates the learning rate
+\end{enumerate}
+
+\vspace{0.3em}
+\textbf{Q2: Why do we need multiple layers?}
+\begin{enumerate}[(a)]
+\item To make training faster
+\item To use more data
+\item \textcolor{mlgreen}{\textbf{To learn hierarchical, complex patterns}}
+\end{enumerate}
+
+\vspace{0.3em}
+\textbf{Q3: What does gradient descent minimize?}
+\begin{enumerate}[(a)]
+\item The number of neurons
+\item \textcolor{mlgreen}{\textbf{The prediction error (loss function)}}
+\item The training time
+\end{enumerate}
+
+\column{0.42\textwidth}
+\textbf{Check Your Answers}
+
+\vspace{0.5em}
+\begin{block}{Answer Key}
+\begin{itemize}
+\item Q1: (b) Non-linearity
+\item Q2: (c) Hierarchical patterns
+\item Q3: (b) Loss/error
+\end{itemize}
+\end{block}
+
+\vspace{0.3em}
+\textbf{Scoring}
+\begin{itemize}
+\item 3/3: Excellent grasp!
+\item 2/3: Review that topic
+\item 1/3: Revisit core concepts
+\end{itemize}
+\end{columns}
+
+\bottomnote{If any answer surprised you, go back and review that section}
+\end{frame}
+
+\begin{frame}[t]{When to Use Neural Networks}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Use Neural Networks When}
+
+\begin{itemize}
+\item \textcolor{mlgreen}{Large dataset} (thousands+ examples)
+\item \textcolor{mlgreen}{Complex patterns}
+\item \textcolor{mlgreen}{Difficult to specify rules}
+\item \textcolor{mlgreen}{Pattern recognition tasks}
+\item \textcolor{mlgreen}{Black-box acceptable}
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Applications}
+
+Churn, fraud, recommendations, images, NLP
+
+\column{0.48\textwidth}
+\textbf{Do NOT Use When}
+
+\begin{itemize}
+\item \textcolor{mlred}{Small dataset}
+\item \textcolor{mlred}{Simple relationships}
+\item \textcolor{mlred}{Need interpretability}
+\item \textcolor{mlred}{Rules are known}
+\item \textcolor{mlred}{Real-time constraints}
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Alternatives}
+
+Regression, decision trees, expert systems
+\end{columns}
+
+\bottomnote{Choose the right tool - neural networks are powerful but not always appropriate}
+\end{frame}
+
+\begin{frame}[t]{Important Limitations \& Ethical Responsibilities}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Technical Limitations}
+
+\begin{itemize}
+\item \textcolor{mlred}{Data hungry}
+\item \textcolor{mlred}{Black box decisions}
+\item \textcolor{mlred}{Overfitting risk}
+\item \textcolor{mlred}{No guarantees}
+\item \textcolor{mlred}{Computational cost}
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Ethical Concerns}
+
+\begin{itemize}
+\item \textbf{Fairness:} Biased data leads to biased predictions
+\item \textbf{Transparency:} GDPR requires explanations
+\item \textbf{Accountability:} Who is responsible?
+\item \textbf{Impact:} Job displacement, market stability
+\end{itemize}
+\end{columns}
+
+\vspace{0.3cm}
+\begin{center}
+\Large \textcolor{mlpurple}{\textit{With great predictive power comes great responsibility!}}
+\end{center}
+
+\bottomnote{Always consider ethical implications before deploying AI systems}
+\end{frame}
+
+\appendix
+
+\begin{frame}[t]{Appendix: Mathematical Details (Backpropagation)}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Output Layer Gradient}
+
+\begin{align*}
+\frac{\partial L}{\partial w^{(2)}} &= (\hat{y} - y) \cdot \sigma'(z) \cdot a
+\end{align*}
+
+\textbf{Hidden Layer Gradient}
+
+\begin{align*}
+\frac{\partial L}{\partial w^{(1)}} &= \delta^{(2)} \cdot w^{(2)} \cdot \sigma'(z^{(1)}) \cdot x
+\end{align*}
+
+\column{0.48\textwidth}
+\textbf{Loss Functions}
+
+\textbf{MSE (Regression):}
+$$L = \frac{1}{n}\sum(y - \hat{y})^2$$
+
+\textbf{Cross-Entropy (Classification):}
+$$L = -\sum[y\log\hat{y} + (1-y)\log(1-\hat{y})]$$
+\end{columns}
+
+\bottomnote{Backpropagation efficiently computes how each weight contributed to the error}
+\end{frame}
+
+\begin{frame}[t]{Appendix: Practical Tips \& Resources}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Practical Tips}
+
+\begin{itemize}
+\item Start simple (baseline first)
+\item Feature engineering matters
+\item Avoid overfitting (validation, dropout)
+\item Tune hyperparameters
+\item Monitor training curves
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Books}
+
+Goodfellow (Deep Learning), Nielsen, Geron
+
+\column{0.48\textwidth}
+\textbf{Courses}
+
+\begin{itemize}
+\item Andrew Ng (Coursera)
+\item Fast.ai
+\item MIT 6.S191
+\end{itemize}
+
+\vspace{0.3em}
+\textbf{Tools}
+
+PyTorch, TensorFlow, scikit-learn
+
+\vspace{0.3em}
+\textbf{Practice}
+
+Kaggle, Yahoo Finance, UCI Repository
+\end{columns}
+
+\bottomnote{Best way to learn: Build real projects with real data!}
+\end{frame}
+
+\begin{frame}[t]{Appendix: Practice Problem for Business Students}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Design Challenge}
+
+You are a data scientist at a retail company.
+
+\textbf{Problem:} Predict customer churn
+
+\textbf{Data Available:}
+\begin{itemize}
+\item Demographics
+\item Purchase history
+\item Service interactions
+\item Website engagement
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Your Tasks}
+
+\begin{enumerate}
+\item Design network architecture
+\item Select input features
+\item Choose activation functions
+\item Select loss function
+\item Define evaluation metrics
+\item Identify ethical concerns
+\item Plan stakeholder explanation
+\end{enumerate}
+\end{columns}
+
+\bottomnote{Discuss in groups - there's no single right answer!}
+\end{frame}
+
+\end{document}

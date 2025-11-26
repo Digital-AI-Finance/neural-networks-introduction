@@ -1,0 +1,829 @@
+\documentclass[8pt,aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+% Color definitions from template
+\definecolor{mlblue}{RGB}{0,102,204}
+\definecolor{mlpurple}{RGB}{51,51,178}
+\definecolor{mllavender}{RGB}{173,173,224}
+\definecolor{mllavender2}{RGB}{193,193,232}
+\definecolor{mllavender3}{RGB}{204,204,235}
+\definecolor{mllavender4}{RGB}{214,214,239}
+\definecolor{mlorange}{RGB}{255, 127, 14}
+\definecolor{mlgreen}{RGB}{44, 160, 44}
+\definecolor{mlred}{RGB}{214, 39, 40}
+\definecolor{mlgray}{RGB}{127, 127, 127}
+
+% Additional colors
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{midgray}{RGB}{180, 180, 180}
+
+% Apply custom colors to Madrid theme
+\setbeamercolor{palette primary}{bg=mllavender3,fg=mlpurple}
+\setbeamercolor{palette secondary}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{palette tertiary}{bg=mllavender,fg=white}
+\setbeamercolor{palette quaternary}{bg=mlpurple,fg=white}
+
+\setbeamercolor{structure}{fg=mlpurple}
+\setbeamercolor{section in toc}{fg=mlpurple}
+\setbeamercolor{subsection in toc}{fg=mlblue}
+\setbeamercolor{title}{fg=mlpurple}
+\setbeamercolor{frametitle}{fg=mlpurple,bg=mllavender3}
+\setbeamercolor{block title}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{block body}{bg=mllavender4,fg=black}
+
+% Remove navigation symbols
+\setbeamertemplate{navigation symbols}{}
+
+% Clean itemize/enumerate
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+
+% Reduce margins for more content space
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+
+% Command for bottom annotation
+\newcommand{\bottomnote}[1]{%
+\vfill
+\vspace{-2mm}
+\textcolor{mllavender2}{\rule{\textwidth}{0.4pt}}
+\vspace{1mm}
+\footnotesize
+\textbf{#1}
+}
+
+% Title page information
+\title{Introduction to Neural Networks}
+\subtitle{From Brain to Business: How Machines Learn to Predict}
+\author{Neural Networks for Business Applications}
+\date{\today}
+
+\begin{document}
+
+% ==================== SLIDE 1: TITLE ====================
+\begin{frame}[plain]
+\titlepage
+
+\vspace{0.2cm}
+\begin{block}{By the End of This Lecture, You Will Be Able To:}
+\small
+\begin{itemize}
+\item \textbf{Explain} how biological neurons inspire artificial neural networks
+\item \textbf{Calculate} the output of an artificial neuron given inputs and weights
+\item \textbf{Design} a simple multilayer network architecture for a business problem
+\item \textbf{Trace} information flow through forward propagation
+\item \textbf{Describe} how networks learn by minimizing prediction errors
+\item \textbf{Evaluate} when neural networks are appropriate for business predictions
+\item \textbf{Assess} the ethical implications of automated prediction systems
+\end{itemize}
+\end{block}
+\end{frame}
+
+% ==================== SLIDE 2: THE PREDICTION CHALLENGE ====================
+\begin{frame}[t]{The Prediction Challenge: Can We Predict Markets?}
+
+\textbf{The Business Question:}
+\begin{itemize}
+\item Can we predict if a stock price will rise or fall tomorrow?
+\item Traditional methods: Statistical analysis, expert intuition, rule-based systems
+\item Challenge: Markets are \textcolor{mlred}{complex, non-linear systems}
+\item Many interacting factors: price history, volume, sentiment, volatility, interest rates
+\end{itemize}
+
+\vspace{0.4cm}
+\textbf{Why This Matters:}
+\begin{itemize}
+\item Better investment decisions ($\rightarrow$ higher returns)
+\item Risk management ($\rightarrow$ protect capital)
+\item Portfolio optimization ($\rightarrow$ balanced exposure)
+\item Automated trading strategies ($\rightarrow$ scalability)
+\end{itemize}
+
+\bottomnote{Our journey begins with understanding how nature solved similar prediction problems}
+\end{frame}
+
+% ==================== SLIDE 3: WHAT WE NEED ====================
+\begin{frame}[t]{What We Need: A Learning System}
+
+\begin{block}{Requirements for Market Prediction System}
+A system that can:
+\begin{enumerate}
+\item Process multiple inputs simultaneously
+\item Learn patterns from historical data
+\item Handle \textbf{non-linear} relationships
+\item Improve predictions over time
+\item Generalize to new market conditions
+\end{enumerate}
+\end{block}
+
+\vspace{0.5cm}
+\begin{alertblock}{Inspiration from Nature}
+The human brain solves complex pattern recognition tasks every day by learning from experience.
+\vspace{0.3cm}
+
+\textbf{Can we mimic this for business predictions?}
+\end{alertblock}
+
+\vspace{0.5cm}
+\begin{center}
+\Large \textcolor{mlpurple}{$\blacktriangleright$ Let's explore how brains work...}
+\end{center}
+
+\bottomnote{Next: Understanding biological neurons as the foundation}
+\end{frame}
+
+% ==================== SLIDE 4: NATURE'S COMPUTER (CONCEPT) ====================
+\begin{frame}[t]{Nature's Computer: How Your Brain Makes Predictions}
+
+\textbf{The Biological Neuron Structure:}
+\begin{itemize}
+\item \textbf{Dendrites:} Receive signals from other neurons (like input channels)
+\item \textbf{Soma (cell body):} Integrates incoming signals with different weights
+\item \textbf{Axon:} Transmits output to next neurons (like output wire)
+\item \textbf{Synapses:} Connection points with varying \textcolor{mlred}{strengths}
+\end{itemize}
+
+\vspace{0.4cm}
+\textbf{Key Insights for Business AI:}
+\begin{enumerate}
+\item \textcolor{mlblue}{Multiple inputs combined} $\rightarrow$ Consider many market factors simultaneously
+\item \textcolor{mlblue}{Weighted connections} $\rightarrow$ Some factors matter more than others
+\item \textcolor{mlblue}{Non-linear activation} $\rightarrow$ Threshold effects (tipping points)
+\item \textcolor{mlblue}{Layered processing} $\rightarrow$ Abstract reasoning emerges from simple units
+\end{enumerate}
+
+\vspace{0.3cm}
+\begin{block}{The Bridge to Mathematics}
+Just as your brain learned to recognize patterns through experience, we can create mathematical models that learn the same way!
+\end{block}
+
+\bottomnote{Next: See the visual comparison of biological vs artificial neurons}
+\end{frame}
+
+% ==================== SLIDE 5: CHART - BIOLOGICAL VS ARTIFICIAL ====================
+\begin{frame}[t]{From Biology to Artificial Intelligence}
+\begin{center}
+\vspace{0.5em}
+\includegraphics[width=0.95\textwidth,height=0.75\textheight,keepaspectratio]{01_biological_neuron/biological_vs_artificial.pdf}
+\end{center}
+
+\bottomnote{The artificial neuron mathematically mimics biological signal integration and activation}
+\end{frame}
+
+% ==================== SLIDE 6: MATHEMATICAL MODEL (CONCEPT) ====================
+\begin{frame}[t]{The Artificial Neuron: Mathematical Model}
+
+\textbf{How an Artificial Neuron Works:}
+
+\vspace{0.3cm}
+\begin{block}{Step 1: Weighted Sum (Mimics Soma Integration)}
+$$z = \sum_{i=1}^{n} w_i x_i + b$$
+\begin{itemize}
+\item $x_i$: Input features (market data: price, volume, sentiment)
+\item $w_i$: Weights (\textcolor{mlred}{learned from data, not programmed!})
+\item $b$: Bias term (baseline adjustment)
+\end{itemize}
+\textit{This is like dendrites weighting incoming signals differently}
+\end{block}
+
+\vspace{0.2cm}
+\begin{block}{Step 2: Activation Function (Mimics Axon Firing)}
+$$y = f(z) = \frac{1}{1+e^{-z}} \quad \text{(Sigmoid function)}$$
+\begin{itemize}
+\item $f$: Activation function (adds crucial non-linearity)
+\item Output: probability between 0 and 1
+\item Mimics neuron ``firing'' when signal exceeds threshold
+\end{itemize}
+\end{block}
+
+\bottomnote{Next: See a concrete example with real market numbers}
+\end{frame}
+
+% ==================== SLIDE 7: CHART - SINGLE NEURON COMPUTATION ====================
+\begin{frame}[t]{Single Neuron Computation: Step-by-Step Example}
+\begin{center}
+\vspace{0.5em}
+\includegraphics[width=0.95\textwidth,height=0.75\textheight,keepaspectratio]{02_single_neuron_function/single_neuron_computation.pdf}
+\end{center}
+
+\bottomnote{With market inputs (price=100, volume=85, sentiment=120), the neuron predicts 100\% probability of price increase}
+\end{frame}
+
+% ==================== SLIDE 8: ACTIVATION FUNCTIONS (CONCEPT) ====================
+\begin{frame}[t]{Activation Functions: Why Non-Linearity Matters}
+
+\textbf{The Problem with Linear Functions:}
+\begin{itemize}
+\item Without activation functions, neural networks would just be fancy linear regression
+\item Real business relationships are \textcolor{mlred}{non-linear}!
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Real-World Non-Linearity Examples in Business:}
+\begin{enumerate}
+\item \textbf{Diminishing returns:} Doubling marketing spend doesn't double sales
+\item \textbf{Threshold effects:} Market sentiment must reach tipping point to trigger buying
+\item \textbf{Saturation:} Customer engagement plateaus beyond certain point
+\item \textbf{Network effects:} Value increases non-linearly with user base
+\end{enumerate}
+
+\vspace{0.3cm}
+\textbf{Three Common Activation Functions:}
+\begin{itemize}
+\item \textbf{Sigmoid:} Smooth (0,1) range - perfect for probabilities
+\item \textbf{ReLU:} Fast, efficient - most popular in modern networks
+\item \textbf{Tanh:} Zero-centered (-1,1) - alternative to sigmoid
+\end{itemize}
+
+\bottomnote{Next: Visual comparison of these three activation functions}
+\end{frame}
+
+% ==================== SLIDE 9: CHART - ACTIVATION FUNCTIONS ====================
+\begin{frame}[t]{Activation Functions: Visual Comparison}
+\begin{center}
+\vspace{0.5em}
+\includegraphics[width=0.95\textwidth,height=0.75\textheight,keepaspectratio]{03_activation_functions/activation_functions.pdf}
+\end{center}
+
+\bottomnote{Each activation function has different properties: Sigmoid for probabilities, ReLU for speed, Tanh for zero-centered outputs}
+\end{frame}
+
+% ==================== SLIDE 10: LIMITATION (CONCEPT) ====================
+\begin{frame}[t]{The Limitation: Why One Neuron Is Not Enough}
+
+\textbf{What One Neuron Can Do:}
+\begin{itemize}
+\item Draw a single straight line (hyperplane) in feature space
+\item Separate \textcolor{mlgreen}{linearly separable} patterns
+\item Example: ``Buy if (price $>$ 100 AND volume $>$ 50)''
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Business Analogy:} One simple rule for decision-making
+
+\vspace{0.5cm}
+\textbf{What One Neuron Cannot Do:}
+\begin{itemize}
+\item Complex, curved decision boundaries
+\item XOR-like patterns: ``Buy when (high price XOR high volume) BUT NOT both''
+\item \textcolor{mlred}{Real-world market patterns with interactions!}
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Business Reality:} Multiple interacting factors, non-linear relationships, conditional dependencies
+
+\vspace{0.5cm}
+\begin{center}
+\Large \textcolor{mlgreen}{\textbf{Solution: Use Multiple Layers of Neurons!}}
+\end{center}
+
+\bottomnote{Next: See the XOR problem that proves one neuron's limitation}
+\end{frame}
+
+% ==================== SLIDE 11: CHART - LINEAR LIMITATION ====================
+\begin{frame}[t]{Visual Proof: The XOR Problem}
+\begin{center}
+\vspace{0.5em}
+\includegraphics[width=0.95\textwidth,height=0.75\textheight,keepaspectratio]{04_linear_limitation/linear_limitation.pdf}
+\end{center}
+
+\bottomnote{Left: Linearly separable (one neuron works). Right: XOR pattern (one neuron fails, need hidden layers)}
+\end{frame}
+
+% ==================== SLIDE 12: NETWORK ARCHITECTURE (CONCEPT) ====================
+\begin{frame}[t]{Building the Network: Layers of Intelligence}
+
+\textbf{The Multi-Layer Architecture:}
+
+\vspace{0.3cm}
+\begin{columns}[T]
+\column{0.32\textwidth}
+\begin{block}{Input Layer}
+\begin{itemize}
+\item Raw market features
+\item No computation
+\item Like sensory neurons
+\end{itemize}
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{Hidden Layer(s)}
+\begin{itemize}
+\item Pattern detection
+\item Feature combinations
+\item Like association cortex
+\end{itemize}
+\textbf{Example:} Learns ``high volume + rising price = momentum''
+\end{block}
+
+\column{0.32\textwidth}
+\begin{block}{Output Layer}
+\begin{itemize}
+\item Final prediction
+\item Probability output
+\item Like motor neurons
+\end{itemize}
+\textbf{Result:} Buy/Sell decision
+\end{block}
+\end{columns}
+
+\vspace{0.4cm}
+\textbf{Key Principle: Hierarchical Learning}
+\begin{itemize}
+\item \textcolor{mlblue}{Layer 1:} Detects simple patterns (``price rising'', ``volume high'')
+\item \textcolor{mlblue}{Layer 2:} Combines into complex patterns (``strong momentum'', ``weak support'')
+\item \textcolor{mlblue}{Layer 3:} Makes strategic decisions (``high probability buy signal'')
+\end{itemize}
+
+\bottomnote{Next: See the full network architecture with all connections}
+\end{frame}
+
+% ==================== SLIDE 13: CHART - NETWORK ARCHITECTURE ====================
+\begin{frame}[t]{Neural Network Architecture Diagram}
+\begin{center}
+\vspace{0.5em}
+\includegraphics[width=0.95\textwidth,height=0.75\textheight,keepaspectratio]{05_network_architecture/network_architecture.pdf}
+\end{center}
+
+\bottomnote{5 inputs $\rightarrow$ 6 hidden neurons $\rightarrow$ 1 output. Total: 36 weights to learn from data}
+\end{frame}
+
+% ==================== SLIDE 14: FORWARD PROPAGATION (CONCEPT) ====================
+\begin{frame}[t]{Forward Propagation: How Networks Make Predictions}
+
+\textbf{The Forward Pass Process:}
+
+\begin{enumerate}
+\item \textbf{Input:} Feed today's market features into input layer
+   \begin{itemize}
+   \item Example: price=105.2, volume=0.75, sentiment=0.62
+   \end{itemize}
+
+\item \textbf{Hidden Layer Computation:} Each neuron processes inputs
+   $$a^{(1)} = \sigma(W^{(1)}x + b^{(1)})$$
+   \begin{itemize}
+   \item Detects patterns like ``rising trend'' or ``high volatility''
+   \end{itemize}
+
+\item \textbf{Output Layer Computation:} Final prediction
+   $$y = \sigma(W^{(2)}a^{(1)} + b^{(2)}) = 0.742$$
+   \begin{itemize}
+   \item Interpretation: 74.2\% confidence price will rise
+   \end{itemize}
+
+\item \textbf{Decision:} Convert probability to action
+   \begin{itemize}
+   \item If $y > 0.5$ $\rightarrow$ \textcolor{mlgreen}{\textbf{BUY}}
+   \item If $y < 0.5$ $\rightarrow$ \textcolor{mlred}{\textbf{SELL}}
+   \end{itemize}
+\end{enumerate}
+
+\vspace{0.2cm}
+\textbf{Efficiency:} All neurons in a layer compute in parallel (matrix operations)!
+
+\bottomnote{Next: See forward propagation with actual numbers and calculations}
+\end{frame}
+
+% ==================== SLIDE 15: CHART - FORWARD PROPAGATION ====================
+\begin{frame}[t]{Forward Propagation: Detailed Example}
+\begin{center}
+\vspace{0.5em}
+\includegraphics[width=0.95\textwidth,height=0.75\textheight,keepaspectratio]{06_forward_propagation/forward_propagation.pdf}
+\end{center}
+
+\bottomnote{Data flows left to right: inputs (105.2, 0.75, 0.62) $\rightarrow$ hidden activations $\rightarrow$ output (0.742) = 74\% buy confidence}
+\end{frame}
+
+% ==================== SLIDE 16: LEARNING PROCESS (CONCEPT) ====================
+\begin{frame}[t]{Learning from Mistakes: The Training Process}
+
+\textbf{The Critical Question:}\\
+\Large How does the network learn the RIGHT weights?
+
+\vspace{0.5cm}
+\normalsize
+\textbf{Learning Process (Like Human Learning):}
+
+\begin{enumerate}
+\item \textbf{Make prediction with random weights} (initial guess)
+   \begin{itemize}
+   \item Network predicts: 55\% probability price will rise
+   \end{itemize}
+
+\item \textbf{Measure error (Loss Function)}
+   $$L = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2 \quad \text{(Mean Squared Error)}$$
+   \begin{itemize}
+   \item Actual: price fell (y=0), Predicted: 0.55, Error: $(0-0.55)^2 = 0.30$
+   \end{itemize}
+
+\item \textbf{Adjust weights to reduce error (Gradient Descent)}
+   $$w_{new} = w_{old} - \eta \frac{\partial L}{\partial w}$$
+   \begin{itemize}
+   \item $\eta$ = learning rate (how fast we learn from mistakes)
+   \item Move weights in direction that reduces error
+   \end{itemize}
+
+\item \textbf{Repeat thousands of times until convergence}
+\end{enumerate}
+
+\bottomnote{Next: Visualize the loss landscape that we're trying to navigate}
+\end{frame}
+
+% ==================== SLIDE 17: CHART - LOSS LANDSCAPE ====================
+\begin{frame}[t]{Loss Landscape: The Error Surface}
+\begin{center}
+\vspace{0.5em}
+\includegraphics[width=0.95\textwidth,height=0.75\textheight,keepaspectratio]{07_loss_landscape/loss_landscape.pdf}
+\end{center}
+
+\bottomnote{Goal: Find weights (red star) that minimize loss. Different starting points converge to same optimum through gradient descent}
+\end{frame}
+
+% ==================== SLIDE 18: GRADIENT DESCENT (CONCEPT) ====================
+\begin{frame}[t]{Gradient Descent: Learning by Stepping Downhill}
+
+\textbf{The Gradient Descent Algorithm:}
+
+\vspace{0.3cm}
+\textbf{Algorithm Steps:}
+\begin{enumerate}
+\item \textbf{Calculate gradient:} Which direction increases error?
+   $$\frac{\partial L}{\partial w} = \text{slope of loss function}$$
+
+\item \textbf{Step in opposite direction:} Move toward lower error
+   $$w_{new} = w_{old} - \eta \times \text{gradient}$$
+
+\item \textbf{Repeat until convergence:} Keep stepping until error stops decreasing
+\end{enumerate}
+
+\vspace{0.3cm}
+\textbf{Learning Rate ($\eta$) Trade-offs:}
+\begin{itemize}
+\item \textcolor{mlgreen}{Too small:} Slow learning, may never converge
+\item \textcolor{mlred}{Too large:} May overshoot minimum, unstable
+\item \textcolor{mlblue}{Just right:} Steady progress toward optimum
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Business Analogy:}\\
+Like a trader learning from past mistakes:
+\begin{itemize}
+\item Fast learning phase: Rapid improvement from obvious patterns
+\item Steady progress: Fine-tuning strategy
+\item Convergence: Optimal trading rules learned
+\end{itemize}
+
+\bottomnote{Next: See how loss decreases over training iterations}
+\end{frame}
+
+% ==================== SLIDE 19: CHART - GRADIENT DESCENT ====================
+\begin{frame}[t]{Gradient Descent: Optimization in Action}
+\begin{center}
+\vspace{0.5em}
+\includegraphics[width=0.95\textwidth,height=0.75\textheight,keepaspectratio]{08_gradient_descent/gradient_descent.pdf}
+\end{center}
+
+\bottomnote{Left: 1D visualization showing steps toward minimum. Right: Loss decreasing over 100 training iterations}
+\end{frame}
+
+% ==================== SLIDE 20: MARKET PREDICTION DATA (CONCEPT) ====================
+\begin{frame}[t]{Putting It Together: Market Prediction Case Study}
+
+\textbf{The Business Application:}
+\begin{itemize}
+\item \textbf{Goal:} Predict if stock price will rise or fall tomorrow
+\item \textbf{Data:} 60 days of historical market data
+\item \textbf{Features:} 4 input variables per day
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Input Features (Network Inputs):}
+\begin{enumerate}
+\item \textbf{Historical Stock Price:} Yesterday's closing price
+\item \textbf{Trading Volume:} How much stock was traded (normalized)
+\item \textbf{Market Sentiment:} News/social media sentiment score (0-1)
+\item \textbf{Volatility Index:} Measure of market uncertainty (0-1)
+\end{enumerate}
+
+\vspace{0.3cm}
+\textbf{Target Variable (Network Output):}
+\begin{itemize}
+\item Binary: 1 = price increased, 0 = price decreased
+\item Network outputs probability: $p(\text{price rise})$
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Training Setup:}
+\begin{itemize}
+\item Training data: First 45 days (learn patterns)
+\item Test data: Last 15 days (evaluate performance)
+\item Network: 4 inputs $\rightarrow$ 6 hidden $\rightarrow$ 1 output
+\end{itemize}
+
+\bottomnote{Next: See the actual market data used for training}
+\end{frame}
+
+% ==================== SLIDE 21: CHART - MARKET DATA ====================
+\begin{frame}[t]{Market Data: Input Features for Neural Network}
+\begin{center}
+\vspace{0.5em}
+\includegraphics[width=0.95\textwidth,height=0.75\textheight,keepaspectratio]{09_market_prediction_data/market_prediction_data.pdf}
+\end{center}
+
+\bottomnote{60 days of market data: price trend (up/down markers), volume bars, sentiment score, volatility index}
+\end{frame}
+
+% ==================== SLIDE 22: PREDICTION RESULTS (CONCEPT) ====================
+\begin{frame}[t]{Training Results: Before vs After}
+
+\textbf{The Experiment:}
+\begin{itemize}
+\item \textbf{Before training:} Random weights $\rightarrow$ random predictions (coin flip)
+\item \textbf{After training:} Learned weights $\rightarrow$ intelligent predictions
+\item \textbf{Test set:} 30 days of unseen data
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Key Results:}
+\begin{itemize}
+\item \textcolor{mlred}{\textbf{Before training:}} $\approx$50\% accuracy (random guessing)
+\item \textcolor{mlgreen}{\textbf{After training:}} $\approx$70\% accuracy (learned patterns!)
+\item \textbf{Improvement:} +20 percentage points through learning
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{What the Network Learned:}
+\begin{itemize}
+\item High volume + rising price + positive sentiment = likely continued rise
+\item Low volume + high volatility = uncertain, avoid prediction
+\item Sentiment lags price but confirms trends
+\item \textit{Network discovered these patterns from data alone!}
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Reality Check:}
+\begin{itemize}
+\item 70\% is \textcolor{mlgreen}{good} for financial markets
+\item 100\% is \textcolor{mlred}{impossible} (markets are inherently unpredictable)
+\item Still useful: 70\% accuracy over many trades = profit
+\end{itemize}
+
+\bottomnote{Next: See detailed before/after comparison with prediction accuracy}
+\end{frame}
+
+% ==================== SLIDE 23: CHART - PREDICTION RESULTS ====================
+\begin{frame}[t]{Prediction Results: Before vs After Training}
+\begin{center}
+\vspace{0.5em}
+\includegraphics[width=0.95\textwidth,height=0.75\textheight,keepaspectratio]{10_prediction_results/prediction_results.pdf}
+\end{center}
+
+\bottomnote{Top: Actual prices. Middle: Before training (random, 50\% accuracy). After training (learned patterns, 70\% accuracy). Bottom: Metrics comparison}
+\end{frame}
+
+% ==================== SLIDE 24: SUMMARY ====================
+\begin{frame}[t]{Summary: From Neurons to Predictions}
+
+\textbf{Our Journey (Concept $\rightarrow$ Visualization):}
+\begin{enumerate}
+\item \textcolor{mlpurple}{Biology:} Neurons integrate weighted signals $\rightarrow$ Chart
+\item \textcolor{mlpurple}{Mathematics:} $y = f(\sum w_ix_i + b)$ $\rightarrow$ Chart
+\item \textcolor{mlpurple}{Non-linearity:} Activation functions enable complexity $\rightarrow$ Chart
+\item \textcolor{mlpurple}{Limitation:} One neuron fails on XOR $\rightarrow$ Chart
+\item \textcolor{mlpurple}{Architecture:} Layers learn hierarchical patterns $\rightarrow$ Chart
+\item \textcolor{mlpurple}{Forward prop:} Making predictions $\rightarrow$ Chart
+\item \textcolor{mlpurple}{Learning:} Loss landscape $\rightarrow$ Chart
+\item \textcolor{mlpurple}{Optimization:} Gradient descent $\rightarrow$ Chart
+\item \textcolor{mlpurple}{Application:} Market data $\rightarrow$ Chart
+\item \textcolor{mlpurple}{Results:} 50\% $\rightarrow$ 70\% accuracy $\rightarrow$ Chart
+\end{enumerate}
+
+\vspace{0.3cm}
+\textbf{Key Insight:}\\
+Neural networks \textbf{learn from data}, not explicit programming!
+
+\bottomnote{The separation of concept and visualization helped you see both theory and practice}
+\end{frame}
+
+% ==================== SLIDE 25: WHEN TO USE ====================
+\begin{frame}[t]{When to Use Neural Networks}
+
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Use Neural Networks When:}
+\begin{itemize}
+\item \textcolor{mlgreen}{Large dataset} (thousands+ examples)
+\item \textcolor{mlgreen}{Complex patterns} (non-linear relationships)
+\item \textcolor{mlgreen}{Difficult to specify rules} (too many cases)
+\item \textcolor{mlgreen}{Pattern recognition} (images, speech, text)
+\item \textcolor{mlgreen}{Acceptable black-box} (don't need to explain every decision)
+\item \textcolor{mlgreen}{Computational resources available}
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Example Applications:}
+\begin{itemize}
+\item Customer churn prediction
+\item Fraud detection
+\item Recommendation systems
+\item Image recognition
+\item Natural language processing
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Do NOT Use When:}
+\begin{itemize}
+\item \textcolor{mlred}{Small dataset} (few hundred examples)
+\item \textcolor{mlred}{Simple linear relationships}
+\item \textcolor{mlred}{Need interpretability} (regulatory requirements)
+\item \textcolor{mlred}{Rules are known} (use rule-based system instead)
+\item \textcolor{mlred}{High stakes, low data} (medical diagnosis with small samples)
+\item \textcolor{mlred}{Real-time constraints} (millisecond decisions)
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Better Alternatives:}
+\begin{itemize}
+\item Linear/logistic regression (interpretable)
+\item Decision trees (explainable)
+\item Expert systems (known rules)
+\item Statistical models (small data)
+\end{itemize}
+\end{columns}
+
+\bottomnote{Choose the right tool for the problem - neural networks are powerful but not always appropriate}
+\end{frame}
+
+% ==================== SLIDE 26: LIMITATIONS & ETHICS ====================
+\begin{frame}[t]{Important Limitations \& Ethical Responsibilities}
+
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Technical Limitations:}
+\begin{itemize}
+\item \textcolor{mlred}{\textbf{Data hungry:}} Need thousands of examples
+\item \textcolor{mlred}{\textbf{Black box:}} Hard to explain decisions to regulators
+\item \textcolor{mlred}{\textbf{Overfitting:}} May memorize training data, fail on new data
+\item \textcolor{mlred}{\textbf{No guarantees:}} Markets are inherently unpredictable
+\item \textcolor{mlred}{\textbf{Computational cost:}} Training requires GPUs, time, energy
+\item \textcolor{mlred}{\textbf{Hyperparameter sensitivity:}} Architecture choices matter
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Ethical Responsibilities:}
+\begin{itemize}
+\item \textbf{Fairness:} Biased data $\rightarrow$ biased predictions
+  \begin{itemize}
+  \item Historical hiring data may encode discrimination
+  \item Loan approval systems may disadvantage minorities
+  \end{itemize}
+\item \textbf{Transparency:} Can you explain decisions to stakeholders?
+  \begin{itemize}
+  \item GDPR requires ``right to explanation''
+  \item Use interpretability tools (SHAP, LIME)
+  \end{itemize}
+\item \textbf{Accountability:} Who is responsible when AI fails?
+  \begin{itemize}
+  \item Flash crash: Automated trading gone wrong
+  \item Wrong medical diagnosis: Who pays?
+  \end{itemize}
+\item \textbf{Societal impact:} Unintended consequences
+  \begin{itemize}
+  \item Job displacement through automation
+  \item Algorithmic trading destabilizes markets
+  \end{itemize}
+\end{itemize}
+\end{columns}
+
+\vspace{0.2cm}
+\begin{center}
+\Large \textcolor{mlpurple}{\textit{With great predictive power comes great responsibility!}}
+\end{center}
+
+\bottomnote{Always consider ethical implications before deploying AI systems in real-world business contexts}
+\end{frame}
+
+% ==================== APPENDIX ====================
+\appendix
+
+% ==================== SLIDE 27: MATHEMATICAL DETAILS ====================
+\begin{frame}[t]{Appendix: Mathematical Details (Backpropagation)}
+
+\textbf{How Gradient Descent Works: The Chain Rule}
+
+For a simple 2-layer network, we compute gradients layer-by-layer working backwards:
+
+\vspace{0.3cm}
+\textbf{Output Layer Gradient:}
+\begin{align*}
+\frac{\partial L}{\partial w^{(2)}} &= \frac{\partial L}{\partial y} \cdot \frac{\partial y}{\partial z^{(2)}} \cdot \frac{\partial z^{(2)}}{\partial w^{(2)}} \\
+&= (\hat{y} - y) \cdot \sigma'(z^{(2)}) \cdot a^{(1)}
+\end{align*}
+
+\textbf{Hidden Layer Gradient (using chain rule):}
+\begin{align*}
+\frac{\partial L}{\partial w^{(1)}} &= \frac{\partial L}{\partial y} \cdot \frac{\partial y}{\partial z^{(2)}} \cdot \frac{\partial z^{(2)}}{\partial a^{(1)}} \cdot \frac{\partial a^{(1)}}{\partial z^{(1)}} \cdot \frac{\partial z^{(1)}}{\partial w^{(1)}} \\
+&= (\hat{y} - y) \cdot \sigma'(z^{(2)}) \cdot w^{(2)} \cdot \sigma'(z^{(1)}) \cdot x
+\end{align*}
+
+\vspace{0.3cm}
+\textbf{Common Loss Functions:}
+\begin{itemize}
+\item \textbf{Mean Squared Error (Regression):} $L = \frac{1}{n}\sum_{i=1}^{n}(y_i - \hat{y}_i)^2$
+\item \textbf{Binary Cross-Entropy (Classification):} $L = -\frac{1}{n}\sum_{i=1}^{n}[y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i)]$
+\end{itemize}
+
+\bottomnote{Backpropagation efficiently computes how each weight contributed to the final error}
+\end{frame}
+
+% ==================== SLIDE 28: PRACTICAL TIPS ====================
+\begin{frame}[t]{Appendix: Practical Tips \& Resources}
+
+\textbf{Practical Tips for Building Business Neural Networks:}
+\begin{itemize}
+\item \textbf{Start simple:} Try linear/logistic regression first as baseline
+\item \textbf{Feature engineering matters:} Good inputs $>$ complex architecture
+\item \textbf{Avoid overfitting:} Use validation sets, regularization (L1/L2), dropout
+\item \textbf{Hyperparameter tuning:} Learning rate, architecture, batch size, epochs
+\item \textbf{Interpretability tools:} SHAP values, attention weights, feature importance
+\item \textbf{Monitor training:} Plot loss curves, check for convergence
+\item \textbf{Cross-validation:} Don't rely on single train/test split
+\end{itemize}
+
+\vspace{0.3cm}
+\textbf{Recommended Resources:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Books:}
+\begin{itemize}
+\item Deep Learning (Goodfellow et al.)
+\item Neural Networks and Deep Learning (Nielsen)
+\item Hands-On Machine Learning (Geron)
+\end{itemize}
+
+\textbf{Courses:}
+\begin{itemize}
+\item Andrew Ng - Machine Learning (Coursera)
+\item Fast.ai - Deep Learning for Coders
+\item MIT 6.S191 - Intro to Deep Learning
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Tools \& Frameworks:}
+\begin{itemize}
+\item PyTorch (flexible, research-friendly)
+\item TensorFlow/Keras (production-ready)
+\item scikit-learn (simpler models)
+\end{itemize}
+
+\textbf{Practice Datasets:}
+\begin{itemize}
+\item Kaggle competitions
+\item Yahoo Finance API
+\item UCI ML Repository
+\end{itemize}
+\end{columns}
+
+\bottomnote{Best way to learn: Build real projects with real data!}
+\end{frame}
+
+% ==================== SLIDE 29: PRACTICE PROBLEM ====================
+\begin{frame}[t]{Appendix: Practice Problem for Business Students}
+
+\textbf{Design Challenge:} You are a data scientist at a retail company.
+
+\vspace{0.2cm}
+\textbf{Problem:} Predict customer churn (will customer leave next month?)
+
+\vspace{0.2cm}
+\textbf{Available Data:}
+\begin{itemize}
+\item Customer demographics (age, location, income)
+\item Purchase history (frequency, recency, monetary value)
+\item Customer service interactions (calls, complaints, resolutions)
+\item Website engagement (visits, time spent, pages viewed)
+\end{itemize}
+
+\vspace{0.2cm}
+\textbf{Your Tasks (Work in Groups):}
+\begin{enumerate}
+\item Design a neural network architecture: How many layers? How many neurons per layer?
+\item What would be your input features? Raw data or engineered features?
+\item What activation functions would you use and where?
+\item What loss function is appropriate for this problem?
+\item How would you evaluate model performance? (accuracy, precision, recall, F1?)
+\item What are potential ethical concerns with automated churn prediction?
+\item How would you explain predictions to business stakeholders?
+\item When would you NOT use a neural network for this problem?
+\end{enumerate}
+
+\bottomnote{Discuss in groups and present your design - there's no single right answer!}
+\end{frame}
+
+\end{document}

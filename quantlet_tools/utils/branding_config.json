@@ -1,0 +1,29 @@
+{
+  "logo": {
+    "path": "../logo/quantlet.tiff",
+    "zoom": 0.08,
+    "position": [0.95, 0.05],
+    "alpha": 0.5,
+    "frameon": false,
+    "border": {
+      "color": "gray",
+      "linestyle": "--",
+      "linewidth": 1.5,
+      "alpha": 0.6
+    }
+  },
+  "qr_code": {
+    "enabled": true,
+    "zoom": 0.06,
+    "position": [0.89, 0.05],
+    "alpha": 0.5
+  },
+  "url_text": {
+    "enabled": true,
+    "text": "Digital-AI-Finance/neural-networks",
+    "position": [0.95, 0.01],
+    "fontsize": 6,
+    "color": "gray",
+    "family": "monospace"
+  }
+}

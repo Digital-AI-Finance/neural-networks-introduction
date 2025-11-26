@@ -1,0 +1,19 @@
+Name of Quantlet: '02_single_neuron_function'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Mathematical computation inside a single artificial neuron'
+
+Keywords: 'neural network, neuron, visualization'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-23'
+
+Datafile: 'None'
+
+Input: 'single_neuron_computation.py'
+
+Output: 'single_neuron_computation.pdf, qr_code.png'
+
+Example: 'python single_neuron_computation.py'

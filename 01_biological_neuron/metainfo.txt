@@ -1,0 +1,19 @@
+Name of Quantlet: '01_biological_neuron'
+
+Published in: 'Neural Networks for Business Applications'
+
+Description: 'Side-by-side comparison of biological and artificial neurons'
+
+Keywords: 'neural network, neuron, visualization'
+
+Author: 'Digital-AI-Finance'
+
+Submitted: '2025-11-23'
+
+Datafile: 'None'
+
+Input: 'biological_vs_artificial.py, generate_chart_improved.py'
+
+Output: 'biological_vs_artificial.pdf, qr_code.png'
+
+Example: 'python biological_vs_artificial.py'
