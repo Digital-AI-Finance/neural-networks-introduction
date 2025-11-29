@@ -1,0 +1,419 @@
+\documentclass[8pt,aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Color definitions
+\definecolor{mlblue}{RGB}{0,102,204}
+\definecolor{mlpurple}{RGB}{51,51,178}
+\definecolor{mllavender}{RGB}{173,173,224}
+\definecolor{mllavender2}{RGB}{193,193,232}
+\definecolor{mllavender3}{RGB}{204,204,235}
+\definecolor{mllavender4}{RGB}{214,214,239}
+\definecolor{mlorange}{RGB}{255, 127, 14}
+\definecolor{mlgreen}{RGB}{44, 160, 44}
+\definecolor{mlred}{RGB}{214, 39, 40}
+\definecolor{mlgray}{RGB}{127, 127, 127}
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{midgray}{RGB}{180, 180, 180}
+
+% Apply custom colors to Madrid theme
+\setbeamercolor{palette primary}{bg=mllavender3,fg=mlpurple}
+\setbeamercolor{palette secondary}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{palette tertiary}{bg=mllavender,fg=white}
+\setbeamercolor{palette quaternary}{bg=mlpurple,fg=white}
+\setbeamercolor{structure}{fg=mlpurple}
+\setbeamercolor{section in toc}{fg=mlpurple}
+\setbeamercolor{subsection in toc}{fg=mlblue}
+\setbeamercolor{title}{fg=mlpurple}
+\setbeamercolor{frametitle}{fg=mlpurple,bg=mllavender3}
+\setbeamercolor{block title}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{block body}{bg=mllavender4,fg=black}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+
+\newcommand{\bottomnote}[1]{%
+\vfill
+\vspace{-2mm}
+\textcolor{mllavender2}{\rule{\textwidth}{0.4pt}}
+\vspace{1mm}
+\footnotesize
+\textbf{#1}
+}
+
+\title{Module 1: The Birth of Neural Computing}
+\subtitle{From Biological Inspiration to the Perceptron (1943-1969)}
+\author{Neural Networks for Finance}
+\institute{BSc Lecture Series}
+\date{\today}
+
+\begin{document}
+
+% ==================== SECTION 1: OPENING (Slides 1-5) ====================
+\section{Opening}
+
+% Slide 1: Title
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+% Slide 2: The Investment Committee Analogy
+\begin{frame}[t]{The Investment Committee}
+% TODO: Content - Investment committee voting analogy
+% Chart: investment_committee_analogy.py (optional)
+\bottomnote{Finance Hook: How do experts make collective decisions?}
+\end{frame}
+
+% Slide 3: What If Machines Could Decide?
+\begin{frame}[t]{What If Machines Could Decide?}
+% TODO: Content - Central question introduction
+\bottomnote{The fundamental question that started neural network research}
+\end{frame}
+
+% Slide 4: Module Roadmap
+\begin{frame}[t]{Module 1 Roadmap}
+% TODO: Content - 4-module overview with Module 1 highlighted
+\bottomnote{Your journey through neural network fundamentals}
+\end{frame}
+
+% Slide 5: Learning Objectives
+\begin{frame}[t]{Learning Objectives}
+% TODO: Content - 5 learning objectives
+\bottomnote{By the end of this module, you will be able to...}
+\end{frame}
+
+% ==================== SECTION 2: HISTORICAL CONTEXT (Slides 6-12) ====================
+\section{Historical Context: 1943-1969}
+
+% Slide 6: 1943 - The Spark
+\begin{frame}[t]{1943: The Mathematical Neuron}
+% TODO: Content - McCulloch and Pitts
+% Chart: mcculloch_pitts_diagram.py
+\bottomnote{Warren McCulloch and Walter Pitts: ``A Logical Calculus of Ideas Immanent in Nervous Activity''}
+\end{frame}
+
+% Slide 7: The Big Idea
+\begin{frame}[t]{The Big Idea: Computation in the Brain}
+% TODO: Content - What they proposed
+\bottomnote{If neurons compute, can we build artificial ones?}
+\end{frame}
+
+% Slide 8: 1949 - Hebb's Learning Rule
+\begin{frame}[t]{1949: Hebbian Learning}
+% TODO: Content - Donald Hebb
+% Chart: hebb_learning_visualization.py
+\bottomnote{Donald Hebb: ``Neurons that fire together, wire together''}
+\end{frame}
+
+% Slide 9: 1958 - The Perceptron
+\begin{frame}[t]{1958: The Perceptron is Born}
+% TODO: Content - Frank Rosenblatt
+% Chart: mark1_perceptron_diagram.py
+\bottomnote{Frank Rosenblatt creates a machine that can learn}
+\end{frame}
+
+% Slide 10: Media Hype
+\begin{frame}[t]{The New York Times Headline}
+% TODO: Content - Media coverage and promises
+\bottomnote{``New Navy Device Learns By Doing'' - The hype cycle begins}
+\end{frame}
+
+% Slide 11: Timeline 1943-1958
+\begin{frame}[t]{Timeline: The Early Years}
+% TODO: Content - Visual timeline
+% Chart: timeline_1943_1969.py (first part)
+\bottomnote{From theory to hardware in 15 years}
+\end{frame}
+
+% Slide 12: Discussion Question 1
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``The perceptron was funded by the US Navy for military applications. How does funding source shape research direction? Are there parallels in modern AI development?''}
+\end{center}
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% ==================== SECTION 3: BIOLOGICAL INSPIRATION (Slides 13-18) ====================
+\section{Biological Inspiration}
+
+% Slide 13: The Real Neuron
+\begin{frame}[t]{The Biological Neuron}
+% TODO: Content - Biological neuron anatomy
+% Chart: biological_vs_artificial_neuron.py (left side)
+\bottomnote{Dendrites receive, soma processes, axon transmits}
+\end{frame}
+
+% Slide 14: The Artificial Neuron
+\begin{frame}[t]{The Artificial Neuron}
+% TODO: Content - Mathematical abstraction
+% Chart: biological_vs_artificial_neuron.py (right side)
+\bottomnote{From biology to mathematics: the abstraction trade-off}
+\end{frame}
+
+% Slide 15: Side-by-Side Comparison
+\begin{frame}[t]{Biological vs. Artificial: Side by Side}
+% TODO: Content - Comparison table
+% Chart: biological_vs_artificial_neuron.py (full)
+\bottomnote{What did we keep? What did we simplify?}
+\end{frame}
+
+% Slide 16: The Finance Analyst Analogy
+\begin{frame}[t]{Finance Analogy: The Analyst}
+% TODO: Content - Analyst receives data, weighs importance, makes call
+\bottomnote{Inputs (data) -> Weights (importance) -> Decision (output)}
+\end{frame}
+
+% Slide 17: What We Gained
+\begin{frame}[t]{What We Gained from Abstraction}
+% TODO: Content - Mathematical tractability, computability
+\bottomnote{Simplification enables computation}
+\end{frame}
+
+% Slide 18: What We Lost
+\begin{frame}[t]{What We Lost from Abstraction}
+% TODO: Content - Biological complexity, temporal dynamics
+\bottomnote{The brain does far more than our models capture}
+\end{frame}
+
+% ==================== SECTION 4: PERCEPTRON INTUITION (Slides 19-28) ====================
+\section{The Perceptron: Intuition First}
+
+% Slide 19: The Simplest Decision Maker
+\begin{frame}[t]{The Simplest Decision Maker}
+% TODO: Content - Perceptron as a filter
+\bottomnote{A single perceptron is a stock screening filter}
+\end{frame}
+
+% Slide 20: Your First Neural Network
+\begin{frame}[t]{Your First Neural Network}
+% TODO: Content - Perceptron diagram with labels
+% Chart: perceptron_architecture.py
+\bottomnote{Inputs, weights, sum, activation, output}
+\end{frame}
+
+% Slide 21: Finance Scenario
+\begin{frame}[t]{Finance Scenario: Buy or Sell?}
+% TODO: Content - P/E ratio, momentum, volume as inputs
+\bottomnote{Given financial indicators, should we buy this stock?}
+\end{frame}
+
+% Slide 22: Inputs - The Raw Data
+\begin{frame}[t]{Inputs: The Raw Data}
+% TODO: Content - Each input is a piece of financial information
+\bottomnote{What data feeds into our decision?}
+\end{frame}
+
+% Slide 23: Weights - The Importance Factors
+\begin{frame}[t]{Weights: The Importance Factors}
+% TODO: Content - Not all data is equally important
+% Chart: weighted_sum_visualization.py
+\bottomnote{``Not all data is equally important'' - weights encode importance}
+\end{frame}
+
+% Slide 24: Discussion Question 2
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``If you could only look at 3 metrics for a stock, which would you choose and why? How would you weight them?''}
+\end{center}
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% Slide 25: The Weighted Sum
+\begin{frame}[t]{The Weighted Sum: Adding Up Evidence}
+% TODO: Content - Visual of weighted sum process
+% Chart: weighted_sum_visualization.py
+\bottomnote{Combine all weighted inputs into a single score}
+\end{frame}
+
+% Slide 26: The Voting Committee Analogy
+\begin{frame}[t]{Analogy: The Voting Committee}
+% TODO: Content - Each analyst has different influence
+\bottomnote{Some votes count more than others}
+\end{frame}
+
+% Slide 27: The Threshold Decision
+\begin{frame}[t]{The Threshold: Making the Call}
+% TODO: Content - If evidence exceeds threshold, output Buy
+% Chart: step_function.py
+\bottomnote{Above threshold = Buy, Below threshold = Sell}
+\end{frame}
+
+% Slide 28: Putting It All Together
+\begin{frame}[t]{The Complete Perceptron Flow}
+% TODO: Content - Full flow diagram
+% Chart: perceptron_architecture.py (detailed)
+\bottomnote{Inputs -> Weights -> Sum -> Threshold -> Decision}
+\end{frame}
+
+% ==================== SECTION 5: PERCEPTRON MATHEMATICS (Slides 29-36) ====================
+\section{The Perceptron: Mathematical Formulation}
+
+% Slide 29: Transition to Math
+\begin{frame}[t]{Now Let's Formalize}
+% TODO: Content - Transition slide
+\bottomnote{You understand the intuition. Let's write it precisely.}
+\end{frame}
+
+% Slide 30: The Perceptron Equation
+\begin{frame}[t]{The Perceptron Equation}
+% TODO: Content - y = f(sum(wi*xi) + b)
+\bottomnote{The complete mathematical model}
+\end{frame}
+
+% Slide 31: Unpacking the Math
+\begin{frame}[t]{Unpacking the Mathematics}
+% TODO: Content - Each term explained
+\bottomnote{Each symbol has a meaning}
+\end{frame}
+
+% Slide 32: The Bias Term
+\begin{frame}[t]{The Bias Term}
+% TODO: Content - The analyst's prior disposition
+\bottomnote{Bias shifts the decision threshold}
+\end{frame}
+
+% Slide 33: The Step Activation Function
+\begin{frame}[t]{The Step Activation Function}
+% TODO: Content - Formal definition
+% Chart: step_function.py
+$$f(z) = \begin{cases} 1 & \text{if } z \geq 0 \\ 0 & \text{otherwise} \end{cases}$$
+\bottomnote{Binary output: yes or no}
+\end{frame}
+
+% Slide 34: Geometric Interpretation
+\begin{frame}[t]{Geometric Interpretation: The Decision Boundary}
+% TODO: Content - The perceptron defines a hyperplane
+% Chart: decision_boundary_2d.py
+\bottomnote{The perceptron draws a line between classes}
+\end{frame}
+
+% Slide 35: Finance Example: Stock Classification
+\begin{frame}[t]{Finance Example: Classifying Stocks}
+% TODO: Content - 2D scatter plot with decision boundary
+% Chart: stock_features_scatter.py
+\bottomnote{Separating ``good'' stocks from ``bad'' stocks}
+\end{frame}
+
+% Slide 36: Decision Boundary Formula
+\begin{frame}[t]{The Decision Boundary Formula}
+% TODO: Content - w1*x1 + w2*x2 + b = 0
+% Chart: finance_decision_boundary.py
+\bottomnote{The line that separates buy from sell}
+\end{frame}
+
+% ==================== SECTION 6: PERCEPTRON LEARNING (Slides 37-44) ====================
+\section{The Perceptron Learning Algorithm}
+
+% Slide 37: How Does It Learn?
+\begin{frame}[t]{How Does the Perceptron Learn?}
+% TODO: Content - Introduction to learning
+\bottomnote{Learning = adjusting weights based on mistakes}
+\end{frame}
+
+% Slide 38: Learning from Mistakes
+\begin{frame}[t]{Learning from Mistakes}
+% TODO: Content - If wrong, adjust weights
+\bottomnote{Each mistake is a learning opportunity}
+\end{frame}
+
+% Slide 39: The Learning Rule (Intuition)
+\begin{frame}[t]{The Learning Rule: Intuition}
+% TODO: Content - Move the decision boundary
+% Chart: perceptron_learning_animation.py
+\bottomnote{If wrong, move the boundary}
+\end{frame}
+
+% Slide 40: The Learning Rule (Math)
+\begin{frame}[t]{The Perceptron Learning Rule}
+% TODO: Content - w_new = w_old + eta*(y - y_hat)*x
+\bottomnote{The mathematical update rule}
+\end{frame}
+
+% Slide 41: Learning Rate
+\begin{frame}[t]{The Learning Rate}
+% TODO: Content - How big are our adjustments?
+\bottomnote{Step size matters: too big or too small both cause problems}
+\end{frame}
+
+% Slide 42: Worked Example
+\begin{frame}[t]{Worked Example: Stock Classification}
+% TODO: Content - Step-by-step numerical example
+\bottomnote{Following the math with real numbers}
+\end{frame}
+
+% Slide 43: Convergence
+\begin{frame}[t]{Convergence: Does It Always Work?}
+% TODO: Content - Convergence theorem statement
+% Chart: convergence_plot.py
+\bottomnote{The perceptron convergence theorem guarantees finding a solution IF one exists}
+\end{frame}
+
+% Slide 44: Discussion Question 3
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``What happens when data isn't linearly separable in financial markets? Can you think of examples?''}
+\end{center}
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% ==================== SECTION 7: LIMITATIONS (Slides 45-48) ====================
+\section{Limitations and the First AI Winter}
+
+% Slide 45: The XOR Problem
+\begin{frame}[t]{The XOR Problem}
+% TODO: Content - XOR truth table and scatter plot
+% Chart: xor_problem.py
+\bottomnote{Some patterns cannot be separated by a single line}
+\end{frame}
+
+% Slide 46: Why XOR Fails
+\begin{frame}[t]{Why XOR Cannot Be Solved}
+% TODO: Content - Geometric explanation
+% Chart: linear_vs_nonlinear_patterns.py
+\bottomnote{No single hyperplane can separate XOR}
+\end{frame}
+
+% Slide 47: 1969 - Minsky and Papert
+\begin{frame}[t]{1969: The Critique That Changed Everything}
+% TODO: Content - Minsky and Papert's book
+\bottomnote{Marvin Minsky and Seymour Papert: ``Perceptrons'' book}
+\end{frame}
+
+% Slide 48: The First AI Winter
+\begin{frame}[t]{The First AI Winter Begins}
+% TODO: Content - Funding collapse, researchers leave
+% Chart: ai_winter_timeline.py
+\bottomnote{1969-1982: The dark ages of neural network research}
+\end{frame}
+
+% ==================== SECTION 8: SUMMARY (Slides 49-50) ====================
+\section{Summary and Preview}
+
+% Slide 49: Module 1 Summary
+\begin{frame}[t]{Module 1: Key Takeaways}
+% TODO: Content - Summary of main concepts
+% Chart: module1_summary_diagram.py
+\bottomnote{From biological inspiration to mathematical limitation}
+\end{frame}
+
+% Slide 50: Preview of Module 2
+\begin{frame}[t]{Preview: Module 2}
+\begin{center}
+\Large
+\textit{``What if we stack multiple perceptrons?''}
+\end{center}
+% TODO: Content - Teaser for MLP
+\bottomnote{Next: Solving XOR with Multi-Layer Perceptrons}
+\end{frame}
+
+\end{document}

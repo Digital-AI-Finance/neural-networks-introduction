@@ -1,0 +1,2436 @@
+\documentclass[8pt,aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{amssymb}
+
+% Color definitions
+\definecolor{mlblue}{RGB}{0,102,204}
+\definecolor{mlpurple}{RGB}{51,51,178}
+\definecolor{mllavender}{RGB}{173,173,224}
+\definecolor{mllavender2}{RGB}{193,193,232}
+\definecolor{mllavender3}{RGB}{204,204,235}
+\definecolor{mllavender4}{RGB}{214,214,239}
+\definecolor{mlorange}{RGB}{255, 127, 14}
+\definecolor{mlgreen}{RGB}{44, 160, 44}
+\definecolor{mlred}{RGB}{214, 39, 40}
+\definecolor{mlgray}{RGB}{127, 127, 127}
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{midgray}{RGB}{180, 180, 180}
+
+% Apply custom colors to Madrid theme
+\setbeamercolor{palette primary}{bg=mllavender3,fg=mlpurple}
+\setbeamercolor{palette secondary}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{palette tertiary}{bg=mllavender,fg=white}
+\setbeamercolor{palette quaternary}{bg=mlpurple,fg=white}
+\setbeamercolor{structure}{fg=mlpurple}
+\setbeamercolor{section in toc}{fg=mlpurple}
+\setbeamercolor{subsection in toc}{fg=mlblue}
+\setbeamercolor{title}{fg=mlpurple}
+\setbeamercolor{frametitle}{fg=mlpurple,bg=mllavender3}
+\setbeamercolor{block title}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{block body}{bg=mllavender4,fg=black}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+
+\newcommand{\bottomnote}[1]{%
+\vfill
+\vspace{-2mm}
+\textcolor{mllavender2}{\rule{\textwidth}{0.4pt}}
+\vspace{1mm}
+\footnotesize
+\textbf{#1}
+}
+
+\title{Module 1: The Birth of Neural Computing}
+\subtitle{From Biological Inspiration to the Perceptron (1943-1969)}
+\author{Neural Networks for Finance}
+\institute{BSc Lecture Series}
+\date{\today}
+
+\begin{document}
+
+% ==================== SECTION 1: OPENING (Slides 1-5) ====================
+\section{Opening}
+
+% Slide 1: Title
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+% Slide 2: The Investment Committee Analogy
+\begin{frame}[t]{The Investment Committee}
+\begin{columns}[T]
+\column{0.55\textwidth}
+\textbf{How Does a Committee Make Decisions?}
+
+Imagine an investment committee evaluating a stock:
+\begin{itemize}
+\item \textbf{Analyst A}: ``Strong earnings growth'' \textcolor{mlgreen}{(+1 vote)}
+\item \textbf{Analyst B}: ``High debt levels'' \textcolor{mlred}{(-1 vote)}
+\item \textbf{Analyst C}: ``Good momentum'' \textcolor{mlgreen}{(+1 vote)}
+\item \textbf{Senior Partner}: ``Market risk is elevated'' \textcolor{mlred}{(-2 votes)}
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Decision Process:}
+\begin{enumerate}
+\item Gather evidence from each analyst
+\item Weight opinions by seniority/expertise
+\item Sum the weighted votes
+\item If total $>$ threshold: \textbf{Buy}
+\end{enumerate}
+
+\column{0.42\textwidth}
+\begin{center}
+\textbf{Weighted Voting}
+
+\vspace{1em}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Analyst} & \textbf{Vote} & \textbf{Weight} \\
+\midrule
+Analyst A & +1 & 1.0 \\
+Analyst B & -1 & 1.0 \\
+Analyst C & +1 & 1.0 \\
+Senior Partner & -1 & 2.0 \\
+\midrule
+\textbf{Weighted Sum} & & \textbf{-1.0} \\
+\bottomrule
+\end{tabular}
+
+\vspace{1em}
+\textcolor{mlred}{\textbf{Decision: Don't Buy}}
+\end{center}
+\end{columns}
+\bottomnote{Finance Hook: This is exactly how a perceptron works!}
+\end{frame}
+
+% Slide 3: What If Machines Could Decide?
+\begin{frame}[t]{What If Machines Could Decide?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Central Question}
+
+In 1943, scientists asked:
+
+\begin{center}
+\textit{``Can we build a machine that learns to make decisions like a brain?''}
+\end{center}
+
+\vspace{0.5em}
+\textbf{Why This Matters for Finance:}
+\begin{itemize}
+\item Humans are slow and biased
+\item Markets process millions of data points
+\item Pattern recognition at scale
+\item Consistent, emotionless decisions
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{The Promise}
+
+If we could capture how neurons compute:
+\begin{itemize}
+\item Automatic stock screening
+\item Risk assessment at scale
+\item Pattern detection in market data
+\item Learning from historical decisions
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Challenge}
+
+How do we translate biological processes into mathematical operations?
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textit{This module tells the story of how scientists attempted this translation.}}
+\end{columns}
+\bottomnote{The fundamental question that started neural network research}
+\end{frame}
+
+% Slide 4: Module Roadmap
+\begin{frame}[t]{Module 1 Roadmap}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Complete Journey (4 Modules)}
+
+\begin{enumerate}
+\item \textcolor{mlpurple}{\textbf{The Perceptron (Today)}}
+\begin{itemize}
+\item Single neuron foundations
+\item 1943-1969 history
+\end{itemize}
+\item Multi-Layer Perceptrons
+\begin{itemize}
+\item Stacking layers, activation functions
+\end{itemize}
+\item Training Neural Networks
+\begin{itemize}
+\item Backpropagation, optimization
+\end{itemize}
+\item Applications in Finance
+\begin{itemize}
+\item Stock prediction case study
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Today's Module Structure}
+
+\begin{enumerate}
+\item \textbf{Historical Context} (1943-1969)
+\begin{itemize}
+\item McCulloch-Pitts, Hebb, Rosenblatt
+\end{itemize}
+\item \textbf{Biological Inspiration}
+\begin{itemize}
+\item From neurons to mathematics
+\end{itemize}
+\item \textbf{The Perceptron}
+\begin{itemize}
+\item Intuition, then math
+\end{itemize}
+\item \textbf{Learning Algorithm}
+\begin{itemize}
+\item How it adjusts weights
+\end{itemize}
+\item \textbf{Limitations}
+\begin{itemize}
+\item XOR problem, AI Winter
+\end{itemize}
+\end{enumerate}
+\end{columns}
+\bottomnote{Your journey through neural network fundamentals}
+\end{frame}
+
+% Slide 5: Learning Objectives
+\begin{frame}[t]{Learning Objectives}
+\textbf{By the end of this module, you will be able to:}
+
+\vspace{0.5em}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\begin{enumerate}
+\item \textbf{Understand biological inspiration}
+\begin{itemize}
+\item How real neurons inspired artificial ones
+\item What we kept and what we simplified
+\end{itemize}
+
+\vspace{0.3em}
+\item \textbf{Master the perceptron model}
+\begin{itemize}
+\item Inputs, weights, sum, activation
+\item The decision-making unit
+\end{itemize}
+
+\vspace{0.3em}
+\item \textbf{Interpret decision boundaries}
+\begin{itemize}
+\item Geometric meaning of weights
+\item Linear separability concept
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item \textbf{Apply the learning algorithm}
+\begin{itemize}
+\item Weight update rule
+\item Convergence conditions
+\end{itemize}
+
+\vspace{0.3em}
+\item \textbf{Recognize limitations}
+\begin{itemize}
+\item XOR problem
+\item Why single layers are not enough
+\end{itemize}
+\end{enumerate}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Finance Connection:}} Throughout, we'll use stock classification as our running example.
+\end{columns}
+\bottomnote{By the end of this module, you will be able to...}
+\end{frame}
+
+% ==================== SECTION 2: HISTORICAL CONTEXT (Slides 6-12) ====================
+\section{Historical Context: 1943-1969}
+
+% Slide 6: 1943 - The Spark
+\begin{frame}[t]{1943: The Mathematical Neuron}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Warren McCulloch \& Walter Pitts}
+
+In 1943, a neurophysiologist and a logician asked:
+
+\begin{center}
+\textit{``Can we describe what neurons do using mathematics?''}
+\end{center}
+
+\vspace{0.5em}
+Their paper: ``A Logical Calculus of Ideas Immanent in Nervous Activity''
+
+\vspace{0.5em}
+\textbf{Key Insight:}
+\begin{itemize}
+\item Neurons have binary states (fire or not)
+\item This is like TRUE/FALSE in logic
+\item Networks of neurons can compute any logical function
+\end{itemize}
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{charts/mcculloch_pitts_diagram/mcculloch_pitts_diagram.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mcculloch_pitts_diagram}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mcculloch_pitts_diagram}{\includegraphics[width=0.6cm]{charts/mcculloch_pitts_diagram/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mcculloch_pitts_diagram}{\tiny\texttt{\textcolor{gray}{mcculloch\_pitts\_diagram}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Warren McCulloch and Walter Pitts: ``A Logical Calculus of Ideas Immanent in Nervous Activity''}
+\end{frame}
+
+% Slide 7: The Big Idea
+\begin{frame}[t]{The Big Idea: Computation in the Brain}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What McCulloch \& Pitts Proposed}
+
+The brain performs computation through:
+\begin{enumerate}
+\item \textbf{Binary Signals}
+\begin{itemize}
+\item Neurons either fire (1) or don't (0)
+\item Like bits in a computer
+\end{itemize}
+\item \textbf{Threshold Logic}
+\begin{itemize}
+\item Sum of inputs exceeds threshold $\rightarrow$ fire
+\item Otherwise $\rightarrow$ stay quiet
+\end{itemize}
+\item \textbf{Network Composition}
+\begin{itemize}
+\item Complex behaviors from simple units
+\item AND, OR, NOT gates from neurons
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Logical Operations with Neurons}
+
+\vspace{0.5em}
+\textbf{AND Gate} (threshold = 2):
+\begin{itemize}
+\item Both inputs = 1 $\rightarrow$ output = 1
+\item Otherwise $\rightarrow$ output = 0
+\end{itemize}
+
+\textbf{OR Gate} (threshold = 1):
+\begin{itemize}
+\item Any input = 1 $\rightarrow$ output = 1
+\item All inputs = 0 $\rightarrow$ output = 0
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Implication:}} If neurons compute logic, and computers compute logic, then we can build artificial brains!
+\end{columns}
+\bottomnote{If neurons compute, can we build artificial ones?}
+\end{frame}
+
+% Slide 8: 1949 - Hebb's Learning Rule
+\begin{frame}[t]{1949: Hebbian Learning}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Donald Hebb's Insight}
+
+McCulloch-Pitts neurons were fixed. But how does the brain \textit{learn}?
+
+\vspace{0.5em}
+\textbf{Hebb's Rule (1949):}
+\begin{center}
+\textit{``Neurons that fire together, wire together.''}
+\end{center}
+
+\vspace{0.5em}
+\textbf{In Plain Terms:}
+\begin{itemize}
+\item If neuron A consistently activates neuron B
+\item The connection A $\rightarrow$ B grows stronger
+\item Repeated patterns reinforce pathways
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Finance Analogy:}
+
+An analyst who repeatedly identifies winning stocks gains more influence in the committee.
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{charts/hebb_learning_visualization/hebb_learning_visualization.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/hebb_learning_visualization}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/hebb_learning_visualization}{\includegraphics[width=0.6cm]{charts/hebb_learning_visualization/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/hebb_learning_visualization}{\tiny\texttt{\textcolor{gray}{hebb\_learning\_visualization}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Donald Hebb: ``Neurons that fire together, wire together''}
+\end{frame}
+
+% Slide 9: 1958 - The Perceptron
+\begin{frame}[t]{1958: The Perceptron is Born}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Frank Rosenblatt at Cornell}
+
+Combined McCulloch-Pitts neurons with Hebbian learning into a machine that could \textit{learn from examples}.
+
+\vspace{0.5em}
+\textbf{The Perceptron:}
+\begin{itemize}
+\item A single artificial neuron
+\item Adjustable connection weights
+\item Learns to classify patterns
+\item Implemented in hardware (Mark I)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Key Innovation:}
+
+Not just fixed logic gates, but a system that \textbf{learns} the right weights from training data.
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{charts/mark1_perceptron_diagram/mark1_perceptron_diagram.pdf}
+\end{center}
+
+\vspace{0.5em}
+\small
+The Mark I Perceptron used 400 photocells connected to a single layer of neurons with adjustable weights.
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mark1_perceptron_diagram}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mark1_perceptron_diagram}{\includegraphics[width=0.6cm]{charts/mark1_perceptron_diagram/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mark1_perceptron_diagram}{\tiny\texttt{\textcolor{gray}{mark1\_perceptron\_diagram}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Frank Rosenblatt creates a machine that can learn}
+\end{frame}
+
+% Slide 10: Media Hype
+\begin{frame}[t]{The New York Times Headline}
+\begin{columns}[T]
+\column{0.55\textwidth}
+\textbf{July 8, 1958 - The New York Times}
+
+\begin{center}
+\textit{``New Navy Device Learns By Doing; Psychologist Shows Embryo of Computer Designed to Read and Grow Wiser''}
+\end{center}
+
+\vspace{0.5em}
+\textbf{The Promises Made:}
+\begin{itemize}
+\item Machines that recognize faces
+\item Automatic translation of languages
+\item Systems that ``perceive'' like humans
+\item The Navy predicted: walking, talking, self-reproducing machines
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Reality:}
+
+The perceptron could classify simple patterns, but the gap between promise and capability was vast.
+
+\column{0.42\textwidth}
+\textbf{Lessons for Today}
+
+\vspace{0.5em}
+\textcolor{mlorange}{\textbf{Sound Familiar?}}
+\begin{itemize}
+\item ``AI will replace all jobs''
+\item ``Machines will be smarter than humans by 20XX''
+\item ``This changes everything''
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Pattern:}
+\begin{enumerate}
+\item Genuine breakthrough
+\item Media amplification
+\item Overpromising
+\item Disappointment
+\item ``AI Winter''
+\end{enumerate}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textit{History repeats...}}
+\end{columns}
+\bottomnote{``New Navy Device Learns By Doing'' - The hype cycle begins}
+\end{frame}
+
+% Slide 11: Timeline 1943-1958
+\begin{frame}[t]{Timeline: The Early Years}
+\begin{center}
+\includegraphics[width=0.78\textwidth]{charts/timeline_1943_1969/timeline_1943_1969.pdf}
+\end{center}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1943_1969}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1943_1969}{\includegraphics[width=0.6cm]{charts/timeline_1943_1969/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1943_1969}{\tiny\texttt{\textcolor{gray}{timeline\_1943\_1969}}}
+};
+\end{tikzpicture}
+
+\bottomnote{From theory to hardware in 15 years}
+\end{frame}
+
+% Slide 12: Discussion Question 1
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``The perceptron was funded by the US Navy for military applications. How does funding source shape research direction? Are there parallels in modern AI development?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\begin{itemize}
+\item Military vs. commercial vs. academic funding
+\item What problems get prioritized?
+\item Open vs. closed research
+\end{itemize}
+
+\column{0.48\textwidth}
+\begin{itemize}
+\item Today: Tech giants fund most AI research
+\item Government initiatives (CHIPS Act, etc.)
+\item Startup ecosystem influence
+\end{itemize}
+\end{columns}
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% ==================== SECTION 3: BIOLOGICAL INSPIRATION (Slides 13-18) ====================
+\section{Biological Inspiration}
+
+% Slide 13: The Real Neuron
+\begin{frame}[t]{The Biological Neuron}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Anatomy of a Real Neuron}
+
+\begin{enumerate}
+\item \textbf{Dendrites} (Input)
+\begin{itemize}
+\item Tree-like branches
+\item Receive signals from other neurons
+\item Thousands of connections
+\end{itemize}
+
+\item \textbf{Cell Body (Soma)} (Processing)
+\begin{itemize}
+\item Integrates incoming signals
+\item Contains the nucleus
+\item Determines if neuron fires
+\end{itemize}
+
+\item \textbf{Axon} (Output)
+\begin{itemize}
+\item Long fiber carrying output signal
+\item Connects to other neurons
+\item All-or-nothing signal
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{How It Works}
+
+\vspace{0.5em}
+\begin{enumerate}
+\item Signals arrive at dendrites
+\item Soma sums the inputs
+\item If sum exceeds threshold: neuron \textbf{fires}
+\item Action potential travels down axon
+\item Signal reaches next neurons
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Key Numbers:}
+\begin{itemize}
+\item Human brain: $\sim$86 billion neurons
+\item Each neuron: $\sim$7,000 connections
+\item Total synapses: $\sim$100 trillion
+\end{itemize}
+\end{columns}
+\bottomnote{Dendrites receive, soma processes, axon transmits}
+\end{frame}
+
+% Slide 14: The Artificial Neuron
+\begin{frame}[t]{The Artificial Neuron}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Mathematical Abstraction}
+
+\vspace{0.5em}
+\begin{enumerate}
+\item \textbf{Inputs} ($x_1, x_2, \ldots, x_n$)
+\begin{itemize}
+\item Numerical values (features)
+\item Replace dendrites
+\end{itemize}
+
+\item \textbf{Weights} ($w_1, w_2, \ldots, w_n$)
+\begin{itemize}
+\item Importance of each input
+\item Replace synapse strength
+\end{itemize}
+
+\item \textbf{Weighted Sum}
+\begin{itemize}
+\item $z = \sum_{i=1}^{n} w_i x_i + b$
+\item Replace soma integration
+\end{itemize}
+
+\item \textbf{Activation Function}
+\begin{itemize}
+\item $y = f(z)$
+\item Replace firing decision
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{The Complete Model}
+
+\vspace{0.5em}
+$$y = f\left(\sum_{i=1}^{n} w_i x_i + b\right)$$
+
+\vspace{1em}
+\textbf{Components:}
+\begin{itemize}
+\item $x_i$: Input features
+\item $w_i$: Learnable weights
+\item $b$: Bias (threshold adjustment)
+\item $f$: Activation function
+\item $y$: Output (prediction)
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Key Point:}} The weights are what the network \textit{learns}.
+\end{columns}
+\bottomnote{From biology to mathematics: the abstraction trade-off}
+\end{frame}
+
+% Slide 15: Side-by-Side Comparison
+\begin{frame}[t]{Biological vs. Artificial: Side by Side}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{charts/biological_vs_artificial_neuron/biological_vs_artificial_neuron.pdf}
+\end{center}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/biological_vs_artificial_neuron}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/biological_vs_artificial_neuron}{\includegraphics[width=0.6cm]{charts/biological_vs_artificial_neuron/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/biological_vs_artificial_neuron}{\tiny\texttt{\textcolor{gray}{biological\_vs\_artificial\_neuron}}}
+};
+\end{tikzpicture}
+
+\bottomnote{What did we keep? What did we simplify?}
+\end{frame}
+
+% Slide 16: The Finance Analyst Analogy
+\begin{frame}[t]{Finance Analogy: The Analyst}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{A Financial Analyst as a Neuron}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{Biology} & \textbf{Finance} \\
+\midrule
+Dendrites & Market data feeds \\
+Synapses & Data reliability weights \\
+Soma & Analyst's judgment \\
+Threshold & Conviction level \\
+Axon & ``Buy'' recommendation \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{The Process:}
+\begin{enumerate}
+\item Receive multiple data points
+\item Weight by source quality
+\item Aggregate into overall view
+\item If conviction $>$ threshold: recommend
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Example: Stock Screening}
+
+\vspace{0.5em}
+\textbf{Inputs (Data):}
+\begin{itemize}
+\item $x_1$: P/E ratio = 15
+\item $x_2$: Revenue growth = 20\%
+\item $x_3$: Debt/Equity = 0.5
+\end{itemize}
+
+\textbf{Weights (Importance):}
+\begin{itemize}
+\item $w_1 = 0.3$ (value focus)
+\item $w_2 = 0.5$ (growth priority)
+\item $w_3 = -0.2$ (debt penalty)
+\end{itemize}
+
+\textbf{Decision:}
+$$z = 0.3(15) + 0.5(20) - 0.2(0.5) = 14.4$$
+
+If $z > 10$: \textcolor{mlgreen}{\textbf{Buy}}
+\end{columns}
+\bottomnote{Inputs (data) -> Weights (importance) -> Decision (output)}
+\end{frame}
+
+% Slide 17: What We Gained
+\begin{frame}[t]{What We Gained from Abstraction}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Benefits of Simplification}
+
+\begin{enumerate}
+\item \textbf{Mathematical Tractability}
+\begin{itemize}
+\item We can write equations
+\item Analyze behavior formally
+\item Prove theorems
+\end{itemize}
+
+\item \textbf{Computability}
+\begin{itemize}
+\item Easy to implement in code
+\item Fast computation
+\item Scales to millions of units
+\end{itemize}
+
+\item \textbf{Trainability}
+\begin{itemize}
+\item Can adjust weights systematically
+\item Gradient-based optimization
+\item Learn from data
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{What We Can Now Do}
+
+\vspace{0.5em}
+\begin{itemize}
+\item Define learning algorithms
+\item Compute exact outputs
+\item Train on historical data
+\item Make predictions on new data
+\item Analyze decision boundaries
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Scale Comparison:}
+
+\begin{tabular}{lcc}
+\toprule
+& \textbf{Brain} & \textbf{GPU} \\
+\midrule
+Operations/sec & $10^{16}$ & $10^{15}$ \\
+Power & 20W & 300W \\
+Training time & Years & Hours \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\small
+Different trade-offs, different capabilities.
+\end{columns}
+\bottomnote{Simplification enables computation}
+\end{frame}
+
+% Slide 18: What We Lost
+\begin{frame}[t]{What We Lost from Abstraction}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Biological Complexity We Ignored}
+
+\begin{enumerate}
+\item \textbf{Temporal Dynamics}
+\begin{itemize}
+\item Real neurons have timing
+\item Spike patterns carry information
+\item We use static activations
+\end{itemize}
+
+\item \textbf{Structural Complexity}
+\begin{itemize}
+\item Dendrites have local computation
+\item Different neuron types
+\item We use uniform units
+\end{itemize}
+
+\item \textbf{Neurochemistry}
+\begin{itemize}
+\item Neurotransmitters vary
+\item Modulatory systems
+\item We use simple multiplication
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Implications}
+
+\vspace{0.5em}
+\textbf{What ANNs Cannot Do (Well):}
+\begin{itemize}
+\item Energy efficiency of brain
+\item One-shot learning
+\item Continuous adaptation
+\item Common sense reasoning
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Trade-off:}
+
+\begin{center}
+\begin{tabular}{cc}
+\textcolor{mlgreen}{Tractability} & \textcolor{mlred}{Realism} \\
+$\uparrow$ & $\downarrow$ \\
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textit{Artificial neurons are inspired by biology, not copies of it.}}
+\end{columns}
+\bottomnote{The brain does far more than our models capture}
+\end{frame}
+
+% ==================== SECTION 4: PERCEPTRON INTUITION (Slides 19-28) ====================
+\section{The Perceptron: Intuition First}
+
+% Slide 19: The Simplest Decision Maker
+\begin{frame}[t]{The Simplest Decision Maker}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What is a Perceptron?}
+
+The simplest possible neural network:
+\begin{itemize}
+\item One artificial neuron
+\item Multiple inputs, one output
+\item Binary decision: Yes or No
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Think of it as:}
+\begin{itemize}
+\item A filter for data
+\item A simple classifier
+\item A linear decision maker
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Finance Application:}}
+
+Stock screener that outputs ``Buy'' or ``Don't Buy'' based on financial metrics.
+
+\column{0.48\textwidth}
+\textbf{Real-World Examples}
+
+\vspace{0.5em}
+\textbf{Email Spam Filter:}
+\begin{itemize}
+\item Inputs: word frequencies
+\item Output: spam or not spam
+\end{itemize}
+
+\textbf{Loan Approval:}
+\begin{itemize}
+\item Inputs: income, credit score, debt
+\item Output: approve or reject
+\end{itemize}
+
+\textbf{Stock Screening:}
+\begin{itemize}
+\item Inputs: P/E, momentum, volume
+\item Output: buy or pass
+\end{itemize}
+
+\vspace{0.5em}
+All these are binary classification problems that a perceptron can solve (if the data is linearly separable).
+\end{columns}
+\bottomnote{A single perceptron is a stock screening filter}
+\end{frame}
+
+% Slide 20: Your First Neural Network
+\begin{frame}[t]{Your First Neural Network}
+\begin{center}
+\includegraphics[width=0.66\textwidth]{charts/perceptron_architecture/perceptron_architecture.pdf}
+\end{center}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/perceptron_architecture}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/perceptron_architecture}{\includegraphics[width=0.6cm]{charts/perceptron_architecture/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/perceptron_architecture}{\tiny\texttt{\textcolor{gray}{perceptron\_architecture}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Inputs, weights, sum, activation, output}
+\end{frame}
+
+% Slide 21: Finance Scenario
+\begin{frame}[t]{Finance Scenario: Buy or Sell?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Problem Setup}
+
+You want to build a simple stock screener:
+\begin{itemize}
+\item \textbf{Goal}: Decide Buy or Pass
+\item \textbf{Data}: Historical financial metrics
+\item \textbf{Method}: Perceptron classifier
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Available Features:}
+\begin{enumerate}
+\item P/E Ratio (valuation)
+\item 6-month momentum (\%)
+\item Average daily volume
+\item Debt-to-Equity ratio
+\item Earnings surprise (\%)
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{The Question}
+
+Given these features for a new stock, should we add it to our portfolio?
+
+\vspace{0.5em}
+\textbf{Example Stock:}
+\begin{itemize}
+\item P/E = 18
+\item Momentum = +12\%
+\item Volume = 2M shares
+\item D/E = 0.8
+\item Surprise = +5\%
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Traditional Approach:}
+
+Analyst manually weighs factors and decides.
+
+\vspace{0.5em}
+\textbf{Perceptron Approach:}
+
+Learn the weights from historical winners/losers.
+\end{columns}
+\bottomnote{Given financial indicators, should we buy this stock?}
+\end{frame}
+
+% Slide 22: Inputs - The Raw Data
+\begin{frame}[t]{Inputs: The Raw Data}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What Are Inputs?}
+
+Each input $x_i$ is a numerical feature:
+\begin{itemize}
+\item A measurement
+\item A statistic
+\item A signal
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{In Finance:}
+\begin{itemize}
+\item Price-based: returns, volatility
+\item Fundamental: P/E, ROE, debt ratios
+\item Technical: RSI, moving averages
+\item Sentiment: news scores, analyst ratings
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Key Requirement:}
+
+All inputs must be \textbf{numerical}. Categorical data needs encoding.
+
+\column{0.48\textwidth}
+\textbf{Notation}
+
+\vspace{0.5em}
+For a stock with $n$ features:
+
+$$\mathbf{x} = \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}$$
+
+\vspace{0.5em}
+\textbf{Example (n=3):}
+
+$$\mathbf{x} = \begin{pmatrix} 18 \\ 0.12 \\ 0.8 \end{pmatrix} = \begin{pmatrix} \text{P/E} \\ \text{Momentum} \\ \text{D/E} \end{pmatrix}$$
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Note:}} Features often need \textbf{normalization} (covered in Module 3).
+\end{columns}
+\bottomnote{What data feeds into our decision?}
+\end{frame}
+
+% Slide 23: Weights - The Importance Factors
+\begin{frame}[t]{Weights: The Importance Factors}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What Are Weights?}
+
+Each weight $w_i$ represents:
+\begin{itemize}
+\item Importance of input $x_i$
+\item Direction of influence
+\item Learned from data
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Interpretation:}
+\begin{itemize}
+\item $w_i > 0$: Higher $x_i$ pushes toward ``Buy''
+\item $w_i < 0$: Higher $x_i$ pushes toward ``Sell''
+\item $|w_i|$ large: Strong influence
+\item $|w_i|$ small: Weak influence
+\end{itemize}
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{charts/weighted_sum_visualization/weighted_sum_visualization.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/weighted_sum_visualization}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/weighted_sum_visualization}{\includegraphics[width=0.6cm]{charts/weighted_sum_visualization/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/weighted_sum_visualization}{\tiny\texttt{\textcolor{gray}{weighted\_sum\_visualization}}}
+};
+\end{tikzpicture}
+
+\bottomnote{``Not all data is equally important'' - weights encode importance}
+\end{frame}
+
+% Slide 24: Discussion Question 2
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``If you could only look at 3 metrics for a stock, which would you choose and why? How would you weight them?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Value Investor Might Choose:}
+\begin{itemize}
+\item P/E ratio ($w = 0.5$)
+\item Book value ($w = 0.3$)
+\item Dividend yield ($w = 0.2$)
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Growth Investor Might Choose:}
+\begin{itemize}
+\item Revenue growth ($w = 0.5$)
+\item Momentum ($w = 0.3$)
+\item Market share ($w = 0.2$)
+\end{itemize}
+\end{columns}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Key Insight:}} Different investors would assign different weights. The perceptron \textit{learns} these weights from historical performance.
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% Slide 25: The Weighted Sum
+\begin{frame}[t]{The Weighted Sum: Adding Up Evidence}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Computing the Weighted Sum}
+
+$$z = \sum_{i=1}^{n} w_i x_i + b = w_1 x_1 + w_2 x_2 + \cdots + w_n x_n + b$$
+
+\vspace{0.5em}
+\textbf{What This Means:}
+\begin{itemize}
+\item Multiply each input by its weight
+\item Sum all the products
+\item Add the bias term $b$
+\item Result: a single ``score''
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Bias $b$:}
+\begin{itemize}
+\item Shifts the decision threshold
+\item Like a ``base rate'' or prior
+\item Can be thought of as $w_0 \cdot x_0$ where $x_0 = 1$
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Worked Example}
+
+\vspace{0.5em}
+\textbf{Inputs:}
+\begin{itemize}
+\item $x_1 = 0.8$ (normalized P/E)
+\item $x_2 = 0.6$ (normalized momentum)
+\end{itemize}
+
+\textbf{Weights:}
+\begin{itemize}
+\item $w_1 = 0.5$
+\item $w_2 = 0.7$
+\item $b = -0.3$
+\end{itemize}
+
+\textbf{Calculation:}
+\begin{align*}
+z &= w_1 x_1 + w_2 x_2 + b \\
+&= (0.5)(0.8) + (0.7)(0.6) + (-0.3) \\
+&= 0.4 + 0.42 - 0.3 \\
+&= \textbf{0.52}
+\end{align*}
+\end{columns}
+\bottomnote{Combine all weighted inputs into a single score}
+\end{frame}
+
+% Slide 26: The Voting Committee Analogy
+\begin{frame}[t]{Analogy: The Voting Committee}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Perceptron as a Committee}
+
+\begin{tabular}{lccc}
+\toprule
+\textbf{Member} & \textbf{Vote} & \textbf{Weight} & \textbf{Contribution} \\
+\midrule
+P/E analyst & +1 & 0.5 & +0.5 \\
+Momentum & +1 & 0.7 & +0.7 \\
+Bias (skeptic) & -1 & 0.3 & -0.3 \\
+\midrule
+\textbf{Total} & & & \textbf{+0.9} \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{If Total $>$ 0:} Committee recommends \textcolor{mlgreen}{\textbf{Buy}}
+
+\vspace{0.5em}
+\textbf{Key Insight:}
+
+The perceptron is just a weighted voting system where the weights are learned from data.
+
+\column{0.48\textwidth}
+\textbf{Why This Works}
+
+\vspace{0.5em}
+\textbf{Traditional Committee:}
+\begin{itemize}
+\item Human experts set weights
+\item Based on experience/intuition
+\item May have biases
+\item Hard to scale
+\end{itemize}
+
+\textbf{Perceptron Committee:}
+\begin{itemize}
+\item Weights learned from data
+\item Based on historical performance
+\item Consistent application
+\item Scales to any volume
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Trade-off:}} Data-driven weights may not capture regime changes or rare events.
+\end{columns}
+\bottomnote{Some votes count more than others}
+\end{frame}
+
+% Slide 27: The Threshold Decision
+\begin{frame}[t]{The Threshold: Making the Call}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Activation Function}
+
+After computing $z$, we need a final decision.
+
+\vspace{0.5em}
+\textbf{Step Function:}
+$$f(z) = \begin{cases} 1 & \text{if } z \geq 0 \\ 0 & \text{if } z < 0 \end{cases}$$
+
+\vspace{0.5em}
+\textbf{Interpretation:}
+\begin{itemize}
+\item $z \geq 0$: Evidence favors ``Buy'' $\rightarrow$ output 1
+\item $z < 0$: Evidence favors ``Sell'' $\rightarrow$ output 0
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Why Step Function?}
+\begin{itemize}
+\item Binary classification needs binary output
+\item Mimics neuron firing (all-or-nothing)
+\item Simple to implement
+\end{itemize}
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{charts/step_function/step_function.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/step_function}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/step_function}{\includegraphics[width=0.6cm]{charts/step_function/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/step_function}{\tiny\texttt{\textcolor{gray}{step\_function}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Above threshold = Buy, Below threshold = Sell}
+\end{frame}
+
+% Slide 28: Putting It All Together
+\begin{frame}[t]{The Complete Perceptron Flow}
+\begin{columns}[T]
+\column{0.35\textwidth}
+\textbf{The Pipeline}
+
+\begin{enumerate}
+\item \textbf{Input}: Receive features $\mathbf{x}$
+\item \textbf{Weight}: Multiply by $\mathbf{w}$
+\item \textbf{Sum}: Add all products + bias
+\item \textbf{Activate}: Apply step function
+\item \textbf{Output}: Return prediction
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Compact Notation:}
+$$y = f(\mathbf{w}^T \mathbf{x} + b)$$
+
+where $\mathbf{w}^T \mathbf{x} = \sum_i w_i x_i$
+
+\column{0.62\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/perceptron_architecture/perceptron_architecture.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/perceptron_architecture}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/perceptron_architecture}{\includegraphics[width=0.6cm]{charts/perceptron_architecture/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/perceptron_architecture}{\tiny\texttt{\textcolor{gray}{perceptron\_architecture}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Inputs -> Weights -> Sum -> Threshold -> Decision}
+\end{frame}
+
+% ==================== SECTION 5: PERCEPTRON MATHEMATICS (Slides 29-36) ====================
+\section{The Perceptron: Mathematical Formulation}
+
+% Slide 29: Transition to Math
+\begin{frame}[t]{Now Let's Formalize}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What You Already Know}
+
+From the intuition section:
+\begin{itemize}
+\item Inputs are weighted
+\item Weights encode importance
+\item Sum is compared to threshold
+\item Output is binary
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{What's Next}
+
+\begin{itemize}
+\item Precise mathematical notation
+\item Geometric interpretation
+\item Foundation for learning algorithm
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Why Math Matters}
+
+\vspace{0.5em}
+\textbf{Without Math:}
+\begin{itemize}
+\item ``The network kind of learns''
+\item ``Adjust weights somehow''
+\item ``It works, probably''
+\end{itemize}
+
+\textbf{With Math:}
+\begin{itemize}
+\item Precise learning rules
+\item Convergence guarantees
+\item Understanding of limitations
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textit{The next 8 slides formalize what you already understand intuitively.}}
+\end{columns}
+\bottomnote{You understand the intuition. Let's write it precisely.}
+\end{frame}
+
+% Slide 30: The Perceptron Equation
+\begin{frame}[t]{The Perceptron Equation}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Scalar Form}
+
+$$y = f\left(\sum_{i=1}^{n} w_i x_i + b\right)$$
+
+where $f$ is the step function:
+$$f(z) = \begin{cases} 1 & \text{if } z \geq 0 \\ 0 & \text{otherwise} \end{cases}$$
+
+\vspace{0.5em}
+\textbf{Vector Form}
+
+$$y = f(\mathbf{w}^T \mathbf{x} + b)$$
+
+where:
+\begin{itemize}
+\item $\mathbf{w} = (w_1, \ldots, w_n)^T$
+\item $\mathbf{x} = (x_1, \ldots, x_n)^T$
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Alternative Notation}
+
+We can absorb the bias into weights:
+
+$$\tilde{\mathbf{w}} = \begin{pmatrix} b \\ w_1 \\ \vdots \\ w_n \end{pmatrix}, \quad \tilde{\mathbf{x}} = \begin{pmatrix} 1 \\ x_1 \\ \vdots \\ x_n \end{pmatrix}$$
+
+Then:
+$$y = f(\tilde{\mathbf{w}}^T \tilde{\mathbf{x}})$$
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Note:}} This ``bias trick'' simplifies notation but they are equivalent.
+\end{columns}
+\bottomnote{The complete mathematical model}
+\end{frame}
+
+% Slide 31: Unpacking the Math
+\begin{frame}[t]{Unpacking the Mathematics}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Term by Term}
+
+\vspace{0.5em}
+\begin{tabular}{cl}
+\toprule
+\textbf{Symbol} & \textbf{Meaning} \\
+\midrule
+$x_i$ & Input feature $i$ \\
+$w_i$ & Weight for feature $i$ \\
+$b$ & Bias (threshold shift) \\
+$z$ & Weighted sum (pre-activation) \\
+$f$ & Activation function \\
+$y$ & Output prediction \\
+$n$ & Number of features \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{Dimensions:}
+\begin{itemize}
+\item $\mathbf{x} \in \mathbb{R}^n$
+\item $\mathbf{w} \in \mathbb{R}^n$
+\item $b, z, y \in \mathbb{R}$
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{What Gets Learned?}
+
+\vspace{0.5em}
+\textcolor{mlgreen}{\textbf{Learned (trainable):}}
+\begin{itemize}
+\item Weights $w_1, \ldots, w_n$
+\item Bias $b$
+\end{itemize}
+
+\textcolor{mlred}{\textbf{Fixed (architecture):}}
+\begin{itemize}
+\item Number of inputs $n$
+\item Activation function $f$
+\end{itemize}
+
+\textcolor{mlblue}{\textbf{Given (data):}}
+\begin{itemize}
+\item Input values $x_1, \ldots, x_n$
+\item Target labels (for training)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Total Parameters:} $n + 1$
+
+(For a 3-feature perceptron: 4 parameters)
+\end{columns}
+\bottomnote{Each symbol has a meaning}
+\end{frame}
+
+% Slide 32: The Bias Term
+\begin{frame}[t]{The Bias Term}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What Does Bias Do?}
+
+Without bias ($b = 0$):
+$$z = \mathbf{w}^T \mathbf{x}$$
+
+The decision boundary passes through origin.
+
+\vspace{0.5em}
+With bias ($b \neq 0$):
+$$z = \mathbf{w}^T \mathbf{x} + b$$
+
+The decision boundary can be anywhere.
+
+\vspace{0.5em}
+\textbf{Interpretation:}
+\begin{itemize}
+\item $b > 0$: Default toward ``Buy''
+\item $b < 0$: Default toward ``Sell''
+\item Like a prior belief
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Finance Analogy}
+
+\vspace{0.5em}
+\textbf{Without Bias:}
+
+``I have no opinion until I see data''
+
+\vspace{0.5em}
+\textbf{With Positive Bias:}
+
+``I'm generally bullish; you need to convince me to sell''
+
+\vspace{0.5em}
+\textbf{With Negative Bias:}
+
+``I'm skeptical by default; you need strong evidence to buy''
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Key Point:}} Bias shifts the ``bar'' that evidence must clear. It's learned from data just like weights.
+\end{columns}
+\bottomnote{Bias shifts the decision threshold}
+\end{frame}
+
+% Slide 33: The Step Activation Function
+\begin{frame}[t]{The Step Activation Function}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Formal Definition}
+
+The Heaviside step function:
+
+$$f(z) = \mathbf{1}_{z \geq 0} = \begin{cases} 1 & \text{if } z \geq 0 \\ 0 & \text{if } z < 0 \end{cases}$$
+
+\vspace{0.5em}
+\textbf{Properties:}
+\begin{itemize}
+\item Output $\in \{0, 1\}$
+\item Discontinuous at $z = 0$
+\item Not differentiable (problem for gradient-based learning!)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Variants:}
+\begin{itemize}
+\item Sign function: outputs $\{-1, +1\}$
+\item Same idea, different labels
+\end{itemize}
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{charts/step_function/step_function.pdf}
+\end{center}
+
+\vspace{0.5em}
+\small
+\textcolor{mlpurple}{\textbf{Preview:}} The non-differentiability of the step function is why we'll need smoother activations (sigmoid, ReLU) in later modules.
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/step_function}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/step_function}{\includegraphics[width=0.6cm]{charts/step_function/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/step_function}{\tiny\texttt{\textcolor{gray}{step\_function}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Binary output: yes or no}
+\end{frame}
+
+% Slide 34: Geometric Interpretation
+\begin{frame}[t]{Geometric Interpretation: The Decision Boundary}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{The Perceptron as a Hyperplane}
+
+The equation $\mathbf{w}^T \mathbf{x} + b = 0$ defines a hyperplane:
+\begin{itemize}
+\item In 2D: a line
+\item In 3D: a plane
+\item In $n$D: a hyperplane
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Regions:}
+\begin{itemize}
+\item $\mathbf{w}^T \mathbf{x} + b > 0$: Class 1 (Buy)
+\item $\mathbf{w}^T \mathbf{x} + b < 0$: Class 0 (Sell)
+\item $\mathbf{w}^T \mathbf{x} + b = 0$: Decision boundary
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Weight Vector Direction:}
+
+$\mathbf{w}$ is perpendicular to the decision boundary, pointing toward the positive class.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.85\textwidth]{charts/decision_boundary_2d/decision_boundary_2d.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/decision_boundary_2d}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/decision_boundary_2d}{\includegraphics[width=0.6cm]{charts/decision_boundary_2d/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/decision_boundary_2d}{\tiny\texttt{\textcolor{gray}{decision\_boundary\_2d}}}
+};
+\end{tikzpicture}
+
+\bottomnote{The perceptron draws a line between classes}
+\end{frame}
+
+% Slide 35: Finance Example: Stock Classification
+\begin{frame}[t]{Finance Example: Classifying Stocks}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Two-Feature Stock Screener}
+
+Features:
+\begin{itemize}
+\item $x_1$: P/E ratio (normalized)
+\item $x_2$: 6-month momentum (\%)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Classes:}
+\begin{itemize}
+\item \textcolor{mlgreen}{Green}: Outperformed (Buy)
+\item \textcolor{mlred}{Red}: Underperformed (Sell)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Goal:}
+
+Find $w_1, w_2, b$ such that:
+$$w_1 \cdot \text{P/E} + w_2 \cdot \text{Momentum} + b = 0$$
+
+separates the classes.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.78\textwidth]{charts/stock_features_scatter/stock_features_scatter.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/stock_features_scatter}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/stock_features_scatter}{\includegraphics[width=0.6cm]{charts/stock_features_scatter/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/stock_features_scatter}{\tiny\texttt{\textcolor{gray}{stock\_features\_scatter}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Separating ``good'' stocks from ``bad'' stocks}
+\end{frame}
+
+% Slide 36: Decision Boundary Formula
+\begin{frame}[t]{The Decision Boundary Formula}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{In 2D: The Line Equation}
+
+From $w_1 x_1 + w_2 x_2 + b = 0$:
+
+$$x_2 = -\frac{w_1}{w_2} x_1 - \frac{b}{w_2}$$
+
+\vspace{0.5em}
+\textbf{This is a line with:}
+\begin{itemize}
+\item Slope: $-\frac{w_1}{w_2}$
+\item Intercept: $-\frac{b}{w_2}$
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Example:}
+
+If $w_1 = 2, w_2 = 1, b = -3$:
+$$x_2 = -2x_1 + 3$$
+
+Stocks above this line: Buy
+
+Stocks below this line: Sell
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/finance_decision_boundary/finance_decision_boundary.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/finance_decision_boundary}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/finance_decision_boundary}{\includegraphics[width=0.6cm]{charts/finance_decision_boundary/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/finance_decision_boundary}{\tiny\texttt{\textcolor{gray}{finance\_decision\_boundary}}}
+};
+\end{tikzpicture}
+
+\bottomnote{The line that separates buy from sell}
+\end{frame}
+
+% ==================== SECTION 6: PERCEPTRON LEARNING (Slides 37-44) ====================
+\section{The Perceptron Learning Algorithm}
+
+% Slide 37: How Does It Learn?
+\begin{frame}[t]{How Does the Perceptron Learn?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Learning Problem}
+
+\textbf{Given:}
+\begin{itemize}
+\item Training data: $\{(\mathbf{x}^{(i)}, y^{(i)})\}_{i=1}^{m}$
+\item Each $\mathbf{x}^{(i)}$: feature vector
+\item Each $y^{(i)} \in \{0, 1\}$: true label
+\end{itemize}
+
+\textbf{Find:}
+\begin{itemize}
+\item Weights $\mathbf{w}$
+\item Bias $b$
+\item Such that predictions match labels
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Approach:}
+
+Start with random weights, then iteratively adjust based on mistakes.
+
+\column{0.48\textwidth}
+\textbf{The Core Idea}
+
+\vspace{0.5em}
+\textbf{If prediction is correct:}
+
+Do nothing. Weights are fine.
+
+\vspace{0.5em}
+\textbf{If prediction is wrong:}
+
+Adjust weights to make this example more likely to be correct next time.
+
+\vspace{0.5em}
+\textbf{Repeat:}
+
+Keep cycling through training data until no mistakes (or convergence).
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Key Insight:}} Learning = adjusting weights based on errors.
+\end{columns}
+\bottomnote{Learning = adjusting weights based on mistakes}
+\end{frame}
+
+% Slide 38: Learning from Mistakes
+\begin{frame}[t]{Learning from Mistakes}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Two Types of Errors}
+
+\textbf{False Negative} ($\hat{y} = 0$, $y = 1$):
+\begin{itemize}
+\item Predicted Sell, should be Buy
+\item The score $z$ was too low
+\item Need to \textit{increase} score for this $\mathbf{x}$
+\item Solution: Add $\mathbf{x}$ to $\mathbf{w}$
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{False Positive} ($\hat{y} = 1$, $y = 0$):
+\begin{itemize}
+\item Predicted Buy, should be Sell
+\item The score $z$ was too high
+\item Need to \textit{decrease} score for this $\mathbf{x}$
+\item Solution: Subtract $\mathbf{x}$ from $\mathbf{w}$
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Visual Intuition}
+
+\vspace{0.5em}
+\textbf{Before update:}
+
+Point is on wrong side of boundary.
+
+\vspace{0.5em}
+\textbf{After update:}
+
+Boundary moves to include the point on the correct side.
+
+\vspace{0.5em}
+\textbf{The Update Rule:}
+
+$$\mathbf{w}_{\text{new}} = \mathbf{w}_{\text{old}} + (y - \hat{y}) \cdot \mathbf{x}$$
+
+\vspace{0.5em}
+\textbf{Check:}
+\begin{itemize}
+\item If $y = 1, \hat{y} = 0$: add $\mathbf{x}$
+\item If $y = 0, \hat{y} = 1$: subtract $\mathbf{x}$
+\item If $y = \hat{y}$: no change
+\end{itemize}
+\end{columns}
+\bottomnote{Each mistake is a learning opportunity}
+\end{frame}
+
+% Slide 39: The Learning Rule (Intuition)
+\begin{frame}[t]{The Learning Rule: Intuition}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Why Adding $\mathbf{x}$ Works}
+
+For a false negative (missed Buy):
+\begin{itemize}
+\item Current: $\mathbf{w}^T \mathbf{x} + b < 0$
+\item After adding $\mathbf{x}$ to $\mathbf{w}$:
+\item New score: $(\mathbf{w} + \mathbf{x})^T \mathbf{x} + b$
+\item $= \mathbf{w}^T \mathbf{x} + \mathbf{x}^T \mathbf{x} + b$
+\item $= \mathbf{w}^T \mathbf{x} + \|\mathbf{x}\|^2 + b$
+\end{itemize}
+
+Since $\|\mathbf{x}\|^2 > 0$, the new score is higher!
+
+\vspace{0.5em}
+\textbf{Geometrically:}
+
+Adding $\mathbf{x}$ rotates the decision boundary toward classifying $\mathbf{x}$ correctly.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/perceptron_learning_animation/perceptron_learning_animation.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/perceptron_learning_animation}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/perceptron_learning_animation}{\includegraphics[width=0.6cm]{charts/perceptron_learning_animation/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/perceptron_learning_animation}{\tiny\texttt{\textcolor{gray}{perceptron\_learning\_animation}}}
+};
+\end{tikzpicture}
+
+\bottomnote{If wrong, move the boundary}
+\end{frame}
+
+% Slide 40: The Learning Rule (Math)
+\begin{frame}[t]{The Perceptron Learning Rule}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Update Equations}
+
+For each training example $(\mathbf{x}, y)$:
+
+\vspace{0.5em}
+\textbf{Weight update:}
+$$\mathbf{w} \leftarrow \mathbf{w} + \eta (y - \hat{y}) \mathbf{x}$$
+
+\textbf{Bias update:}
+$$b \leftarrow b + \eta (y - \hat{y})$$
+
+where:
+\begin{itemize}
+\item $\eta > 0$ is the learning rate
+\item $\hat{y} = f(\mathbf{w}^T \mathbf{x} + b)$ is prediction
+\item $y$ is true label
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{The Complete Algorithm}
+
+\begin{enumerate}
+\item Initialize $\mathbf{w} = \mathbf{0}$, $b = 0$
+\item \textbf{repeat}:
+\begin{enumerate}
+\item[a.] For each $(\mathbf{x}^{(i)}, y^{(i)})$ in training set:
+\item[b.] Compute $\hat{y}^{(i)} = f(\mathbf{w}^T \mathbf{x}^{(i)} + b)$
+\item[c.] If $\hat{y}^{(i)} \neq y^{(i)}$:
+\item[] $\mathbf{w} \leftarrow \mathbf{w} + \eta (y^{(i)} - \hat{y}^{(i)}) \mathbf{x}^{(i)}$
+\item[] $b \leftarrow b + \eta (y^{(i)} - \hat{y}^{(i)})$
+\end{enumerate}
+\item \textbf{until} no errors (or max iterations)
+\end{enumerate}
+\end{columns}
+\bottomnote{The mathematical update rule}
+\end{frame}
+
+% Slide 41: Learning Rate
+\begin{frame}[t]{The Learning Rate}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What is $\eta$?}
+
+The learning rate controls step size:
+\begin{itemize}
+\item How much weights change per update
+\item Typical values: 0.01 to 1.0
+\item For perceptron: often $\eta = 1$
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Effects:}
+
+\textbf{$\eta$ too small:}
+\begin{itemize}
+\item Very slow learning
+\item Many iterations needed
+\item But stable
+\end{itemize}
+
+\textbf{$\eta$ too large:}
+\begin{itemize}
+\item May overshoot
+\item Oscillate around solution
+\item But faster initially
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{For the Perceptron}
+
+\vspace{0.5em}
+\textbf{Good news:}
+
+For linearly separable data, the perceptron converges regardless of $\eta > 0$.
+
+\vspace{0.5em}
+\textbf{Why?}
+
+The convergence theorem (next slides) guarantees finding a solution if one exists.
+
+\vspace{0.5em}
+\textbf{In Practice:}
+
+$\eta = 1$ is common for perceptron. Learning rate matters more for:
+\begin{itemize}
+\item Gradient descent (Module 3)
+\item Non-separable data
+\item Multi-layer networks
+\end{itemize}
+\end{columns}
+\bottomnote{Step size matters: too big or too small both cause problems}
+\end{frame}
+
+% Slide 42: Worked Example
+\begin{frame}[t]{Worked Example: Stock Classification}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Setup}
+
+Two stocks, two features:
+\begin{itemize}
+\item $\mathbf{x}^{(1)} = (0.5, 0.8)$, $y^{(1)} = 1$ (Buy)
+\item $\mathbf{x}^{(2)} = (0.2, 0.3)$, $y^{(2)} = 0$ (Sell)
+\end{itemize}
+
+Initialize: $\mathbf{w} = (0, 0)$, $b = 0$, $\eta = 1$
+
+\vspace{0.5em}
+\textbf{Iteration 1:} Example 1
+\begin{itemize}
+\item $z = 0 \cdot 0.5 + 0 \cdot 0.8 + 0 = 0$
+\item $\hat{y} = f(0) = 1$ (threshold at 0)
+\item $y = 1$, correct! No update.
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Iteration 1:} Example 2
+\begin{itemize}
+\item $z = 0$, $\hat{y} = 1$
+\item $y = 0$, wrong!
+\item $\mathbf{w} \leftarrow (0,0) + 1(0-1)(0.2,0.3) = (-0.2, -0.3)$
+\item $b \leftarrow 0 + 1(0-1) = -1$
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Iteration 2:} Example 1
+\begin{itemize}
+\item $z = -0.2(0.5) - 0.3(0.8) - 1 = -1.34$
+\item $\hat{y} = 0$
+\item $y = 1$, wrong!
+\item $\mathbf{w} \leftarrow (-0.2,-0.3) + (0.5,0.8) = (0.3, 0.5)$
+\item $b \leftarrow -1 + 1 = 0$
+\end{itemize}
+
+\textbf{Iteration 2:} Example 2
+\begin{itemize}
+\item $z = 0.3(0.2) + 0.5(0.3) + 0 = 0.21$
+\item $\hat{y} = 1$, $y = 0$, wrong!
+\item $\mathbf{w} \leftarrow (0.3,0.5) - (0.2,0.3) = (0.1, 0.2)$
+\item $b \leftarrow 0 - 1 = -1$
+\end{itemize}
+
+\textbf{Continue until convergence...}
+\end{columns}
+\bottomnote{Following the math with real numbers}
+\end{frame}
+
+% Slide 43: Convergence
+\begin{frame}[t]{Convergence: Does It Always Work?}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{The Perceptron Convergence Theorem}
+
+\textbf{Theorem (Rosenblatt, 1962):}
+
+If the training data is \textbf{linearly separable}, the perceptron learning algorithm will find a separating hyperplane in a \textbf{finite} number of updates.
+
+\vspace{0.5em}
+\textbf{Key Conditions:}
+\begin{itemize}
+\item Data must be linearly separable
+\item Learning rate $\eta > 0$
+\item Cycling through all examples
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Bound on Updates:}
+$$\text{mistakes} \leq \frac{R^2}{\gamma^2}$$
+
+where $R$ = max norm, $\gamma$ = margin
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/convergence_plot/convergence_plot.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/convergence_plot}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/convergence_plot}{\includegraphics[width=0.6cm]{charts/convergence_plot/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/convergence_plot}{\tiny\texttt{\textcolor{gray}{convergence\_plot}}}
+};
+\end{tikzpicture}
+
+\bottomnote{The perceptron convergence theorem guarantees finding a solution IF one exists}
+\end{frame}
+
+% Slide 44: Discussion Question 3
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``What happens when data isn't linearly separable in financial markets? Can you think of examples?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Examples of Non-Separable Data:}
+\begin{itemize}
+\item High P/E growth stocks AND low P/E value stocks both outperform
+\item Medium-risk investments underperform both conservative and aggressive
+\item ``Buy the rumor, sell the news'' patterns
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{What Happens to the Perceptron?}
+\begin{itemize}
+\item Never converges
+\item Oscillates forever
+\item Best we can do: minimize errors
+\item Need something more powerful...
+\end{itemize}
+\end{columns}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Foreshadowing:}} This is exactly why we need \textbf{multi-layer} networks (Module 2).
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% ==================== SECTION 7: LIMITATIONS (Slides 45-48) ====================
+\section{Limitations and the First AI Winter}
+
+% Slide 45: The XOR Problem
+\begin{frame}[t]{The XOR Problem}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{The Exclusive OR Function}
+
+\begin{center}
+\begin{tabular}{cc|c}
+\toprule
+$x_1$ & $x_2$ & XOR \\
+\midrule
+0 & 0 & 0 \\
+0 & 1 & 1 \\
+1 & 0 & 1 \\
+1 & 1 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+\textbf{In Words:}
+
+Output is 1 if inputs are \textit{different}, 0 if inputs are \textit{same}.
+
+\vspace{0.5em}
+\textbf{The Challenge:}
+
+Try to draw a single line that separates the 1s from the 0s...
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/xor_problem/xor_problem.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/xor_problem}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/xor_problem}{\includegraphics[width=0.6cm]{charts/xor_problem/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/xor_problem}{\tiny\texttt{\textcolor{gray}{xor\_problem}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Some patterns cannot be separated by a single line}
+\end{frame}
+
+% Slide 46: Why XOR Fails
+\begin{frame}[t]{Why XOR Cannot Be Solved}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Geometric Impossibility}
+
+\vspace{0.5em}
+\textbf{Perceptron decision boundary:}
+
+$w_1 x_1 + w_2 x_2 + b = 0$
+
+This is always a \textbf{straight line}.
+
+\vspace{0.5em}
+\textbf{XOR requires:}
+
+A boundary that curves or has multiple segments.
+
+\vspace{0.5em}
+\textbf{Linear vs Non-Linear}
+
+\textbf{Linearly Separable:}
+\begin{itemize}
+\item AND, OR, NAND, NOR
+\item One line can separate
+\end{itemize}
+
+\textbf{Not Linearly Separable:}
+\begin{itemize}
+\item XOR, XNOR
+\item No single line works
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/linear_vs_nonlinear_patterns/linear_vs_nonlinear_patterns.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/linear_vs_nonlinear_patterns}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/linear_vs_nonlinear_patterns}{\includegraphics[width=0.6cm]{charts/linear_vs_nonlinear_patterns/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/linear_vs_nonlinear_patterns}{\tiny\texttt{\textcolor{gray}{linear\_vs\_nonlinear\_patterns}}}
+};
+\end{tikzpicture}
+
+\bottomnote{No single hyperplane can separate XOR}
+\end{frame}
+
+% Slide 47: 1969 - Minsky and Papert
+\begin{frame}[t]{1969: The Critique That Changed Everything}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Minsky and Papert's Book}
+
+``Perceptrons: An Introduction to Computational Geometry'' (1969)
+
+\vspace{0.5em}
+\textbf{Key Arguments:}
+\begin{enumerate}
+\item Single-layer perceptrons cannot compute XOR
+\item Many important functions are non-linear
+\item No known training algorithm for multi-layer networks
+\item Scaling limitations
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{The Impact:}
+
+The book was rigorous and influential. It convinced funding agencies that neural networks were a dead end.
+
+\column{0.48\textwidth}
+\textbf{The Controversy}
+
+\vspace{0.5em}
+\textbf{Valid Points:}
+\begin{itemize}
+\item Single layers \textit{are} limited
+\item XOR problem is real
+\item No training algorithm existed (then)
+\end{itemize}
+
+\textbf{Overstated Points:}
+\begin{itemize}
+\item ``Neural networks can't work''
+\item Implied multi-layer networks wouldn't help
+\item Discouraged research for 15+ years
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Lesson:}} Valid criticism of current methods shouldn't stop research into future improvements.
+\end{columns}
+\bottomnote{Marvin Minsky and Seymour Papert: ``Perceptrons'' book}
+\end{frame}
+
+% Slide 48: The First AI Winter
+\begin{frame}[t]{The First AI Winter Begins}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{The Collapse}
+
+After 1969:
+\begin{itemize}
+\item Funding dried up
+\item Researchers left the field
+\item ``Neural networks don't work''
+\item Symbolic AI took over
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Duration:} 1969 to $\sim$1982
+
+\vspace{0.5em}
+\textbf{What Survived:}
+\begin{itemize}
+\item A few dedicated researchers
+\item Theoretical work continued quietly
+\item Hopfield networks (1982)
+\item Backpropagation (1986)
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/ai_winter_timeline/ai_winter_timeline.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/ai_winter_timeline}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/ai_winter_timeline}{\includegraphics[width=0.6cm]{charts/ai_winter_timeline/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/ai_winter_timeline}{\tiny\texttt{\textcolor{gray}{ai\_winter\_timeline}}}
+};
+\end{tikzpicture}
+
+\bottomnote{1969-1982: The dark ages of neural network research}
+\end{frame}
+
+% ==================== SECTION 8: SUMMARY (Slides 49-50) ====================
+\section{Summary and Preview}
+
+% Slide 49: Module 1 Summary
+\begin{frame}[t]{Module 1: Key Takeaways}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{What We Learned}
+
+\begin{enumerate}
+\item \textbf{Historical Foundation}
+\begin{itemize}
+\item McCulloch-Pitts (1943): neurons compute
+\item Hebb (1949): learning strengthens connections
+\item Rosenblatt (1958): perceptron learns
+\end{itemize}
+
+\item \textbf{The Perceptron Model}
+\begin{itemize}
+\item Weighted sum + threshold
+\item Linear decision boundary
+\item Learns from mistakes
+\end{itemize}
+
+\item \textbf{Limitations}
+\begin{itemize}
+\item Only linearly separable problems
+\item XOR is impossible
+\item Led to AI Winter
+\end{itemize}
+\end{enumerate}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/module1_summary_diagram/module1_summary_diagram.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/module1_summary_diagram}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/module1_summary_diagram}{\includegraphics[width=0.6cm]{charts/module1_summary_diagram/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/module1_summary_diagram}{\tiny\texttt{\textcolor{gray}{module1\_summary\_diagram}}}
+};
+\end{tikzpicture}
+
+\bottomnote{From biological inspiration to mathematical limitation}
+\end{frame}
+
+% Slide 50: Preview of Module 2
+\begin{frame}[t]{Preview: Module 2}
+\begin{center}
+\Large
+\textit{``What if we stack multiple perceptrons?''}
+\end{center}
+
+\vspace{1em}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Problem We Face}
+
+Single perceptrons can only solve linearly separable problems. Real financial data is rarely that simple.
+
+\vspace{0.5em}
+\textbf{The Solution Preview:}
+\begin{itemize}
+\item Add ``hidden'' layers
+\item Non-linear activation functions
+\item Multi-Layer Perceptrons (MLPs)
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Coming in Module 2:}
+\begin{itemize}
+\item How XOR gets solved
+\item MLP architecture
+\item Activation functions (sigmoid, ReLU)
+\item Universal Approximation Theorem
+\item Loss functions
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Spoiler:}} Adding just one hidden layer changes everything.
+\end{columns}
+
+\vspace{1em}
+\textbf{Mathematical details for this module: See Appendix A (Perceptron Convergence Proof)}
+\bottomnote{Next: Solving XOR with Multi-Layer Perceptrons}
+\end{frame}
+
+\end{document}

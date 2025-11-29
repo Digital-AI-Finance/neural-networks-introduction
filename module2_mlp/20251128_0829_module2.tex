@@ -1,0 +1,2530 @@
+\documentclass[8pt,aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{amssymb}
+
+% Color definitions
+\definecolor{mlblue}{RGB}{0,102,204}
+\definecolor{mlpurple}{RGB}{51,51,178}
+\definecolor{mllavender}{RGB}{173,173,224}
+\definecolor{mllavender2}{RGB}{193,193,232}
+\definecolor{mllavender3}{RGB}{204,204,235}
+\definecolor{mllavender4}{RGB}{214,214,239}
+\definecolor{mlorange}{RGB}{255, 127, 14}
+\definecolor{mlgreen}{RGB}{44, 160, 44}
+\definecolor{mlred}{RGB}{214, 39, 40}
+\definecolor{mlgray}{RGB}{127, 127, 127}
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{midgray}{RGB}{180, 180, 180}
+
+% Apply custom colors to Madrid theme
+\setbeamercolor{palette primary}{bg=mllavender3,fg=mlpurple}
+\setbeamercolor{palette secondary}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{palette tertiary}{bg=mllavender,fg=white}
+\setbeamercolor{palette quaternary}{bg=mlpurple,fg=white}
+\setbeamercolor{structure}{fg=mlpurple}
+\setbeamercolor{section in toc}{fg=mlpurple}
+\setbeamercolor{subsection in toc}{fg=mlblue}
+\setbeamercolor{title}{fg=mlpurple}
+\setbeamercolor{frametitle}{fg=mlpurple,bg=mllavender3}
+\setbeamercolor{block title}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{block body}{bg=mllavender4,fg=black}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+
+\newcommand{\bottomnote}[1]{%
+\vfill
+\vspace{-2mm}
+\textcolor{mllavender2}{\rule{\textwidth}{0.4pt}}
+\vspace{1mm}
+\footnotesize
+\textbf{#1}
+}
+
+\title{Module 2: Stacking Layers}
+\subtitle{The Multi-Layer Perceptron and Universal Approximation (1969-1986)}
+\author{Neural Networks for Finance}
+\institute{BSc Lecture Series}
+\date{\today}
+
+\begin{document}
+
+% ==================== SECTION 1: OPENING (Slides 1-5) ====================
+\section{Opening}
+
+% Slide 1: Title
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+% Slide 2: Recap
+\begin{frame}[t]{Where We Left Off}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Module 1 Summary}
+
+We learned that a single perceptron:
+\begin{itemize}
+\item Takes weighted inputs
+\item Applies a threshold
+\item Outputs a binary decision
+\item Can only draw \textbf{linear} boundaries
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Perceptron Equation:}
+$$y = f\left(\sum_{i=1}^n w_i x_i + b\right)$$
+
+\column{0.48\textwidth}
+\textbf{The Problem}
+
+The perceptron cannot solve XOR or any non-linearly separable problem.
+
+\vspace{0.5em}
+\textbf{The AI Winter:}
+\begin{itemize}
+\item Minsky-Papert (1969) critique
+\item Funding dried up
+\item ``Neural networks don't work''
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Today's Question:}}
+
+What if we stack multiple perceptrons together?
+\end{columns}
+\bottomnote{The perceptron: powerful but limited}
+\end{frame}
+
+% Slide 3: The XOR Problem Revisited
+\begin{frame}[t]{The XOR Problem Revisited}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Why One Line Isn't Enough}
+
+\begin{center}
+\begin{tabular}{cc|c}
+\toprule
+$x_1$ & $x_2$ & XOR \\
+\midrule
+0 & 0 & 0 \\
+0 & 1 & 1 \\
+1 & 0 & 1 \\
+1 & 1 & 0 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+\textbf{The Geometry:}
+\begin{itemize}
+\item Opposite corners have same label
+\item No single line can separate them
+\item We need \textit{multiple} boundaries
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/xor_solution_mlp/xor_solution_mlp.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/xor_solution_mlp}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/xor_solution_mlp}{\includegraphics[width=0.6cm]{charts/xor_solution_mlp/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/xor_solution_mlp}{\tiny\texttt{\textcolor{gray}{xor\_solution\_mlp}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Some patterns require more than a single line}
+\end{frame}
+
+% Slide 4: The Finance Parallel
+\begin{frame}[t]{The Finance Parallel}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Single Analyst (Perceptron)}
+
+One junior analyst screening stocks:
+\begin{itemize}
+\item Looks at a few metrics
+\item Applies simple rules
+\item Makes direct decisions
+\item Limited perspective
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Limitation:}
+
+``Buy if P/E $<$ 15 AND momentum $>$ 0''
+
+This is a single linear rule.
+
+\column{0.48\textwidth}
+\textbf{Investment Team (MLP)}
+
+A hierarchical team:
+\begin{itemize}
+\item Junior analysts find patterns
+\item Senior analysts synthesize
+\item CIO makes final call
+\item Complex reasoning emerges
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Capability:}
+
+``Consider value metrics, momentum signals, AND market regime together''
+
+Multiple non-linear patterns.
+\end{columns}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Key Insight:}} Hierarchical processing enables complex pattern recognition.
+\bottomnote{A single analyst sees simple patterns. A team sees complex ones.}
+\end{frame}
+
+% Slide 5: Module 2 Roadmap
+\begin{frame}[t]{Module 2 Roadmap}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What We'll Cover}
+
+\begin{enumerate}
+\item \textbf{Historical Context}
+\begin{itemize}
+\item AI Winter survival
+\item Backprop rediscovery (1986)
+\end{itemize}
+\item \textbf{MLP Architecture}
+\begin{itemize}
+\item Intuition: The firm analogy
+\item Math: Matrix notation
+\end{itemize}
+\item \textbf{Activation Functions}
+\begin{itemize}
+\item Why non-linearity matters
+\item Sigmoid, Tanh, ReLU
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item \textbf{Universal Approximation}
+\begin{itemize}
+\item The fundamental theorem
+\item Implications and limits
+\end{itemize}
+\item \textbf{Loss Functions}
+\begin{itemize}
+\item MSE for regression
+\item Cross-entropy for classification
+\end{itemize}
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Learning Objectives:}
+\begin{itemize}
+\item Understand MLP architecture
+\item Master matrix notation
+\item Know when to use which activation
+\item Appreciate universal approximation
+\end{itemize}
+\end{columns}
+\bottomnote{From single perceptron to universal function approximation}
+\end{frame}
+
+% ==================== SECTION 2: HISTORICAL CONTEXT (Slides 6-12) ====================
+\section{Historical Context: 1969-1986}
+
+% Slide 6: The AI Winter
+\begin{frame}[t]{The AI Winter (1969-1982)}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{After Minsky-Papert}
+
+The neural network winter:
+\begin{itemize}
+\item Government funding cut
+\item Researchers moved to other fields
+\item ``Connectionism is dead''
+\item Symbolic AI dominated
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Mood:}
+\begin{itemize}
+\item Perceptrons can't solve XOR
+\item Multi-layer networks exist but...
+\item No efficient training algorithm
+\item Why bother?
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/timeline_1969_1986/timeline_1969_1986.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1969_1986}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1969_1986}{\includegraphics[width=0.6cm]{charts/timeline_1969_1986/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1969_1986}{\tiny\texttt{\textcolor{gray}{timeline\_1969\_1986}}}
+};
+\end{tikzpicture}
+
+\bottomnote{After Minsky-Papert, neural network research nearly died}
+\end{frame}
+
+% Slide 7: Underground Progress
+\begin{frame}[t]{Underground Progress}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Paul Werbos (1974)}
+
+PhD thesis at Harvard:
+\begin{itemize}
+\item Derived backpropagation
+\item For general non-linear systems
+\item Applied to neural networks
+\item \textcolor{mlred}{Largely ignored}
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Why Ignored?}
+\begin{itemize}
+\item Published in economics, not CS
+\item AI winter was at its coldest
+\item No computational power to test
+\item No community to spread ideas
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Parallel Discoveries}
+
+\vspace{0.5em}
+\textbf{1970s:}
+\begin{itemize}
+\item Linnainmaa: automatic differentiation
+\item Control theory: similar ideas
+\end{itemize}
+
+\textbf{1980s:}
+\begin{itemize}
+\item Parker (1982): rediscovery
+\item LeCun (1985): independent work
+\item Rumelhart/Hinton/Williams (1986): fame
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Lesson:}} Good ideas can be discovered multiple times before they ``take off.''
+\end{columns}
+\bottomnote{The key ideas existed but were ignored}
+\end{frame}
+
+% Slide 8: 1982 - Hopfield
+\begin{frame}[t]{1982: Hopfield Networks}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{John Hopfield}
+
+A physicist (not AI researcher) revived interest:
+\begin{itemize}
+\item Connected neural networks to physics
+\item Energy-based formulation
+\item Published in PNAS (prestigious)
+\item Showed neural nets could store memories
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Impact:}
+\begin{itemize}
+\item Legitimized neural network research
+\item Attracted physicists to the field
+\item New mathematical tools
+\item Funding started returning
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Why Physics Helped}
+
+\vspace{0.5em}
+\textbf{Physics Connection:}
+\begin{itemize}
+\item Neurons $\leftrightarrow$ spins in magnets
+\item Learning $\leftrightarrow$ energy minimization
+\item Networks $\leftrightarrow$ statistical mechanics
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Finance Parallel:}
+
+Physicists would later apply similar ideas to:
+\begin{itemize}
+\item Option pricing
+\item Market dynamics
+\item Risk modeling
+\item Quantitative finance
+\end{itemize}
+\end{columns}
+\bottomnote{John Hopfield: Physicist rediscovers neural networks}
+\end{frame}
+
+% Slide 9: 1986 - The Breakthrough
+\begin{frame}[t]{1986: The Backpropagation Paper}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{The Paper That Changed Everything}
+
+Rumelhart, Hinton, Williams in Nature (1986):
+
+``Learning representations by back-propagating errors''
+
+\vspace{0.5em}
+\textbf{Key Contributions:}
+\begin{itemize}
+\item Clear algorithm presentation
+\item Demonstrated on real problems
+\item Published in high-impact journal
+\item Well-communicated to broad audience
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Result:}
+
+Neural network renaissance begins.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/rumelhart_hinton_williams/rumelhart_hinton_williams.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/rumelhart_hinton_williams}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/rumelhart_hinton_williams}{\includegraphics[width=0.6cm]{charts/rumelhart_hinton_williams/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/rumelhart_hinton_williams}{\tiny\texttt{\textcolor{gray}{rumelhart\_hinton\_williams}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Nature paper: ``Learning representations by back-propagating errors''}
+\end{frame}
+
+% Slide 10: What Made It Different?
+\begin{frame}[t]{What Made 1986 Different?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Werbos (1974)}
+
+\begin{itemize}
+\item[\textcolor{mlgreen}{+}] Correct algorithm
+\item[\textcolor{mlgreen}{+}] General framework
+\item[\textcolor{mlred}{-}] Wrong field (economics)
+\item[\textcolor{mlred}{-}] No demonstrations
+\item[\textcolor{mlred}{-}] No community
+\item[\textcolor{mlred}{-}] No computers
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Rumelhart et al. (1986)}
+
+\begin{itemize}
+\item[\textcolor{mlgreen}{+}] Correct algorithm
+\item[\textcolor{mlgreen}{+}] Clear presentation
+\item[\textcolor{mlgreen}{+}] Compelling demos
+\item[\textcolor{mlgreen}{+}] High-profile venue (Nature)
+\item[\textcolor{mlgreen}{+}] Growing community
+\item[\textcolor{mlgreen}{+}] Computers available
+\end{itemize}
+\end{columns}
+
+\vspace{0.5em}
+\textbf{Lesson for Researchers:}
+
+Being right isn't enough. You need:
+\begin{itemize}
+\item The right timing
+\item The right communication
+\item The right audience
+\item The right technology
+\end{itemize}
+\bottomnote{The right idea at the right time with the right people}
+\end{frame}
+
+% Slide 11: Discussion Question 1
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``Backpropagation was discovered multiple times (1974, 1982, 1986). Why do some discoveries get ignored while others take off? What role did timing play?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\begin{itemize}
+\item Publication venue matters
+\item Community readiness
+\item Computational infrastructure
+\item Demonstration quality
+\end{itemize}
+
+\column{0.48\textwidth}
+\begin{itemize}
+\item Today: transformers (2017) exploded
+\item LSTMs existed since 1997
+\item What changed?
+\end{itemize}
+\end{columns}
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% Slide 12: The Renaissance Begins
+\begin{frame}[t]{The Neural Network Renaissance}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{After 1986}
+
+Neural networks were back:
+\begin{itemize}
+\item Funding returned
+\item New conferences (NIPS, now NeurIPS)
+\item ``Connectionism'' movement
+\item Real applications emerged
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Key Milestones:}
+\begin{itemize}
+\item 1989: LeNet for digit recognition
+\item 1990s: Speech recognition
+\item 1990s: Financial applications begin
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{But Challenges Remained}
+
+\vspace{0.5em}
+Not everything worked:
+\begin{itemize}
+\item Deep networks hard to train
+\item Vanishing gradients
+\item Limited compute power
+\item Another ``winter'' in 2000s
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{True Revolution:} 2012
+
+AlexNet on ImageNet marked the deep learning era. (Module 4)
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textit{But first, we need to understand the architecture...}}
+\end{columns}
+\bottomnote{Neural networks are back - and this time they can learn}
+\end{frame}
+
+% ==================== SECTION 3: MLP ARCHITECTURE - INTUITION (Slides 13-22) ====================
+\section{MLP Architecture: Intuition}
+
+% Slide 13: The Investment Firm Analogy
+\begin{frame}[t]{The Investment Firm Analogy}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Hierarchical Decision Making}
+
+\textbf{Level 1: Junior Analysts (Hidden Layer 1)}
+\begin{itemize}
+\item Look at raw data
+\item Find basic patterns
+\item ``This looks like a value stock''
+\item ``This has momentum''
+\end{itemize}
+
+\textbf{Level 2: Senior Analysts (Hidden Layer 2)}
+\begin{itemize}
+\item Combine junior reports
+\item Higher-level synthesis
+\item ``Value + momentum = quality''
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Level 3: CIO (Output Layer)}
+\begin{itemize}
+\item Final buy/sell decision
+\item Combines all analyses
+\item Single decision point
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Key Properties:}
+\begin{enumerate}
+\item Information flows upward
+\item Each level adds abstraction
+\item Later layers see patterns in patterns
+\item Final layer integrates everything
+\end{enumerate}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{This is an MLP!}}
+\end{columns}
+\bottomnote{Hierarchical decision making}
+\end{frame}
+
+% Slide 14: Layer 1 - Data Gatherers
+\begin{frame}[t]{Input Layer: The Data Gatherers}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Input Layer}
+
+What it does:
+\begin{itemize}
+\item Receives raw data
+\item One neuron per feature
+\item No computation
+\item Just passes data forward
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{In Finance:}
+\begin{itemize}
+\item P/E ratio
+\item Momentum (returns)
+\item Volume
+\item Volatility
+\item Sector indicators
+\item Market cap
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Notation}
+
+$$\mathbf{x} = \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix}$$
+
+where:
+\begin{itemize}
+\item $n$ = number of features
+\item $x_i$ = value of feature $i$
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Example (n=4):}
+$$\mathbf{x} = \begin{pmatrix} 15 \\ 0.08 \\ 1.2M \\ 0.25 \end{pmatrix} = \begin{pmatrix} \text{P/E} \\ \text{Return} \\ \text{Volume} \\ \text{Vol} \end{pmatrix}$$
+\end{columns}
+\bottomnote{The input layer receives raw information}
+\end{frame}
+
+% Slide 15: Hidden Layers - Pattern Finders
+\begin{frame}[t]{Hidden Layers: The Pattern Finders}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{What Hidden Layers Do}
+
+They discover intermediate patterns:
+\begin{itemize}
+\item Not explicitly programmed
+\item Emerge from training
+\item Often uninterpretable
+\item But highly useful
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Each Hidden Neuron:}
+\begin{itemize}
+\item Receives weighted inputs
+\item Applies activation function
+\item Outputs a single number
+\item ``Detects'' a specific pattern
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/hidden_layer_representations/hidden_layer_representations.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/hidden_layer_representations}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/hidden_layer_representations}{\includegraphics[width=0.6cm]{charts/hidden_layer_representations/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/hidden_layer_representations}{\tiny\texttt{\textcolor{gray}{hidden\_layer\_representations}}}
+};
+\end{tikzpicture}
+
+\bottomnote{``They see things in the data you didn't explicitly ask for''}
+\end{frame}
+
+% Slide 16: What Hidden Layers Find
+\begin{frame}[t]{Finance Example: What Hidden Layers Find}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Hypothetical Hidden Neurons}
+
+\textbf{Hidden Neuron 1:} ``Value Detector''
+\begin{itemize}
+\item Positive weight on low P/E
+\item Positive weight on high book value
+\item Activates for value stocks
+\end{itemize}
+
+\textbf{Hidden Neuron 2:} ``Momentum Detector''
+\begin{itemize}
+\item Positive weight on recent returns
+\item Positive weight on volume
+\item Activates for trending stocks
+\end{itemize}
+
+\textbf{Hidden Neuron 3:} ``Risk Detector''
+\begin{itemize}
+\item Positive weight on volatility
+\item Positive weight on debt
+\item Activates for risky stocks
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{The Output Layer}
+
+Combines hidden neuron outputs:
+
+$$\text{Buy} = f(w_1 \cdot \text{Value} + w_2 \cdot \text{Momentum} - w_3 \cdot \text{Risk})$$
+
+\vspace{0.5em}
+\textbf{Key Insight:}
+
+We never told the network what ``value'' or ``momentum'' means. It \textit{discovered} these concepts from data.
+
+\vspace{0.5em}
+\textbf{Caveat:}
+
+Real hidden neurons may not be this interpretable. They might detect patterns we can't name.
+\end{columns}
+\bottomnote{Hidden neurons learn abstract concepts}
+\end{frame}
+
+% Slide 17: Output Layer - The Final Call
+\begin{frame}[t]{Output Layer: The Final Decision}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Output Layer}
+
+Takes hidden representations and produces:
+\begin{itemize}
+\item Classification: probability of class
+\item Regression: continuous prediction
+\item Multiple outputs possible
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{For Binary Classification:}
+
+Single output neuron with sigmoid:
+$$\hat{y} = \sigma(w^T h + b)$$
+
+Output $\in (0, 1)$ interpreted as probability.
+
+\vspace{0.5em}
+\textbf{For Regression:}
+
+Single output neuron with no activation (or linear):
+$$\hat{y} = w^T h + b$$
+
+Output is predicted value.
+
+\column{0.48\textwidth}
+\textbf{Finance Examples}
+
+\vspace{0.5em}
+\textbf{Buy/Sell Classification:}
+\begin{itemize}
+\item Output: $P(\text{Buy})$
+\item If $> 0.5$: recommend Buy
+\item If $< 0.5$: recommend Sell
+\end{itemize}
+
+\textbf{Return Prediction:}
+\begin{itemize}
+\item Output: predicted return
+\item Could be next-day, next-month
+\item Continuous value
+\end{itemize}
+
+\textbf{Multi-Class (Sector):}
+\begin{itemize}
+\item Multiple output neurons
+\item Softmax activation
+\item Each output = probability of sector
+\end{itemize}
+\end{columns}
+\bottomnote{The output layer synthesizes everything into a decision}
+\end{frame}
+
+% Slide 18: The Full Architecture
+\begin{frame}[t]{The Full MLP Architecture}
+\begin{center}
+\includegraphics[width=0.78\textwidth]{charts/mlp_architecture_2_3_1/mlp_architecture_2_3_1.pdf}
+\end{center}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mlp_architecture_2_3_1}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mlp_architecture_2_3_1}{\includegraphics[width=0.6cm]{charts/mlp_architecture_2_3_1/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mlp_architecture_2_3_1}{\tiny\texttt{\textcolor{gray}{mlp\_architecture\_2\_3\_1}}}
+};
+\end{tikzpicture}
+
+\bottomnote{A complete multi-layer perceptron}
+\end{frame}
+
+% Slide 19: Why "Hidden"?
+\begin{frame}[t]{Why Are They Called ``Hidden''?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{We Don't Observe Them Directly}
+
+\textbf{Observable:}
+\begin{itemize}
+\item Input layer: the features we provide
+\item Output layer: the prediction we get
+\end{itemize}
+
+\textbf{Hidden:}
+\begin{itemize}
+\item Internal representations
+\item Not directly specified
+\item Learned automatically
+\item ``Hidden'' from us
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{We Don't Tell Them What to Learn}
+
+\vspace{0.5em}
+\textbf{Traditional ML:}
+
+``Here are features: P/E, momentum, volume''
+
+We engineer the features.
+
+\vspace{0.5em}
+\textbf{Deep Learning Philosophy:}
+
+``Here is raw data. Find useful patterns.''
+
+Network discovers features.
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Trade-off:}}
+
+More automatic, but less interpretable.
+\end{columns}
+\bottomnote{Hidden layers discover features automatically}
+\end{frame}
+
+% Slide 20: Solving XOR
+\begin{frame}[t]{How MLPs Solve XOR}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{The Two-Hidden-Neuron Solution}
+
+\textbf{Hidden Neuron 1:}
+
+Learns: ``Is it in the upper-right region?''
+
+$h_1 = \sigma(w_{11}x_1 + w_{12}x_2 + b_1)$
+
+\vspace{0.5em}
+\textbf{Hidden Neuron 2:}
+
+Learns: ``Is it in the lower-left region?''
+
+$h_2 = \sigma(w_{21}x_1 + w_{22}x_2 + b_2)$
+
+\vspace{0.5em}
+\textbf{Output Neuron:}
+
+Combines: ``If $h_1$ XOR $h_2$, output 1''
+
+Each hidden neuron draws \textit{one} line. Together, they create a non-linear boundary.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/xor_solution_mlp/xor_solution_mlp.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/xor_solution_mlp}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/xor_solution_mlp}{\includegraphics[width=0.6cm]{charts/xor_solution_mlp/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/xor_solution_mlp}{\tiny\texttt{\textcolor{gray}{xor\_solution\_mlp}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Multiple decision boundaries working together}
+\end{frame}
+
+% Slide 21: Discussion Question 2
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``If hidden layers find features automatically, why do we still need feature engineering in finance?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Arguments for Feature Engineering:}
+\begin{itemize}
+\item Domain knowledge helps
+\item Less data needed
+\item More interpretable
+\item Faster training
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Arguments Against:}
+\begin{itemize}
+\item Human biases
+\item Miss non-obvious patterns
+\item Deep learning works on raw data
+\item ImageNet revolution
+\end{itemize}
+\end{columns}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Reality:}} In finance, hybrid approaches often work best.
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% Slide 22: Universal Approximation Preview
+\begin{frame}[t]{Universal Approximation: The Big Promise}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{A Remarkable Theorem}
+
+With just \textit{one} hidden layer and enough neurons, an MLP can approximate \textbf{any} continuous function to arbitrary accuracy.
+
+\vspace{0.5em}
+\textbf{Implications:}
+\begin{itemize}
+\item MLPs are universal function approximators
+\item No pattern is too complex (in theory)
+\item The architecture is not the bottleneck
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Caveats:}
+\begin{itemize}
+\item ``Enough neurons'' may be exponential
+\item Finding the right weights is hard
+\item Theory vs practice gap
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/universal_approximation_demo/universal_approximation_demo.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/universal_approximation_demo}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/universal_approximation_demo}{\includegraphics[width=0.6cm]{charts/universal_approximation_demo/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/universal_approximation_demo}{\tiny\texttt{\textcolor{gray}{universal\_approximation\_demo}}}
+};
+\end{tikzpicture}
+
+\bottomnote{MLPs can learn ANY pattern (in theory)}
+\end{frame}
+
+% ==================== SECTION 4: MLP ARCHITECTURE - MATH (Slides 23-32) ====================
+\section{MLP Architecture: Mathematical Formulation}
+
+% Slide 23: Transition to Math
+\begin{frame}[t]{Now Let's Formalize}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What You Already Know}
+
+From the intuition section:
+\begin{itemize}
+\item Layers process sequentially
+\item Each layer transforms its input
+\item Hidden layers find patterns
+\item Output layer makes predictions
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{What's Next}
+
+\begin{itemize}
+\item Matrix notation for efficiency
+\item Precise forward pass equations
+\item Parameter counting
+\item Worked numerical examples
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Why Matrix Notation?}
+
+\vspace{0.5em}
+\textbf{Without Matrices:}
+
+Write $n \times m$ separate equations for each weight.
+
+\vspace{0.5em}
+\textbf{With Matrices:}
+
+$$\mathbf{h} = f(\mathbf{W}\mathbf{x} + \mathbf{b})$$
+
+One equation captures everything.
+
+\vspace{0.5em}
+\textbf{Benefits:}
+\begin{itemize}
+\item Compact notation
+\item Efficient computation (GPUs)
+\item Easier to implement
+\item Clearer understanding
+\end{itemize}
+\end{columns}
+\bottomnote{You understand the intuition. Let's write it precisely.}
+\end{frame}
+
+% Slide 24: Matrix Notation Introduction
+\begin{frame}[t]{Matrix Notation: Why Matrices?}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Single Neuron (Scalar)}
+
+$$h = f(w_1 x_1 + w_2 x_2 + w_3 x_3 + b)$$
+
+\vspace{0.5em}
+\textbf{As Dot Product:}
+
+$$h = f(\mathbf{w}^T \mathbf{x} + b)$$
+
+where $\mathbf{w}, \mathbf{x} \in \mathbb{R}^3$
+
+\vspace{0.5em}
+\textbf{Multiple Neurons (Matrix):}
+
+$$\mathbf{h} = f(\mathbf{W}\mathbf{x} + \mathbf{b})$$
+
+where $\mathbf{W} \in \mathbb{R}^{m \times n}$
+
+Each \textit{row} of $\mathbf{W}$ is the weights for one hidden neuron.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/matrix_multiplication_visual/matrix_multiplication_visual.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/matrix_multiplication_visual}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/matrix_multiplication_visual}{\includegraphics[width=0.6cm]{charts/matrix_multiplication_visual/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/matrix_multiplication_visual}{\tiny\texttt{\textcolor{gray}{matrix\_multiplication\_visual}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Matrices make neural network math elegant}
+\end{frame}
+
+% Slide 25: Weight Matrix Definition
+\begin{frame}[t]{The Weight Matrix}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Weight Matrix $\mathbf{W}^{(l)}$}
+
+For layer $l$:
+
+$$\mathbf{W}^{(l)} \in \mathbb{R}^{n_l \times n_{l-1}}$$
+
+where:
+\begin{itemize}
+\item $n_l$ = neurons in layer $l$
+\item $n_{l-1}$ = neurons in layer $l-1$
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Entry $W_{ij}^{(l)}$:}
+
+Weight from neuron $j$ in layer $l-1$ to neuron $i$ in layer $l$.
+
+\column{0.48\textwidth}
+\textbf{Bias Vector $\mathbf{b}^{(l)}$}
+
+$$\mathbf{b}^{(l)} \in \mathbb{R}^{n_l}$$
+
+One bias per neuron in layer $l$.
+
+\vspace{0.5em}
+\textbf{Example: 4-3 Layer}
+
+Input: 4 neurons, Hidden: 3 neurons
+
+$$\mathbf{W}^{(1)} = \begin{pmatrix} w_{11} & w_{12} & w_{13} & w_{14} \\ w_{21} & w_{22} & w_{23} & w_{24} \\ w_{31} & w_{32} & w_{33} & w_{34} \end{pmatrix}$$
+
+Size: $3 \times 4$ (12 weights)
+
+$\mathbf{b}^{(1)} \in \mathbb{R}^3$ (3 biases)
+\end{columns}
+\bottomnote{Each layer has its own weight matrix}
+\end{frame}
+
+% Slide 26: Forward Pass - Layer by Layer
+\begin{frame}[t]{Forward Pass: Layer by Layer}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{One Layer Computation}
+
+$$\mathbf{z}^{(l)} = \mathbf{W}^{(l)} \mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}$$
+$$\mathbf{a}^{(l)} = f(\mathbf{z}^{(l)})$$
+
+where:
+\begin{itemize}
+\item $\mathbf{z}^{(l)}$: pre-activation (weighted sum)
+\item $\mathbf{a}^{(l)}$: activation (after $f$)
+\item $\mathbf{a}^{(0)} = \mathbf{x}$: input
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Steps:}
+\begin{enumerate}
+\item Matrix multiply: $\mathbf{W}^{(l)} \mathbf{a}^{(l-1)}$
+\item Add bias: $+ \mathbf{b}^{(l)}$
+\item Apply activation: $f(\cdot)$
+\end{enumerate}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/layer_by_layer_computation/layer_by_layer_computation.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/layer_by_layer_computation}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/layer_by_layer_computation}{\includegraphics[width=0.6cm]{charts/layer_by_layer_computation/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/layer_by_layer_computation}{\tiny\texttt{\textcolor{gray}{layer\_by\_layer\_computation}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Computing outputs one layer at a time}
+\end{frame}
+
+% Slide 27: Full Forward Pass
+\begin{frame}[t]{The Complete Forward Pass}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{For an L-Layer Network}
+
+\textbf{Input:}
+$$\mathbf{a}^{(0)} = \mathbf{x}$$
+
+\textbf{Hidden Layers} ($l = 1, \ldots, L-1$):
+$$\mathbf{z}^{(l)} = \mathbf{W}^{(l)} \mathbf{a}^{(l-1)} + \mathbf{b}^{(l)}$$
+$$\mathbf{a}^{(l)} = f(\mathbf{z}^{(l)})$$
+
+\textbf{Output Layer:}
+$$\mathbf{z}^{(L)} = \mathbf{W}^{(L)} \mathbf{a}^{(L-1)} + \mathbf{b}^{(L)}$$
+$$\hat{\mathbf{y}} = g(\mathbf{z}^{(L)})$$
+
+where $g$ may differ from $f$.
+
+\column{0.48\textwidth}
+\textbf{Example: 2-Layer Network}
+
+\vspace{0.5em}
+\textbf{Layer 1 (hidden):}
+$$\mathbf{z}^{(1)} = \mathbf{W}^{(1)} \mathbf{x} + \mathbf{b}^{(1)}$$
+$$\mathbf{a}^{(1)} = \text{ReLU}(\mathbf{z}^{(1)})$$
+
+\textbf{Layer 2 (output):}
+$$\mathbf{z}^{(2)} = \mathbf{W}^{(2)} \mathbf{a}^{(1)} + \mathbf{b}^{(2)}$$
+$$\hat{y} = \sigma(\mathbf{z}^{(2)})$$
+
+\vspace{0.5em}
+\textbf{Compact Form:}
+$$\hat{y} = \sigma(\mathbf{W}^{(2)} \text{ReLU}(\mathbf{W}^{(1)} \mathbf{x} + \mathbf{b}^{(1)}) + \mathbf{b}^{(2)})$$
+\end{columns}
+\bottomnote{Chaining layer computations together}
+\end{frame}
+
+% Slide 28: Dimensions Matter
+\begin{frame}[t]{Dimensions Matter}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Dimension Checking}
+
+For $\mathbf{z} = \mathbf{W}\mathbf{x} + \mathbf{b}$:
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+$\mathbf{W}$: & $(n_{\text{out}} \times n_{\text{in}})$ \\
+$\mathbf{x}$: & $(n_{\text{in}} \times 1)$ \\
+$\mathbf{Wx}$: & $(n_{\text{out}} \times 1)$ \\
+$\mathbf{b}$: & $(n_{\text{out}} \times 1)$ \\
+$\mathbf{z}$: & $(n_{\text{out}} \times 1)$ \\
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{Rule:}
+
+Inner dimensions must match.
+
+$(m \times \mathbf{n}) \times (\mathbf{n} \times p) = (m \times p)$
+
+\column{0.48\textwidth}
+\textbf{Example: 4-3-1 Network}
+
+\vspace{0.5em}
+\textbf{Layer 1:}
+\begin{itemize}
+\item $\mathbf{W}^{(1)}$: $3 \times 4$
+\item $\mathbf{x}$: $4 \times 1$
+\item $\mathbf{z}^{(1)}$: $3 \times 1$
+\end{itemize}
+
+\textbf{Layer 2:}
+\begin{itemize}
+\item $\mathbf{W}^{(2)}$: $1 \times 3$
+\item $\mathbf{a}^{(1)}$: $3 \times 1$
+\item $\mathbf{z}^{(2)}$: $1 \times 1$ (scalar)
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Common Error:}} Transposed matrices. Always check dimensions!
+\end{columns}
+\bottomnote{Matrix dimensions must be compatible}
+\end{frame}
+
+% Slide 29: Worked Example
+\begin{frame}[t]{Worked Example: 2-3-1 Network}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Network Setup}
+
+Input: $\mathbf{x} = \begin{pmatrix} 0.5 \\ 0.8 \end{pmatrix}$
+
+\vspace{0.3em}
+Layer 1 weights:
+$$\mathbf{W}^{(1)} = \begin{pmatrix} 0.2 & 0.4 \\ 0.3 & 0.1 \\ 0.5 & 0.2 \end{pmatrix}$$
+
+$\mathbf{b}^{(1)} = \begin{pmatrix} 0.1 \\ -0.1 \\ 0.0 \end{pmatrix}$
+
+\vspace{0.3em}
+Layer 2 weights:
+$$\mathbf{W}^{(2)} = \begin{pmatrix} 0.6 & 0.3 & 0.4 \end{pmatrix}$$
+
+$b^{(2)} = -0.2$
+
+\column{0.48\textwidth}
+\textbf{Forward Pass}
+
+\textbf{Layer 1:}
+$$\mathbf{z}^{(1)} = \begin{pmatrix} 0.2(0.5) + 0.4(0.8) + 0.1 \\ 0.3(0.5) + 0.1(0.8) - 0.1 \\ 0.5(0.5) + 0.2(0.8) + 0.0 \end{pmatrix} = \begin{pmatrix} 0.52 \\ 0.13 \\ 0.41 \end{pmatrix}$$
+
+$\mathbf{a}^{(1)} = \text{ReLU}(\mathbf{z}^{(1)}) = \begin{pmatrix} 0.52 \\ 0.13 \\ 0.41 \end{pmatrix}$
+
+\textbf{Layer 2:}
+$$z^{(2)} = 0.6(0.52) + 0.3(0.13) + 0.4(0.41) - 0.2 = 0.315$$
+
+$\hat{y} = \sigma(0.315) = 0.578$
+
+\textcolor{mlgreen}{\textbf{Output: 57.8\% probability of class 1}}
+\end{columns}
+\bottomnote{Following the numbers through the network}
+\end{frame}
+
+% Slide 30: Parameter Counting
+\begin{frame}[t]{Counting Parameters}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Parameters per Layer}
+
+For layer $l$ with $n_{l-1}$ inputs and $n_l$ outputs:
+
+\vspace{0.5em}
+\textbf{Weights:} $n_l \times n_{l-1}$
+
+\textbf{Biases:} $n_l$
+
+\textbf{Total:} $n_l \times n_{l-1} + n_l = n_l(n_{l-1} + 1)$
+
+\vspace{0.5em}
+\textbf{Network Total:}
+
+$$\text{Params} = \sum_{l=1}^{L} n_l(n_{l-1} + 1)$$
+
+\column{0.48\textwidth}
+\textbf{Example: 4-10-5-1 Network}
+
+\vspace{0.5em}
+\textbf{Layer 1} (4 $\rightarrow$ 10):
+$$10 \times 4 + 10 = 50$$
+
+\textbf{Layer 2} (10 $\rightarrow$ 5):
+$$5 \times 10 + 5 = 55$$
+
+\textbf{Layer 3} (5 $\rightarrow$ 1):
+$$1 \times 5 + 1 = 6$$
+
+\textbf{Total: 111 parameters}
+
+\vspace{0.5em}
+For 100 training samples: $<2$ samples per parameter. Risk of overfitting!
+\end{columns}
+\bottomnote{How many weights does your network have?}
+\end{frame}
+
+% Slide 31: Discussion Question 3
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``A 4-10-5-1 network has how many parameters? Calculate and discuss: is this a lot or a little for stock prediction?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Answer: 111 parameters}
+
+\vspace{0.5em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Stock Data Context:}
+\begin{itemize}
+\item Daily data: $\sim$252 days/year
+\item 10 years = 2,520 samples
+\item 111 params: 23 samples/param
+\item Seems okay...
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{But Also Consider:}
+\begin{itemize}
+\item Financial regimes change
+\item Not all data equally relevant
+\item Need train/val/test split
+\item Model complexity vs data size
+\end{itemize}
+\end{columns}
+\bottomnote{Exercise: 3 minutes}
+\end{frame}
+
+% Slide 32: Finance MLP Architecture
+\begin{frame}[t]{Finance Example: Multi-Factor Stock Prediction}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{A Realistic Setup}
+
+\textbf{Input Features (10):}
+\begin{itemize}
+\item P/E, P/B, EV/EBITDA (value)
+\item 1m, 3m, 6m returns (momentum)
+\item 20d volatility (risk)
+\item Volume ratio (liquidity)
+\item Sector one-hot (2 features)
+\end{itemize}
+
+\textbf{Architecture:}
+\begin{itemize}
+\item Hidden 1: 20 neurons (ReLU)
+\item Hidden 2: 10 neurons (ReLU)
+\item Output: 1 neuron (sigmoid)
+\end{itemize}
+
+\textbf{Total: 441 parameters}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/finance_mlp_architecture/finance_mlp_architecture.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/finance_mlp_architecture}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/finance_mlp_architecture}{\includegraphics[width=0.6cm]{charts/finance_mlp_architecture/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/finance_mlp_architecture}{\tiny\texttt{\textcolor{gray}{finance\_mlp\_architecture}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Multiple factors combined through hidden layers}
+\end{frame}
+
+% ==================== SECTION 5: ACTIVATION FUNCTIONS (Slides 33-42) ====================
+\section{Activation Functions}
+
+% Slide 33: Why Non-Linearity?
+\begin{frame}[t]{Why Non-Linearity?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Core Problem}
+
+Without activation functions:
+
+$$\mathbf{a}^{(1)} = \mathbf{W}^{(1)} \mathbf{x} + \mathbf{b}^{(1)}$$
+$$\hat{\mathbf{y}} = \mathbf{W}^{(2)} \mathbf{a}^{(1)} + \mathbf{b}^{(2)}$$
+
+Substituting:
+$$\hat{\mathbf{y}} = \mathbf{W}^{(2)}(\mathbf{W}^{(1)} \mathbf{x} + \mathbf{b}^{(1)}) + \mathbf{b}^{(2)}$$
+$$= (\mathbf{W}^{(2)}\mathbf{W}^{(1)}) \mathbf{x} + (\mathbf{W}^{(2)}\mathbf{b}^{(1)} + \mathbf{b}^{(2)})$$
+$$= \mathbf{W}' \mathbf{x} + \mathbf{b}'$$
+
+\textcolor{mlred}{\textbf{Result:}} A single linear transformation!
+
+\column{0.48\textwidth}
+\textbf{The Solution}
+
+Non-linear activation functions:
+$$\mathbf{a}^{(l)} = f(\mathbf{z}^{(l)})$$
+
+where $f$ is non-linear.
+
+\vspace{0.5em}
+\textbf{Why This Works:}
+\begin{itemize}
+\item Non-linearity breaks the collapse
+\item Composition of non-linear functions
+\item Can approximate any function
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Key Insight:}}
+
+Non-linearity is what makes deep networks ``deep'' in a meaningful sense.
+\end{columns}
+\bottomnote{Non-linearity is essential for learning complex patterns}
+\end{frame}
+
+% Slide 34: Linear Networks Collapse
+\begin{frame}[t]{Linear Networks Collapse}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Mathematical Proof}
+
+For any number of linear layers:
+
+$$\mathbf{y} = \mathbf{W}^{(L)} \mathbf{W}^{(L-1)} \cdots \mathbf{W}^{(1)} \mathbf{x}$$
+
+Since matrix multiplication is associative:
+
+$$= (\mathbf{W}^{(L)} \mathbf{W}^{(L-1)} \cdots \mathbf{W}^{(1)}) \mathbf{x}$$
+
+$$= \mathbf{W}^{\text{eff}} \mathbf{x}$$
+
+\vspace{0.5em}
+\textbf{Conclusion:}
+
+100 linear layers = 1 linear layer.
+
+No benefit from depth without non-linearity.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/linear_collapse_proof/linear_collapse_proof.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/linear_collapse_proof}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/linear_collapse_proof}{\includegraphics[width=0.6cm]{charts/linear_collapse_proof/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/linear_collapse_proof}{\tiny\texttt{\textcolor{gray}{linear\_collapse\_proof}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Stacked linear layers = single linear layer}
+\end{frame}
+
+% Slide 35: The Sigmoid Function
+\begin{frame}[t]{The Sigmoid Function}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Definition}
+
+$$\sigma(z) = \frac{1}{1+e^{-z}}$$
+
+\vspace{0.5em}
+\textbf{Properties:}
+\begin{itemize}
+\item Range: $(0, 1)$
+\item Smooth and differentiable
+\item $\sigma(0) = 0.5$
+\item Symmetric: $\sigma(-z) = 1 - \sigma(z)$
+\end{itemize}
+
+\textbf{Derivative:}
+$$\sigma'(z) = \sigma(z)(1 - \sigma(z))$$
+
+\vspace{0.5em}
+\textbf{Use Cases:}
+\begin{itemize}
+\item Binary classification (output)
+\item Probability interpretation
+\item Historical (hidden layers)
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/sigmoid_function/sigmoid_function.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/sigmoid_function}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/sigmoid_function}{\includegraphics[width=0.6cm]{charts/sigmoid_function/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/sigmoid_function}{\tiny\texttt{\textcolor{gray}{sigmoid\_function}}}
+};
+\end{tikzpicture}
+
+\bottomnote{The classic activation: squashes to probability}
+\end{frame}
+
+% Slide 36: Sigmoid Properties
+\begin{frame}[t]{Sigmoid: Properties and Problems}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Advantages}
+\begin{itemize}
+\item[\textcolor{mlgreen}{+}] Bounded output $(0, 1)$
+\item[\textcolor{mlgreen}{+}] Smooth gradient
+\item[\textcolor{mlgreen}{+}] Probability interpretation
+\item[\textcolor{mlgreen}{+}] Historically important
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Disadvantages}
+\begin{itemize}
+\item[\textcolor{mlred}{-}] \textbf{Vanishing gradients}
+\item[] For $|z| > 4$: $\sigma'(z) \approx 0$
+\item[] Gradients become tiny
+\item[] Deep networks can't learn
+\item[\textcolor{mlred}{-}] Not zero-centered
+\item[] All positive outputs
+\item[] Zig-zag weight updates
+\item[\textcolor{mlred}{-}] Computationally expensive
+\item[] Requires $\exp$ function
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{The Vanishing Gradient Problem}
+
+\vspace{0.5em}
+When $z$ is very positive or negative:
+
+\begin{center}
+\begin{tabular}{cc}
+$z$ & $\sigma'(z)$ \\
+\midrule
+0 & 0.25 \\
+2 & 0.10 \\
+4 & 0.018 \\
+6 & 0.0025 \\
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+Gradients shrink exponentially through layers!
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Result:}} Early layers learn very slowly in deep networks. This limited deep learning until ReLU.
+\end{columns}
+\bottomnote{Smooth and bounded, but gradients can vanish}
+\end{frame}
+
+% Slide 37: The Tanh Function
+\begin{frame}[t]{The Tanh Function}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Definition}
+
+$$\tanh(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}} = 2\sigma(2z) - 1$$
+
+\vspace{0.5em}
+\textbf{Properties:}
+\begin{itemize}
+\item Range: $(-1, 1)$
+\item Zero-centered
+\item $\tanh(0) = 0$
+\item Odd function: $\tanh(-z) = -\tanh(z)$
+\end{itemize}
+
+\textbf{Derivative:}
+$$\tanh'(z) = 1 - \tanh^2(z)$$
+
+\vspace{0.5em}
+\textbf{Advantage over Sigmoid:}
+
+Zero-centered outputs lead to more stable gradient updates.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/tanh_function/tanh_function.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/tanh_function}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/tanh_function}{\includegraphics[width=0.6cm]{charts/tanh_function/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/tanh_function}{\tiny\texttt{\textcolor{gray}{tanh\_function}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Zero-centered: range (-1, 1)}
+\end{frame}
+
+% Slide 38: The ReLU Function
+\begin{frame}[t]{ReLU: Rectified Linear Unit}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Definition}
+
+$$\text{ReLU}(z) = \max(0, z) = \begin{cases} z & z > 0 \\ 0 & z \leq 0 \end{cases}$$
+
+\vspace{0.5em}
+\textbf{Properties:}
+\begin{itemize}
+\item Range: $[0, \infty)$
+\item Not bounded above
+\item Not differentiable at $z=0$
+\item Piecewise linear
+\end{itemize}
+
+\textbf{Derivative:}
+$$\text{ReLU}'(z) = \begin{cases} 1 & z > 0 \\ 0 & z \leq 0 \end{cases}$$
+
+\vspace{0.5em}
+\textbf{The Modern Default} for hidden layers.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/relu_function/relu_function.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/relu_function}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/relu_function}{\includegraphics[width=0.6cm]{charts/relu_function/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/relu_function}{\tiny\texttt{\textcolor{gray}{relu\_function}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Simple but powerful: the modern default}
+\end{frame}
+
+% Slide 39: Why ReLU Works
+\begin{frame}[t]{Why ReLU Works So Well}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Advantages}
+\begin{itemize}
+\item[\textcolor{mlgreen}{+}] \textbf{No vanishing gradient}
+\item[] Gradient is 1 for $z > 0$
+\item[] Signal propagates through layers
+\item[\textcolor{mlgreen}{+}] \textbf{Computationally cheap}
+\item[] Just comparison and assignment
+\item[] No exponentials
+\item[] 6x faster than sigmoid
+\item[\textcolor{mlgreen}{+}] \textbf{Sparse activation}
+\item[] Many neurons output 0
+\item[] Efficient representation
+\item[\textcolor{mlgreen}{+}] \textbf{Biological plausibility}
+\item[] Neurons can be ``off''
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Disadvantages}
+\begin{itemize}
+\item[\textcolor{mlred}{-}] \textbf{``Dying ReLU'' problem}
+\item[] If $z < 0$ always: gradient = 0
+\item[] Neuron never updates
+\item[] Can ``die'' permanently
+\item[\textcolor{mlred}{-}] Not zero-centered
+\item[\textcolor{mlred}{-}] Unbounded (can explode)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Variants:}
+\begin{itemize}
+\item Leaky ReLU: $\max(0.01z, z)$
+\item ELU: $z$ if $z>0$, $\alpha(e^z-1)$ otherwise
+\item GELU: used in transformers
+\end{itemize}
+\end{columns}
+\bottomnote{Cheap to compute, gradients don't vanish (for positive inputs)}
+\end{frame}
+
+% Slide 40: Activation Comparison
+\begin{frame}[t]{Activation Functions: Comparison}
+\begin{center}
+\includegraphics[width=0.48\textwidth]{charts/activation_comparison/activation_comparison.pdf}
+\end{center}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/activation_comparison}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/activation_comparison}{\includegraphics[width=0.6cm]{charts/activation_comparison/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/activation_comparison}{\tiny\texttt{\textcolor{gray}{activation\_comparison}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Different functions for different problems}
+\end{frame}
+
+% Slide 41: Discussion Question 4
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``Which activation function would you use for: (a) predicting stock returns, (b) buy/sell classification? Why?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{(a) Stock Returns (Regression)}
+\begin{itemize}
+\item Output: continuous value
+\item Can be positive or negative
+\item Hidden: ReLU or tanh
+\item Output: \textcolor{mlgreen}{\textbf{Linear (none)}}
+\item Returns are unbounded
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{(b) Buy/Sell (Classification)}
+\begin{itemize}
+\item Output: probability $\in (0,1)$
+\item Two mutually exclusive classes
+\item Hidden: ReLU
+\item Output: \textcolor{mlgreen}{\textbf{Sigmoid}}
+\item Or softmax for multi-class
+\end{itemize}
+\end{columns}
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% Slide 42: Choosing Activation Functions
+\begin{frame}[t]{Choosing the Right Activation}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Hidden Layer Guidelines}
+
+\vspace{0.5em}
+\textbf{Default:} ReLU
+\begin{itemize}
+\item Works well in most cases
+\item Fast and stable
+\end{itemize}
+
+\textbf{If dying ReLU:} Leaky ReLU
+\begin{itemize}
+\item Small negative slope
+\item Prevents dead neurons
+\end{itemize}
+
+\textbf{For RNNs:} Tanh
+\begin{itemize}
+\item Bounded outputs help stability
+\item Zero-centered
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Output Layer Guidelines}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{Task} & \textbf{Activation} \\
+\midrule
+Binary class & Sigmoid \\
+Multi-class & Softmax \\
+Regression & Linear \\
+Bounded regression & Sigmoid/tanh \\
+Positive only & ReLU \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{Finance Examples:}
+\begin{itemize}
+\item Return prediction: Linear
+\item Direction prediction: Sigmoid
+\item Sector classification: Softmax
+\item Volatility: ReLU or Softplus
+\end{itemize}
+\end{columns}
+\bottomnote{Output layer choice depends on your problem type}
+\end{frame}
+
+% ==================== SECTION 6: UNIVERSAL APPROXIMATION (Slides 43-48) ====================
+\section{Universal Approximation}
+
+% Slide 43: The Fundamental Question
+\begin{frame}[t]{The Fundamental Question}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{How Powerful Are Neural Networks?}
+
+We've seen that MLPs can:
+\begin{itemize}
+\item Solve XOR (non-linear patterns)
+\item Combine features hierarchically
+\item Learn from data
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{But a Deeper Question:}
+
+Are there functions that MLPs fundamentally \textit{cannot} represent?
+
+\vspace{0.5em}
+Or can they approximate \textit{anything}?
+
+\column{0.48\textwidth}
+\textbf{Why This Matters}
+
+\vspace{0.5em}
+\textbf{If MLPs are limited:}
+\begin{itemize}
+\item Need to check if problem is solvable
+\item Architecture constraints matter
+\item Some patterns impossible
+\end{itemize}
+
+\textbf{If MLPs are universal:}
+\begin{itemize}
+\item Architecture is not the bottleneck
+\item Challenges are elsewhere (data, training)
+\item Theoretical guarantee of capability
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Spoiler:}} MLPs are universal approximators!
+\end{columns}
+\bottomnote{Just how powerful are neural networks?}
+\end{frame}
+
+% Slide 44: The Theorem Statement
+\begin{frame}[t]{Universal Approximation Theorem}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Theorem (Informal)}
+
+A feedforward network with:
+\begin{itemize}
+\item One hidden layer
+\item Sufficient hidden neurons
+\item Non-linear activation (e.g., sigmoid)
+\end{itemize}
+
+can approximate any continuous function on a compact domain to arbitrary accuracy.
+
+\vspace{0.5em}
+\textbf{Key Contributors:}
+\begin{itemize}
+\item Cybenko (1989): sigmoid
+\item Hornik (1991): general activations
+\item Further extensions since
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Formal Statement}
+
+Let $f: [0,1]^n \rightarrow \mathbb{R}$ be continuous.
+
+For any $\epsilon > 0$, there exists an MLP $\hat{f}$ with:
+
+$$|\hat{f}(\mathbf{x}) - f(\mathbf{x})| < \epsilon$$
+
+for all $\mathbf{x} \in [0,1]^n$.
+
+\vspace{0.5em}
+\textbf{In Plain English:}
+
+No matter how complex the pattern, an MLP with enough hidden neurons can match it as closely as you want.
+\end{columns}
+\bottomnote{With enough hidden neurons, you can approximate any continuous function}
+\end{frame}
+
+% Slide 45: What It Means
+\begin{frame}[t]{What Universal Approximation Means}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{The Good News}
+
+\begin{itemize}
+\item No function is ``too complex''
+\item MLPs are theoretically complete
+\item Architecture is not the limit
+\item One hidden layer is enough (in theory)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Visual Intuition:}
+
+Each hidden neuron contributes a ``bump'' or ``step.'' With enough bumps, you can approximate any shape.
+
+\vspace{0.5em}
+Think of it like approximating a curve with many small line segments.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/universal_approximation_demo/universal_approximation_demo.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/universal_approximation_demo}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/universal_approximation_demo}{\includegraphics[width=0.6cm]{charts/universal_approximation_demo/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/universal_approximation_demo}{\tiny\texttt{\textcolor{gray}{universal\_approximation\_demo}}}
+};
+\end{tikzpicture}
+
+\bottomnote{More neurons = better approximation}
+\end{frame}
+
+% Slide 46: What It Doesn't Mean
+\begin{frame}[t]{What It Doesn't Mean}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Common Misconceptions}
+
+\textbf{``Any network can learn anything''}
+\begin{itemize}
+\item[\textcolor{mlred}{No.}] Need enough neurons
+\item May need exponentially many
+\end{itemize}
+
+\textbf{``Training will find the solution''}
+\begin{itemize}
+\item[\textcolor{mlred}{No.}] Theorem is about existence
+\item Says nothing about finding weights
+\item Optimization may fail
+\end{itemize}
+
+\textbf{``One layer is always enough''}
+\begin{itemize}
+\item[\textcolor{mlred}{Technically yes, practically no.}]
+\item Deep networks often more efficient
+\item Fewer parameters for same accuracy
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{The Gap: Existence vs Construction}
+
+\vspace{0.5em}
+\textbf{The theorem says:}
+
+``A good approximation exists.''
+
+\textbf{It does NOT say:}
+\begin{itemize}
+\item How many neurons you need
+\item How to find the right weights
+\item How much data is required
+\item How long training takes
+\item Whether it will generalize
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Analogy:}}
+
+``There exists a needle in this haystack'' doesn't help you find it.
+\end{columns}
+\bottomnote{Existence of a solution does not mean we can find it}
+\end{frame}
+
+% Slide 47: Theory vs Practice
+\begin{frame}[t]{Theory vs Practice}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Theoretical Guarantees}
+
+Universal approximation says:
+\begin{itemize}
+\item Given infinite neurons: perfect fit
+\item Given infinite data: find the function
+\item Given infinite compute: optimize
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Practical Reality}
+
+We have:
+\begin{itemize}
+\item Finite neurons: limited capacity
+\item Finite data: must generalize
+\item Finite compute: approximate solutions
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{What Matters More in Practice}
+
+\vspace{0.5em}
+\begin{enumerate}
+\item \textbf{Data quality and quantity}
+\begin{itemize}
+\item More important than architecture
+\end{itemize}
+\item \textbf{Regularization}
+\begin{itemize}
+\item Prevent overfitting
+\end{itemize}
+\item \textbf{Optimization}
+\begin{itemize}
+\item Finding good weights
+\end{itemize}
+\item \textbf{Generalization}
+\begin{itemize}
+\item Performance on new data
+\end{itemize}
+\end{enumerate}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Module 3}} will address these practical challenges.
+\end{columns}
+\bottomnote{Universal approximation is necessary but not sufficient}
+\end{frame}
+
+% Slide 48: Implications for Finance
+\begin{frame}[t]{Implications for Finance}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Optimistic View}
+
+If markets have patterns, MLPs can learn them:
+\begin{itemize}
+\item Non-linear relationships? Possible.
+\item Complex interactions? Possible.
+\item Hidden factors? Possible.
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Theoretical Capability:}
+
+``An MLP could, in principle, capture any market pattern.''
+
+\column{0.48\textwidth}
+\textbf{The Realistic View}
+
+\vspace{0.5em}
+\textbf{Challenges Remain:}
+\begin{itemize}
+\item Signal-to-noise ratio is low
+\item Markets are non-stationary
+\item Past patterns may not repeat
+\item Data is limited (especially for crashes)
+\item Overfitting is easy
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The EMH Counterargument:}
+
+If markets are efficient, there's nothing systematic to learn.
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textit{Module 4 will explore this tension.}}
+\end{columns}
+\bottomnote{In theory, yes. In practice, many challenges remain.}
+\end{frame}
+
+% ==================== SECTION 7: LOSS FUNCTIONS (Slides 49-53) ====================
+\section{Loss Functions}
+
+% Slide 49: Why Loss Functions?
+\begin{frame}[t]{Why Loss Functions?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Learning Requires an Objective}
+
+To train a neural network, we need:
+\begin{enumerate}
+\item A way to measure errors
+\item A number that decreases as we improve
+\item A signal for weight updates
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{The Loss Function:}
+
+$\mathcal{L}(\hat{\mathbf{y}}, \mathbf{y})$ measures how wrong our predictions are.
+
+\vspace{0.5em}
+\textbf{Goal of Training:}
+
+Find weights that minimize $\mathcal{L}$.
+
+\column{0.48\textwidth}
+\textbf{Finance Analogy}
+
+\vspace{0.5em}
+\textbf{Profit \& Loss (P\&L):}
+\begin{itemize}
+\item Measures trading performance
+\item Negative P\&L = bad trades
+\item Optimize to maximize P\&L
+\end{itemize}
+
+\textbf{Loss Function:}
+\begin{itemize}
+\item Measures prediction errors
+\item High loss = bad predictions
+\item Optimize to minimize loss
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Note:}} ``Loss'' is the opposite of ``profit'' -- we minimize loss!
+\end{columns}
+\bottomnote{To learn, we must measure mistakes}
+\end{frame}
+
+% Slide 50: Mean Squared Error
+\begin{frame}[t]{Mean Squared Error (MSE)}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Definition}
+
+$$\mathcal{L}_{\text{MSE}} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2$$
+
+\vspace{0.5em}
+\textbf{Properties:}
+\begin{itemize}
+\item Always non-negative
+\item Zero only if perfect predictions
+\item Penalizes large errors heavily
+\item Differentiable everywhere
+\end{itemize}
+
+\textbf{Use Case:}
+\begin{itemize}
+\item Regression problems
+\item Predicting continuous values
+\item Stock returns, prices, etc.
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/mse_visualization/mse_visualization.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mse_visualization}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mse_visualization}{\includegraphics[width=0.6cm]{charts/mse_visualization/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mse_visualization}{\tiny\texttt{\textcolor{gray}{mse\_visualization}}}
+};
+\end{tikzpicture}
+
+\bottomnote{The standard loss for predicting continuous values}
+\end{frame}
+
+% Slide 51: Cross-Entropy Loss
+\begin{frame}[t]{Cross-Entropy Loss}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Binary Cross-Entropy}
+
+$$\mathcal{L}_{\text{BCE}} = -\frac{1}{n}\sum_{i=1}^n [y_i \log(\hat{y}_i) + (1-y_i)\log(1-\hat{y}_i)]$$
+
+\vspace{0.5em}
+\textbf{Properties:}
+\begin{itemize}
+\item For probability outputs
+\item Heavily penalizes confident wrong answers
+\item Connected to information theory
+\end{itemize}
+
+\textbf{Use Case:}
+\begin{itemize}
+\item Classification problems
+\item Buy/sell decisions
+\item Any yes/no prediction
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/cross_entropy_visualization/cross_entropy_visualization.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/cross_entropy_visualization}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/cross_entropy_visualization}{\includegraphics[width=0.6cm]{charts/cross_entropy_visualization/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/cross_entropy_visualization}{\tiny\texttt{\textcolor{gray}{cross\_entropy\_visualization}}}
+};
+\end{tikzpicture}
+
+\bottomnote{The standard loss for classification}
+\end{frame}
+
+% Slide 52: Loss Landscape
+\begin{frame}[t]{The Loss Landscape}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Loss as a Function of Weights}
+
+$$\mathcal{L}(\mathbf{W}, \mathbf{b})$$
+
+For every choice of weights, there's a loss value.
+
+\vspace{0.5em}
+\textbf{The Landscape:}
+\begin{itemize}
+\item High regions: bad weights
+\item Low regions: good weights
+\item Global minimum: best weights
+\item Local minima: traps
+\end{itemize}
+
+\textbf{Training = }
+
+Finding the lowest point in this landscape.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/loss_landscape_3d/loss_landscape_3d.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/loss_landscape_3d}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/loss_landscape_3d}{\includegraphics[width=0.6cm]{charts/loss_landscape_3d/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/loss_landscape_3d}{\tiny\texttt{\textcolor{gray}{loss\_landscape\_3d}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Training = finding the lowest point in this landscape}
+\end{frame}
+
+% Slide 53: Finance Application
+\begin{frame}[t]{Finance: Choosing Your Loss}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Task-Specific Loss Functions}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{Task} & \textbf{Loss} \\
+\midrule
+Return prediction & MSE \\
+Direction prediction & Cross-entropy \\
+Volatility forecast & MSE \\
+Multi-class sector & Categorical CE \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{Beyond Standard Losses:}
+\begin{itemize}
+\item Sharpe ratio optimization
+\item Asymmetric losses (penalize losses more than gains)
+\item Custom finance metrics
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Important Consideration}
+
+\vspace{0.5em}
+\textbf{MSE vs Business Metric:}
+
+A model with low MSE may still lose money!
+
+\vspace{0.5em}
+\textbf{Example:}
+\begin{itemize}
+\item Predict returns with 5\% MSE
+\item But wrong on big moves
+\item Transaction costs eat profits
+\item Risk-adjusted return is poor
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Lesson:}}
+
+Statistical accuracy $\neq$ Trading profitability
+
+Module 4 explores this gap.
+\end{columns}
+\bottomnote{Different problems, different loss functions}
+\end{frame}
+
+% ==================== SECTION 8: SUMMARY (Slides 54-55) ====================
+\section{Summary and Preview}
+
+% Slide 54: Module 2 Summary
+\begin{frame}[t]{Module 2: Key Takeaways}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What We Learned}
+
+\begin{enumerate}
+\item \textbf{Historical Context}
+\begin{itemize}
+\item AI Winter (1969-1982)
+\item Backprop renaissance (1986)
+\item Right idea + right time
+\end{itemize}
+
+\item \textbf{MLP Architecture}
+\begin{itemize}
+\item Hidden layers find patterns
+\item Matrix notation for computation
+\item Parameter counting
+\end{itemize}
+
+\item \textbf{Activation Functions}
+\begin{itemize}
+\item Non-linearity is essential
+\item ReLU for hidden, task-specific for output
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item \textbf{Universal Approximation}
+\begin{itemize}
+\item MLPs can learn any function
+\item But existence $\neq$ construction
+\end{itemize}
+
+\item \textbf{Loss Functions}
+\begin{itemize}
+\item MSE for regression
+\item Cross-entropy for classification
+\item Loss landscape visualization
+\end{itemize}
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{The Big Picture:}
+
+We now have powerful architectures. But how do they \textit{learn}?
+\end{columns}
+\bottomnote{From single perceptron to universal function approximator}
+\end{frame}
+
+% Slide 55: Preview of Module 3
+\begin{frame}[t]{Preview: Module 3}
+\begin{center}
+\Large
+\textit{``We have the architecture. But how does it LEARN?''}
+\end{center}
+
+\vspace{1em}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Missing Piece}
+
+We know:
+\begin{itemize}
+\item How to compute forward pass
+\item What loss functions measure
+\item That good weights exist
+\end{itemize}
+
+We don't know:
+\begin{itemize}
+\item How to find good weights
+\item How errors update weights
+\item How to avoid overfitting
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Coming in Module 3:}
+\begin{itemize}
+\item Gradient descent (intuition)
+\item Backpropagation (the magic)
+\item Training dynamics
+\item Overfitting and regularization
+\item Practical training tips
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{The Key:}} Backpropagation -- the algorithm that made deep learning possible.
+\end{columns}
+
+\vspace{0.5em}
+\textbf{Mathematical details: See Appendix B (Backpropagation Derivation)}
+\bottomnote{Next: The magic of backpropagation}
+\end{frame}
+
+\end{document}

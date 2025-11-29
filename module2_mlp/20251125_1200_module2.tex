@@ -1,0 +1,452 @@
+\documentclass[8pt,aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Color definitions
+\definecolor{mlblue}{RGB}{0,102,204}
+\definecolor{mlpurple}{RGB}{51,51,178}
+\definecolor{mllavender}{RGB}{173,173,224}
+\definecolor{mllavender2}{RGB}{193,193,232}
+\definecolor{mllavender3}{RGB}{204,204,235}
+\definecolor{mllavender4}{RGB}{214,214,239}
+\definecolor{mlorange}{RGB}{255, 127, 14}
+\definecolor{mlgreen}{RGB}{44, 160, 44}
+\definecolor{mlred}{RGB}{214, 39, 40}
+\definecolor{mlgray}{RGB}{127, 127, 127}
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{midgray}{RGB}{180, 180, 180}
+
+% Apply custom colors to Madrid theme
+\setbeamercolor{palette primary}{bg=mllavender3,fg=mlpurple}
+\setbeamercolor{palette secondary}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{palette tertiary}{bg=mllavender,fg=white}
+\setbeamercolor{palette quaternary}{bg=mlpurple,fg=white}
+\setbeamercolor{structure}{fg=mlpurple}
+\setbeamercolor{section in toc}{fg=mlpurple}
+\setbeamercolor{subsection in toc}{fg=mlblue}
+\setbeamercolor{title}{fg=mlpurple}
+\setbeamercolor{frametitle}{fg=mlpurple,bg=mllavender3}
+\setbeamercolor{block title}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{block body}{bg=mllavender4,fg=black}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+
+\newcommand{\bottomnote}[1]{%
+\vfill
+\vspace{-2mm}
+\textcolor{mllavender2}{\rule{\textwidth}{0.4pt}}
+\vspace{1mm}
+\footnotesize
+\textbf{#1}
+}
+
+\title{Module 2: Stacking Layers}
+\subtitle{The Multi-Layer Perceptron and Universal Approximation (1969-1986)}
+\author{Neural Networks for Finance}
+\institute{BSc Lecture Series}
+\date{\today}
+
+\begin{document}
+
+% ==================== SECTION 1: OPENING (Slides 1-5) ====================
+\section{Opening}
+
+% Slide 1: Title
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+% Slide 2: Recap
+\begin{frame}[t]{Where We Left Off}
+% TODO: Content - Module 1 recap
+\bottomnote{The perceptron: powerful but limited}
+\end{frame}
+
+% Slide 3: The XOR Problem Revisited
+\begin{frame}[t]{The XOR Problem Revisited}
+% TODO: Content - Why one line isn't enough
+% Chart: xor_solution_mlp.py (problem setup)
+\bottomnote{Some patterns require more than a single line}
+\end{frame}
+
+% Slide 4: The Finance Parallel
+\begin{frame}[t]{The Finance Parallel}
+% TODO: Content - Junior analyst vs team analogy
+\bottomnote{A single analyst sees simple patterns. A team sees complex ones.}
+\end{frame}
+
+% Slide 5: Module 2 Roadmap
+\begin{frame}[t]{Module 2 Roadmap}
+% TODO: Content - What we'll cover
+\bottomnote{From single perceptron to universal function approximation}
+\end{frame}
+
+% ==================== SECTION 2: HISTORICAL CONTEXT (Slides 6-12) ====================
+\section{Historical Context: 1969-1986}
+
+% Slide 6: The AI Winter
+\begin{frame}[t]{The AI Winter (1969-1982)}
+% TODO: Content - Funding collapse, researchers leave
+% Chart: timeline_1969_1986.py
+\bottomnote{After Minsky-Papert, neural network research nearly died}
+\end{frame}
+
+% Slide 7: Underground Progress
+\begin{frame}[t]{Underground Progress}
+% TODO: Content - Paul Werbos (1974), quiet research
+\bottomnote{The key ideas existed but were ignored}
+\end{frame}
+
+% Slide 8: 1982 - Hopfield
+\begin{frame}[t]{1982: Hopfield Networks}
+% TODO: Content - Physics brings legitimacy back
+\bottomnote{John Hopfield: Physicist rediscovers neural networks}
+\end{frame}
+
+% Slide 9: 1986 - The Breakthrough
+\begin{frame}[t]{1986: The Backpropagation Paper}
+% TODO: Content - Rumelhart, Hinton, Williams
+% Chart: rumelhart_hinton_williams.py
+\bottomnote{Nature paper: ``Learning representations by back-propagating errors''}
+\end{frame}
+
+% Slide 10: What Made It Different?
+\begin{frame}[t]{What Made 1986 Different?}
+% TODO: Content - Communication, timing, computers
+\bottomnote{The right idea at the right time with the right people}
+\end{frame}
+
+% Slide 11: Discussion Question 1
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``Backpropagation was discovered multiple times (1974, 1986). Why do some discoveries get ignored while others take off? What role did timing play?''}
+\end{center}
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% Slide 12: The Renaissance Begins
+\begin{frame}[t]{The Neural Network Renaissance}
+% TODO: Content - Renewed hope, connectionism rises
+\bottomnote{Neural networks are back - and this time they can learn}
+\end{frame}
+
+% ==================== SECTION 3: MLP ARCHITECTURE - INTUITION (Slides 13-22) ====================
+\section{MLP Architecture: Intuition}
+
+% Slide 13: The Investment Firm Analogy
+\begin{frame}[t]{The Investment Firm Analogy}
+% TODO: Content - Junior analysts -> Senior analysts -> CIO
+\bottomnote{Hierarchical decision making}
+\end{frame}
+
+% Slide 14: Layer 1 - Data Gatherers
+\begin{frame}[t]{Input Layer: The Data Gatherers}
+% TODO: Content - Raw financial data comes in
+\bottomnote{The input layer receives raw information}
+\end{frame}
+
+% Slide 15: Hidden Layers - Pattern Finders
+\begin{frame}[t]{Hidden Layers: The Pattern Finders}
+% TODO: Content - They see things you didn't ask for
+% Chart: hidden_layer_representations.py
+\bottomnote{``They see things in the data you didn't explicitly ask for''}
+\end{frame}
+
+% Slide 16: What Hidden Layers Find
+\begin{frame}[t]{Finance Example: What Hidden Layers Find}
+% TODO: Content - Maybe detects "value stocks", "momentum stocks"
+\bottomnote{Hidden neurons learn abstract concepts}
+\end{frame}
+
+% Slide 17: Output Layer - The Final Call
+\begin{frame}[t]{Output Layer: The Final Decision}
+% TODO: Content - Combines abstract features
+\bottomnote{The output layer synthesizes everything into a decision}
+\end{frame}
+
+% Slide 18: The Full Architecture
+\begin{frame}[t]{The Full MLP Architecture}
+% TODO: Content - Input -> Hidden -> Output diagram
+% Chart: mlp_architecture_2_3_1.py
+\bottomnote{A complete multi-layer perceptron}
+\end{frame}
+
+% Slide 19: Why "Hidden"?
+\begin{frame}[t]{Why Are They Called ``Hidden''?}
+% TODO: Content - We don't tell them what to look for
+\bottomnote{Hidden layers discover features automatically}
+\end{frame}
+
+% Slide 20: Solving XOR
+\begin{frame}[t]{How MLPs Solve XOR}
+% TODO: Content - Two hidden neurons create two boundaries
+% Chart: xor_solution_mlp.py
+\bottomnote{Multiple decision boundaries working together}
+\end{frame}
+
+% Slide 21: Discussion Question 2
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``If hidden layers find features automatically, why do we still need feature engineering in finance?''}
+\end{center}
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% Slide 22: Universal Approximation Preview
+\begin{frame}[t]{Universal Approximation: The Big Promise}
+% TODO: Content - With enough neurons, approximate any function
+% Chart: universal_approximation_demo.py
+\bottomnote{MLPs can learn ANY pattern (in theory)}
+\end{frame}
+
+% ==================== SECTION 4: MLP ARCHITECTURE - MATH (Slides 23-32) ====================
+\section{MLP Architecture: Mathematical Formulation}
+
+% Slide 23: Transition to Math
+\begin{frame}[t]{Now Let's Formalize}
+% TODO: Content - Transition slide
+\bottomnote{You understand the intuition. Let's write it precisely.}
+\end{frame}
+
+% Slide 24: Matrix Notation Introduction
+\begin{frame}[t]{Matrix Notation: Why Matrices?}
+% TODO: Content - Compact, efficient representation
+% Chart: matrix_multiplication_visual.py
+\bottomnote{Matrices make neural network math elegant}
+\end{frame}
+
+% Slide 25: Weight Matrix Definition
+\begin{frame}[t]{The Weight Matrix}
+% TODO: Content - W^(l) dimensions and meaning
+\bottomnote{Each layer has its own weight matrix}
+\end{frame}
+
+% Slide 26: Forward Pass - Layer by Layer
+\begin{frame}[t]{Forward Pass: Layer by Layer}
+% TODO: Content - h = f(W*x + b)
+% Chart: layer_by_layer_computation.py
+\bottomnote{Computing outputs one layer at a time}
+\end{frame}
+
+% Slide 27: Full Forward Pass
+\begin{frame}[t]{The Complete Forward Pass}
+% TODO: Content - From input to output, all layers
+\bottomnote{Chaining layer computations together}
+\end{frame}
+
+% Slide 28: Dimensions Matter
+\begin{frame}[t]{Dimensions Matter}
+% TODO: Content - Shape checking
+\bottomnote{Matrix dimensions must be compatible}
+\end{frame}
+
+% Slide 29: Worked Example
+\begin{frame}[t]{Worked Example: 2-3-1 Network}
+% TODO: Content - Numerical forward pass
+\bottomnote{Following the numbers through the network}
+\end{frame}
+
+% Slide 30: Parameter Counting
+\begin{frame}[t]{Counting Parameters}
+% TODO: Content - Formula for parameter count
+\bottomnote{How many weights does your network have?}
+\end{frame}
+
+% Slide 31: Discussion Question 3
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``A 4-10-5-1 network has how many parameters? Calculate and discuss: is this a lot or a little for stock prediction?''}
+\end{center}
+\bottomnote{Exercise: 3 minutes}
+\end{frame}
+
+% Slide 32: Finance MLP Architecture
+\begin{frame}[t]{Finance Example: Multi-Factor Stock Prediction}
+% TODO: Content - P/E, momentum, volume, etc. as inputs
+% Chart: finance_mlp_architecture.py
+\bottomnote{Multiple factors combined through hidden layers}
+\end{frame}
+
+% ==================== SECTION 5: ACTIVATION FUNCTIONS (Slides 33-42) ====================
+\section{Activation Functions}
+
+% Slide 33: Why Non-Linearity?
+\begin{frame}[t]{Why Non-Linearity?}
+% TODO: Content - Without it, deep = shallow
+\bottomnote{Non-linearity is essential for learning complex patterns}
+\end{frame}
+
+% Slide 34: Linear Networks Collapse
+\begin{frame}[t]{Linear Networks Collapse}
+% TODO: Content - Proof that W2*W1 = W
+% Chart: linear_collapse_proof.py
+\bottomnote{Stacked linear layers = single linear layer}
+\end{frame}
+
+% Slide 35: The Sigmoid Function
+\begin{frame}[t]{The Sigmoid Function}
+% TODO: Content - S-curve, range (0,1)
+% Chart: sigmoid_function.py
+$$\sigma(z) = \frac{1}{1+e^{-z}}$$
+\bottomnote{The classic activation: squashes to probability}
+\end{frame}
+
+% Slide 36: Sigmoid Properties
+\begin{frame}[t]{Sigmoid: Properties and Problems}
+% TODO: Content - Bounded, smooth, but saturation issues
+\bottomnote{Smooth and bounded, but gradients can vanish}
+\end{frame}
+
+% Slide 37: The Tanh Function
+\begin{frame}[t]{The Tanh Function}
+% TODO: Content - Zero-centered version
+% Chart: tanh_function.py
+$$\tanh(z) = \frac{e^z - e^{-z}}{e^z + e^{-z}}$$
+\bottomnote{Zero-centered: range (-1, 1)}
+\end{frame}
+
+% Slide 38: The ReLU Function
+\begin{frame}[t]{ReLU: Rectified Linear Unit}
+% TODO: Content - The 2012 breakthrough
+% Chart: relu_function.py
+$$\text{ReLU}(z) = \max(0, z)$$
+\bottomnote{Simple but powerful: the modern default}
+\end{frame}
+
+% Slide 39: Why ReLU Works
+\begin{frame}[t]{Why ReLU Works So Well}
+% TODO: Content - Computational efficiency, no vanishing gradient
+\bottomnote{Cheap to compute, gradients don't vanish (for positive inputs)}
+\end{frame}
+
+% Slide 40: Activation Comparison
+\begin{frame}[t]{Activation Functions: Comparison}
+% TODO: Content - Side-by-side comparison
+% Chart: activation_comparison.py
+\bottomnote{Different functions for different problems}
+\end{frame}
+
+% Slide 41: Discussion Question 4
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``Which activation function would you use for: (a) predicting stock returns, (b) buy/sell classification? Why?''}
+\end{center}
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% Slide 42: Choosing Activation Functions
+\begin{frame}[t]{Choosing the Right Activation}
+% TODO: Content - Decision guide
+\bottomnote{Output layer choice depends on your problem type}
+\end{frame}
+
+% ==================== SECTION 6: UNIVERSAL APPROXIMATION (Slides 43-48) ====================
+\section{Universal Approximation}
+
+% Slide 43: The Fundamental Question
+\begin{frame}[t]{The Fundamental Question}
+% TODO: Content - Can NNs approximate any function?
+\bottomnote{Just how powerful are neural networks?}
+\end{frame}
+
+% Slide 44: The Theorem Statement
+\begin{frame}[t]{Universal Approximation Theorem}
+% TODO: Content - Formal statement (Cybenko 1989, Hornik 1991)
+\bottomnote{With enough hidden neurons, you can approximate any continuous function}
+\end{frame}
+
+% Slide 45: What It Means
+\begin{frame}[t]{What Universal Approximation Means}
+% TODO: Content - Intuition and visual demonstration
+% Chart: universal_approximation_demo.py
+\bottomnote{More neurons = better approximation}
+\end{frame}
+
+% Slide 46: What It Doesn't Mean
+\begin{frame}[t]{What It Doesn't Mean}
+% TODO: Content - Existence vs construction, not a guarantee
+\bottomnote{Existence of a solution does not mean we can find it}
+\end{frame}
+
+% Slide 47: Theory vs Practice
+\begin{frame}[t]{Theory vs Practice}
+% TODO: Content - The gap between mathematical guarantees and reality
+\bottomnote{Universal approximation is necessary but not sufficient}
+\end{frame}
+
+% Slide 48: Implications for Finance
+\begin{frame}[t]{Implications for Finance}
+% TODO: Content - Could we approximate market behavior?
+\bottomnote{In theory, yes. In practice, many challenges remain.}
+\end{frame}
+
+% ==================== SECTION 7: LOSS FUNCTIONS (Slides 49-53) ====================
+\section{Loss Functions}
+
+% Slide 49: Why Loss Functions?
+\begin{frame}[t]{Why Loss Functions?}
+% TODO: Content - Learning requires an objective
+\bottomnote{To learn, we must measure mistakes}
+\end{frame}
+
+% Slide 50: Mean Squared Error
+\begin{frame}[t]{Mean Squared Error (MSE)}
+% TODO: Content - For regression problems
+% Chart: mse_visualization.py
+$$\mathcal{L}_{MSE} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2$$
+\bottomnote{The standard loss for predicting continuous values}
+\end{frame}
+
+% Slide 51: Cross-Entropy Loss
+\begin{frame}[t]{Cross-Entropy Loss}
+% TODO: Content - For classification problems
+% Chart: cross_entropy_visualization.py
+$$\mathcal{L}_{CE} = -\sum_i y_i \log(\hat{y}_i)$$
+\bottomnote{The standard loss for classification}
+\end{frame}
+
+% Slide 52: Loss Landscape
+\begin{frame}[t]{The Loss Landscape}
+% TODO: Content - Loss as a function of weights
+% Chart: loss_landscape_3d.py
+\bottomnote{Training = finding the lowest point in this landscape}
+\end{frame}
+
+% Slide 53: Finance Application
+\begin{frame}[t]{Finance: Choosing Your Loss}
+% TODO: Content - MSE for returns, cross-entropy for direction
+\bottomnote{Different problems, different loss functions}
+\end{frame}
+
+% ==================== SECTION 8: SUMMARY (Slides 54-55) ====================
+\section{Summary and Preview}
+
+% Slide 54: Module 2 Summary
+\begin{frame}[t]{Module 2: Key Takeaways}
+% TODO: Content - Architecture, activation, universal approximation
+\bottomnote{From single perceptron to universal function approximator}
+\end{frame}
+
+% Slide 55: Preview of Module 3
+\begin{frame}[t]{Preview: Module 3}
+\begin{center}
+\Large
+\textit{``We have the architecture. But how does it LEARN?''}
+\end{center}
+% TODO: Content - Teaser for backpropagation
+\bottomnote{Next: The magic of backpropagation}
+\end{frame}
+
+\end{document}

@@ -1,0 +1,2684 @@
+\documentclass[8pt,aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{amssymb}
+
+% Color definitions
+\definecolor{mlblue}{RGB}{0,102,204}
+\definecolor{mlpurple}{RGB}{51,51,178}
+\definecolor{mllavender}{RGB}{173,173,224}
+\definecolor{mllavender2}{RGB}{193,193,232}
+\definecolor{mllavender3}{RGB}{204,204,235}
+\definecolor{mllavender4}{RGB}{214,214,239}
+\definecolor{mlorange}{RGB}{255, 127, 14}
+\definecolor{mlgreen}{RGB}{44, 160, 44}
+\definecolor{mlred}{RGB}{214, 39, 40}
+\definecolor{mlgray}{RGB}{127, 127, 127}
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{midgray}{RGB}{180, 180, 180}
+
+% Apply custom colors to Madrid theme
+\setbeamercolor{palette primary}{bg=mllavender3,fg=mlpurple}
+\setbeamercolor{palette secondary}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{palette tertiary}{bg=mllavender,fg=white}
+\setbeamercolor{palette quaternary}{bg=mlpurple,fg=white}
+\setbeamercolor{structure}{fg=mlpurple}
+\setbeamercolor{section in toc}{fg=mlpurple}
+\setbeamercolor{subsection in toc}{fg=mlblue}
+\setbeamercolor{title}{fg=mlpurple}
+\setbeamercolor{frametitle}{fg=mlpurple,bg=mllavender3}
+\setbeamercolor{block title}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{block body}{bg=mllavender4,fg=black}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+
+\newcommand{\bottomnote}[1]{%
+\vfill
+\vspace{-2mm}
+\textcolor{mllavender2}{\rule{\textwidth}{0.4pt}}
+\vspace{1mm}
+\footnotesize
+\textbf{#1}
+}
+
+\title{Module 3: Learning from Mistakes}
+\subtitle{Training Neural Networks with Backpropagation (1986-2012)}
+\author{Neural Networks for Finance}
+\institute{BSc Lecture Series}
+\date{\today}
+
+\begin{document}
+
+% ==================== SECTION 1: OPENING (Slides 1-5) ====================
+\section{Opening}
+
+% Slide 1: Title
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+% Slide 2: The Central Question
+\begin{frame}[t]{The Central Question}
+\begin{center}
+\Large
+\textit{``We have the architecture. How does it LEARN?''}
+\end{center}
+
+\vspace{1em}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What We Know:}
+\begin{itemize}
+\item MLP architecture (Module 2)
+\item Forward pass computation
+\item Loss functions measure error
+\item Good weights exist (universal approximation)
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{What We Don't Know:}
+\begin{itemize}
+\item How to find good weights
+\item How errors guide updates
+\item Why training sometimes fails
+\item How to avoid overfitting
+\end{itemize}
+\end{columns}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{This module bridges the gap from architecture to learning.}}
+\bottomnote{The fundamental challenge of neural network training}
+\end{frame}
+
+% Slide 3: The Trading Desk Analogy
+\begin{frame}[t]{Finance Parallel: The Trading Desk}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{How Traders Improve}
+
+A trader's learning process:
+\begin{enumerate}
+\item Make a trade (forward pass)
+\item Wait for P\&L (loss function)
+\item Analyze what went wrong (gradient)
+\item Adjust strategy (weight update)
+\item Repeat thousands of times (epochs)
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Key Insight:}
+
+Mistakes are information. Each error tells you how to adjust.
+
+\column{0.48\textwidth}
+\textbf{Neural Network Training}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{Trading} & \textbf{Neural Net} \\
+\midrule
+Trade execution & Forward pass \\
+P\&L calculation & Loss function \\
+Post-trade analysis & Backpropagation \\
+Strategy adjustment & Weight update \\
+Experience & Training epochs \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+Both learn by \textbf{iteratively correcting mistakes}.
+\end{columns}
+\bottomnote{How does a trader improve? By analyzing what went wrong.}
+\end{frame}
+
+% Slide 4: Module 3 Roadmap
+\begin{frame}[t]{Module 3 Roadmap}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Today's Journey}
+
+\begin{enumerate}
+\item \textbf{Loss Functions (Review)}
+\begin{itemize}
+\item Measuring prediction error
+\item MSE intuition
+\end{itemize}
+
+\item \textbf{Gradient Descent}
+\begin{itemize}
+\item Finding the minimum
+\item Learning rate tuning
+\end{itemize}
+
+\item \textbf{Backpropagation}
+\begin{itemize}
+\item Credit assignment
+\item Chain rule in action
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item \textbf{Training Dynamics}
+\begin{itemize}
+\item Batch vs. stochastic
+\item Epochs and convergence
+\end{itemize}
+
+\item \textbf{Overfitting}
+\begin{itemize}
+\item The enemy of generalization
+\item The backtest trap
+\end{itemize}
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Learning Objectives:}
+\begin{itemize}
+\item Understand gradient descent intuitively
+\item Grasp backpropagation as ``blame assignment''
+\item Recognize and prevent overfitting
+\end{itemize}
+\end{columns}
+\bottomnote{From measuring error to updating weights}
+\end{frame}
+
+% Slide 5: The Learning Problem
+\begin{frame}[t]{The Learning Problem}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Challenge}
+
+\textbf{Given:}
+\begin{itemize}
+\item Training data: $\{(\mathbf{x}^{(i)}, y^{(i)})\}_{i=1}^m$
+\item Network architecture
+\item Loss function $\mathcal{L}$
+\end{itemize}
+
+\textbf{Find:}
+\begin{itemize}
+\item Weights $\mathbf{W}$ and biases $\mathbf{b}$
+\item That minimize $\mathcal{L}$
+\item And generalize to new data
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Scale of the Problem:}
+
+A 4-10-5-1 network: 111 parameters
+
+A ResNet-50: 25 million parameters
+
+\column{0.48\textwidth}
+\textbf{Why Is This Hard?}
+
+\vspace{0.5em}
+\textbf{Dimensionality:}
+\begin{itemize}
+\item Millions of weights to tune
+\item Exponentially many combinations
+\item Can't try them all
+\end{itemize}
+
+\textbf{Non-Convexity:}
+\begin{itemize}
+\item Many local minima
+\item Saddle points
+\item Flat regions
+\end{itemize}
+
+\textbf{The Solution:}
+
+Gradient-based optimization
+
+``Move downhill in weight space''
+\end{columns}
+\bottomnote{Thousands of weights to tune - how do we find the right values?}
+\end{frame}
+
+% ==================== SECTION 2: HISTORICAL CONTEXT (Slides 6-10) ====================
+\section{Historical Context: 1986-2012}
+
+% Slide 6: 1989 - LeNet
+\begin{frame}[t]{1989: LeNet and Practical Success}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Yann LeCun at Bell Labs}
+
+First commercially deployed neural network:
+\begin{itemize}
+\item Handwritten digit recognition
+\item Used by US Postal Service
+\item Read millions of checks
+\item Proved neural nets could work
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Key Innovations:}
+\begin{itemize}
+\item Convolutional architecture
+\item Shared weights
+\item Backprop through convolutions
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/timeline_1986_2012/timeline_1986_2012.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1986_2012}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1986_2012}{\includegraphics[width=0.6cm]{charts/timeline_1986_2012/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1986_2012}{\tiny\texttt{\textcolor{gray}{timeline\_1986\_2012}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Yann LeCun: First commercially deployed neural network}
+\end{frame}
+
+% Slide 7: 1991 - Vanishing Gradients
+\begin{frame}[t]{1991: The Vanishing Gradient Problem}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Discovery}
+
+Sepp Hochreiter (1991) identified why deep networks fail:
+
+\vspace{0.5em}
+\textbf{The Problem:}
+\begin{itemize}
+\item Gradients multiply through layers
+\item Sigmoid derivative: max 0.25
+\item Through 10 layers: $0.25^{10} \approx 10^{-6}$
+\item Early layers learn nothing
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Symptoms:}
+\begin{itemize}
+\item Later layers learn quickly
+\item Early layers stuck at random
+\item Network never converges
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Why Sigmoid Causes Problems}
+
+\vspace{0.5em}
+For sigmoid: $\sigma'(z) = \sigma(z)(1-\sigma(z))$
+
+Maximum value: $\sigma'(0) = 0.25$
+
+\vspace{0.5em}
+\begin{center}
+\begin{tabular}{cc}
+\toprule
+\textbf{Layers} & \textbf{Max Gradient} \\
+\midrule
+1 & 0.25 \\
+5 & $10^{-3}$ \\
+10 & $10^{-6}$ \\
+20 & $10^{-12}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Implication:}} Deep networks seemed impossible until ReLU (2010).
+\end{columns}
+\bottomnote{Deep networks couldn't learn - gradients disappeared}
+\end{frame}
+
+% Slide 8: 1997 - LSTM
+\begin{frame}[t]{1997: LSTM Networks}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Long Short-Term Memory}
+
+Hochreiter \& Schmidhuber solution:
+\begin{itemize}
+\item Designed for sequences
+\item Explicit ``memory'' cells
+\item Gating mechanisms
+\item Gradients can flow unchanged
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Key Innovation:}
+
+The ``constant error carousel'' -- a path where gradients don't decay.
+
+\vspace{0.5em}
+\textbf{Applications:}
+\begin{itemize}
+\item Speech recognition
+\item Machine translation
+\item Time series prediction
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Finance Relevance}
+
+\vspace{0.5em}
+LSTMs became popular for:
+\begin{itemize}
+\item Stock price prediction
+\item Volatility forecasting
+\item Sentiment analysis
+\item Algorithmic trading
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Why LSTM for Finance?}
+\begin{itemize}
+\item Financial data is sequential
+\item Long-term dependencies matter
+\item Regime changes persist
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Note:}} Now largely replaced by Transformers (2017).
+\end{columns}
+\bottomnote{Hochreiter and Schmidhuber: Long Short-Term Memory}
+\end{frame}
+
+% Slide 9: 2012 - ImageNet Moment
+\begin{frame}[t]{2012: The ImageNet Moment}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{AlexNet Wins ImageNet}
+
+Alex Krizhevsky, Ilya Sutskever, Geoffrey Hinton:
+\begin{itemize}
+\item 15.3\% error rate
+\item Second place: 26.2\%
+\item \textbf{40\% relative improvement}
+\item Used GPUs for training
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{What Made It Work:}
+\begin{enumerate}
+\item ReLU activation (not sigmoid)
+\item Dropout regularization
+\item GPU training (60x faster)
+\item Large dataset (1.2M images)
+\item Data augmentation
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Why This Was Different}
+
+\vspace{0.5em}
+\textbf{Previous Attempts:}
+\begin{itemize}
+\item Shallow networks
+\item Hand-crafted features
+\item Small datasets
+\item CPU training
+\end{itemize}
+
+\textbf{AlexNet:}
+\begin{itemize}
+\item 8 layers deep
+\item Learned features
+\item Massive data
+\item GPU parallelism
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{The Result:}} Deep learning became the dominant paradigm. Every major AI company pivoted.
+\end{columns}
+\bottomnote{AlexNet: Deep learning proves its superiority}
+\end{frame}
+
+% Slide 10: What Changed?
+\begin{frame}[t]{What Changed Between 1990 and 2012?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Ingredients for Success}
+
+\begin{enumerate}
+\item \textbf{Big Data}
+\begin{itemize}
+\item ImageNet: 1.2M labeled images
+\item Internet made data collection possible
+\item 1990: thousands of samples
+\end{itemize}
+
+\item \textbf{Compute Power}
+\begin{itemize}
+\item GPUs: 100x speedup
+\item Moore's law compounding
+\item Training in days, not years
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\begin{enumerate}
+\setcounter{enumi}{2}
+\item \textbf{Algorithmic Improvements}
+\begin{itemize}
+\item ReLU: no vanishing gradients
+\item Dropout: better generalization
+\item Batch normalization (2015)
+\end{itemize}
+
+\item \textbf{Open Research Culture}
+\begin{itemize}
+\item arXiv preprints
+\item Open-source frameworks
+\item Reproducibility
+\end{itemize}
+\end{enumerate}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Key Insight:}} The core ideas from 1986 worked -- they just needed scale and engineering.
+\end{columns}
+\bottomnote{Big data + GPUs + ReLU + dropout = breakthrough}
+\end{frame}
+
+% ==================== SECTION 3: LOSS FUNCTIONS (Slides 11-18) ====================
+\section{Loss Functions: Measuring Mistakes}
+
+% Slide 11: What Does "Wrong" Mean?
+\begin{frame}[t]{What Does ``Wrong'' Mean?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Quantifying Prediction Error}
+
+We need a function that:
+\begin{itemize}
+\item Takes predictions and labels
+\item Returns a single number
+\item Higher = worse predictions
+\item Differentiable (for gradients)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Loss Function:}
+
+$$\mathcal{L}(\hat{y}, y)$$
+
+\vspace{0.5em}
+\textbf{Properties We Want:}
+\begin{itemize}
+\item $\mathcal{L} \geq 0$ (non-negative)
+\item $\mathcal{L} = 0$ iff perfect prediction
+\item Smooth (for optimization)
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Different Tasks, Different Losses}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{Task} & \textbf{Loss} \\
+\midrule
+Regression & MSE \\
+Binary classification & Cross-entropy \\
+Multi-class & Categorical CE \\
+Ranking & Hinge loss \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{Finance Examples:}
+\begin{itemize}
+\item Return prediction: MSE
+\item Buy/sell: Binary CE
+\item Sector classification: Categorical CE
+\end{itemize}
+\end{columns}
+\bottomnote{We need a way to measure how wrong our predictions are}
+\end{frame}
+
+% Slide 12: Finance Analogy - P&L
+\begin{frame}[t]{Finance Analogy: Profit and Loss}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{P\&L as a Loss Function}
+
+For traders:
+\begin{itemize}
+\item P\&L = realized gain/loss
+\item Negative P\&L = bad trades
+\item Goal: maximize P\&L
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Connection to ML Loss:}
+\begin{itemize}
+\item ML loss = prediction error
+\item Higher loss = worse model
+\item Goal: minimize loss
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Key Difference:}
+
+P\&L is a \textit{performance} metric.
+
+ML loss is an \textit{optimization} target.
+
+They may not align perfectly!
+
+\column{0.48\textwidth}
+\textbf{When P\&L $\neq$ Loss}
+
+\vspace{0.5em}
+A model might have:
+\begin{itemize}
+\item Low MSE (accurate predictions)
+\item But low P\&L (wrong on big moves)
+\end{itemize}
+
+Or:
+\begin{itemize}
+\item High MSE (noisy predictions)
+\item But high P\&L (right when it matters)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Implication:}
+
+Consider using custom loss functions that better align with trading goals.
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textit{Module 4 explores this tension.}}
+\end{columns}
+\bottomnote{P\&L is the loss function of trading}
+\end{frame}
+
+% Slide 13: Loss Function Definition
+\begin{frame}[t]{Loss Function: Error Measurement}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Total Loss Over Dataset}
+
+For $m$ training examples:
+
+$$\mathcal{L}(\mathbf{W}) = \frac{1}{m} \sum_{i=1}^{m} \ell(\hat{y}^{(i)}, y^{(i)})$$
+
+where:
+\begin{itemize}
+\item $\ell$: loss per example
+\item $\hat{y}^{(i)} = f(\mathbf{x}^{(i)}; \mathbf{W})$: prediction
+\item $y^{(i)}$: true label
+\item $\mathbf{W}$: all network weights
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Goal:}
+
+$$\mathbf{W}^* = \arg\min_{\mathbf{W}} \mathcal{L}(\mathbf{W})$$
+
+\column{0.48\textwidth}
+\textbf{Why Average?}
+
+\vspace{0.5em}
+\textbf{Sum vs Average:}
+\begin{itemize}
+\item Sum: scales with dataset size
+\item Average: comparable across datasets
+\item Gradient magnitude consistent
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Optimization Landscape:}
+
+$\mathcal{L}(\mathbf{W})$ defines a surface over weight space.
+
+\begin{itemize}
+\item High regions: bad weights
+\item Low regions: good weights
+\item We seek the lowest point
+\end{itemize}
+\end{columns}
+\bottomnote{The loss function quantifies prediction error}
+\end{frame}
+
+% Slide 14: MSE Intuition
+\begin{frame}[t]{Mean Squared Error: Intuition}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Formula}
+
+$$\mathcal{L}_{MSE} = \frac{1}{m} \sum_{i=1}^{m} (y^{(i)} - \hat{y}^{(i)})^2$$
+
+\vspace{0.5em}
+\textbf{In Words:}
+\begin{enumerate}
+\item Compute error: $y - \hat{y}$
+\item Square it: $(y - \hat{y})^2$
+\item Average over all samples
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Why Squaring?}
+\begin{itemize}
+\item Makes all errors positive
+\item Penalizes large errors heavily
+\item Mathematically convenient
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Example}
+
+\vspace{0.5em}
+\begin{tabular}{ccc}
+\toprule
+$y$ & $\hat{y}$ & $(y-\hat{y})^2$ \\
+\midrule
+5\% & 3\% & 4 \\
+-2\% & 1\% & 9 \\
+8\% & 7\% & 1 \\
+\midrule
+\textbf{MSE} & & \textbf{4.67} \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+Units: $\text{(percentage points)}^2$
+
+\vspace{0.5em}
+\textbf{RMSE:} $\sqrt{MSE} = 2.16\%$
+
+``On average, we're off by about 2\%''
+\end{columns}
+\bottomnote{``How far off were we, on average?''}
+\end{frame}
+
+% Slide 15: MSE Visually
+\begin{frame}[t]{MSE: Visual Interpretation}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Squared Errors as Areas}
+
+Each error $(y - \hat{y})^2$ is the area of a square with side length $|y - \hat{y}|$.
+
+\vspace{0.5em}
+\textbf{MSE = Average Square Area}
+
+\vspace{0.5em}
+\textbf{Why This Matters:}
+\begin{itemize}
+\item Error of 4 is 16x worse than error of 1
+\item Large errors dominate
+\item Outliers have huge impact
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Alternative: MAE}
+
+Mean Absolute Error:
+$$\mathcal{L}_{MAE} = \frac{1}{m} \sum |y - \hat{y}|$$
+
+More robust to outliers.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/mse_visualization/mse_visualization.pdf}
+\end{center}
+\end{columns}
+\bottomnote{Squaring emphasizes large errors}
+\end{frame}
+
+% Slide 16: Finance Application
+\begin{frame}[t]{Finance Application: Return Prediction}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Worked Example}
+
+\textbf{Predictions for 5 Stocks:}
+
+\begin{tabular}{lccc}
+\toprule
+\textbf{Stock} & $\hat{y}$ & $y$ & Error$^2$ \\
+\midrule
+AAPL & +5\% & +2\% & 9 \\
+MSFT & +3\% & +4\% & 1 \\
+GOOG & -1\% & +2\% & 9 \\
+AMZN & +4\% & +4\% & 0 \\
+META & +2\% & -3\% & 25 \\
+\midrule
+\textbf{MSE} & & & \textbf{8.8} \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+RMSE = 2.97\%
+
+\column{0.48\textwidth}
+\textbf{Interpretation}
+
+\vspace{0.5em}
+``On average, our return predictions are off by about 3 percentage points.''
+
+\vspace{0.5em}
+\textbf{Is This Good?}
+
+Depends on context:
+\begin{itemize}
+\item Market daily vol: $\sim$1\%
+\item 3\% RMSE = 3 std devs
+\item \textcolor{mlred}{Not very predictive}
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Reality Check:}
+
+Even small predictability (RMSE slightly $<$ volatility) can be valuable in trading.
+\end{columns}
+\bottomnote{Worked example with stock returns}
+\end{frame}
+
+% Slide 17: Discussion Question 1
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``Why might we want to penalize large errors more than small ones in stock prediction?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Arguments For (Use MSE):}
+\begin{itemize}
+\item Big errors are costlier
+\item Crashes matter more than small moves
+\item Position sizing affected
+\item Risk management
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Arguments Against (Use MAE):}
+\begin{itemize}
+\item Markets have fat tails
+\item Outliers can dominate MSE
+\item May optimize for rare events
+\item Robustness to noise
+\end{itemize}
+\end{columns}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Reality:}} Many practitioners use MAE or Huber loss (combines both) for financial applications.
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% Slide 18: Loss Landscape Revisited
+\begin{frame}[t]{The Loss Landscape}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Loss as a Function of Weights}
+
+$$\mathcal{L}(\mathbf{W})$$
+
+For every choice of weights, there's a loss value.
+
+\vspace{0.5em}
+\textbf{In 2D (two weights):}
+
+A surface we can visualize.
+
+\vspace{0.5em}
+\textbf{In High Dimensions:}
+
+A hypersurface we navigate blindly.
+
+\vspace{0.5em}
+\textbf{Features:}
+\begin{itemize}
+\item Global minimum (best)
+\item Local minima (traps)
+\item Saddle points
+\item Flat regions (plateaus)
+\end{itemize}
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/loss_landscape_3d/loss_landscape_3d.pdf}
+\end{center}
+\end{columns}
+\bottomnote{Finding the minimum of a high-dimensional function}
+\end{frame}
+
+% ==================== SECTION 4: GRADIENT DESCENT (Slides 19-28) ====================
+\section{Gradient Descent: Finding the Minimum}
+
+% Slide 19: The Optimization Problem
+\begin{frame}[t]{The Optimization Problem}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Challenge}
+
+Find:
+$$\mathbf{W}^* = \arg\min_{\mathbf{W}} \mathcal{L}(\mathbf{W})$$
+
+\vspace{0.5em}
+\textbf{Difficulties:}
+\begin{itemize}
+\item Millions of dimensions
+\item Non-convex landscape
+\item No closed-form solution
+\item Can't try all possibilities
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{We Need:}
+
+An \textit{iterative} algorithm that gradually improves weights.
+
+\column{0.48\textwidth}
+\textbf{Possible Approaches}
+
+\vspace{0.5em}
+\textbf{Random Search:}
+\begin{itemize}
+\item Try random weights
+\item Keep best so far
+\item \textcolor{mlred}{Hopelessly slow}
+\end{itemize}
+
+\textbf{Grid Search:}
+\begin{itemize}
+\item Try all combinations
+\item $10^{100}$ possibilities
+\item \textcolor{mlred}{Impossible}
+\end{itemize}
+
+\textbf{Gradient-Based:}
+\begin{itemize}
+\item Use local slope information
+\item Move toward improvement
+\item \textcolor{mlgreen}{Tractable!}
+\end{itemize}
+\end{columns}
+\bottomnote{How do we find the weights that minimize loss?}
+\end{frame}
+
+% Slide 20: The Blind Hiker Analogy
+\begin{frame}[t]{The Blind Hiker Analogy}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Scenario}
+
+Imagine you're:
+\begin{itemize}
+\item Blindfolded
+\item On a mountainside
+\item Trying to reach the valley
+\item Can only feel the local slope
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{What Would You Do?}
+
+\begin{enumerate}
+\item Feel the ground around you
+\item Determine which way is downhill
+\item Take a step in that direction
+\item Repeat until you reach a valley
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Neural Network Translation}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{Hiker} & \textbf{Network} \\
+\midrule
+Position & Weights $\mathbf{W}$ \\
+Altitude & Loss $\mathcal{L}$ \\
+Slope & Gradient $\nabla \mathcal{L}$ \\
+Step & Weight update \\
+Valley & Minimum loss \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{Key Insight:}
+
+We don't need to see the whole landscape. Local slope is enough!
+\end{columns}
+\bottomnote{``You're blindfolded on a mountain. How do you find the valley?''}
+\end{frame}
+
+% Slide 21: Answer - Feel the Slope
+\begin{frame}[t]{Answer: Feel the Slope}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Strategy}
+
+\begin{enumerate}
+\item Compute the slope (gradient)
+\item Move opposite to the slope
+\item Repeat until convergence
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Why Opposite?}
+\begin{itemize}
+\item Gradient points uphill
+\item We want to go downhill
+\item Move in negative gradient direction
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Update Rule:}
+
+$$\mathbf{W} \leftarrow \mathbf{W} - \eta \nabla_{\mathbf{W}} \mathcal{L}$$
+
+\column{0.48\textwidth}
+\textbf{Gradient Descent Algorithm}
+
+\vspace{0.5em}
+\begin{enumerate}
+\item Initialize $\mathbf{W}$ randomly
+\item \textbf{repeat}:
+\begin{enumerate}
+\item[a.] Compute loss $\mathcal{L}(\mathbf{W})$
+\item[b.] Compute gradient $\nabla \mathcal{L}$
+\item[c.] Update: $\mathbf{W} \leftarrow \mathbf{W} - \eta \nabla \mathcal{L}$
+\end{enumerate}
+\item \textbf{until} convergence
+\end{enumerate}
+
+\vspace{0.5em}
+$\eta$ = learning rate (step size)
+\end{columns}
+\bottomnote{Move in the direction that goes down}
+\end{frame}
+
+% Slide 22: Gradient Definition
+\begin{frame}[t]{The Gradient: Direction of Steepest Ascent}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What Is the Gradient?}
+
+The gradient $\nabla \mathcal{L}$ is a vector of partial derivatives:
+
+$$\nabla_{\mathbf{W}} \mathcal{L} = \begin{pmatrix} \frac{\partial \mathcal{L}}{\partial w_1} \\ \frac{\partial \mathcal{L}}{\partial w_2} \\ \vdots \\ \frac{\partial \mathcal{L}}{\partial w_n} \end{pmatrix}$$
+
+\vspace{0.5em}
+\textbf{Each Component:}
+
+$\frac{\partial \mathcal{L}}{\partial w_i}$ = How much does loss change if we change $w_i$ slightly?
+
+\column{0.48\textwidth}
+\textbf{Properties}
+
+\vspace{0.5em}
+\textbf{Direction:}
+\begin{itemize}
+\item Points toward steepest increase
+\item $-\nabla \mathcal{L}$ points toward steepest decrease
+\end{itemize}
+
+\textbf{Magnitude:}
+\begin{itemize}
+\item $\|\nabla \mathcal{L}\|$ = slope steepness
+\item Near minimum: gradient $\approx 0$
+\end{itemize}
+
+\textbf{At a Minimum:}
+$$\nabla \mathcal{L} = \mathbf{0}$$
+
+No direction goes further down.
+\end{columns}
+\bottomnote{The gradient tells us which way is ``up''}
+\end{frame}
+
+% Slide 23: Gradient Descent Intuition
+\begin{frame}[t]{Gradient Descent: Move Downhill}
+\begin{center}
+\includegraphics[width=0.52\textwidth]{charts/gradient_descent_contour/gradient_descent_contour.pdf}
+\end{center}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/gradient_descent_contour}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/gradient_descent_contour}{\includegraphics[width=0.6cm]{charts/gradient_descent_contour/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/gradient_descent_contour}{\tiny\texttt{\textcolor{gray}{gradient\_descent\_contour}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Step in the negative gradient direction}
+\end{frame}
+
+% Slide 24: Finance Parallel
+\begin{frame}[t]{Finance Parallel: Portfolio Optimization}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Portfolio Adjustment}
+
+Similar iterative process:
+\begin{enumerate}
+\item Evaluate current portfolio
+\item Estimate sensitivities (``greeks'')
+\item Adjust positions to reduce risk
+\item Repeat periodically
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Delta Hedging:}
+\begin{itemize}
+\item Measure option delta
+\item Adjust stock position
+\item Move toward neutral
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Comparison}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{GD} & \textbf{Portfolio} \\
+\midrule
+Loss & Risk/Variance \\
+Weights & Positions \\
+Gradient & Sensitivities \\
+Learning rate & Trading aggressiveness \\
+Convergence & Optimal allocation \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{Key Difference:}
+
+Markets change continuously. Portfolios must adapt.
+
+Neural networks train once (mostly).
+\end{columns}
+\bottomnote{Similar to iterative portfolio rebalancing}
+\end{frame}
+
+% Slide 25: The Learning Rate
+\begin{frame}[t]{The Learning Rate: Step Size}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{The Hyperparameter $\eta$}
+
+$$\mathbf{W} \leftarrow \mathbf{W} - \eta \nabla \mathcal{L}$$
+
+\vspace{0.5em}
+\textbf{$\eta$ Controls:}
+\begin{itemize}
+\item Size of each weight update
+\item Speed of convergence
+\item Stability of training
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Typical Values:}
+\begin{itemize}
+\item $10^{-4}$ to $10^{-1}$
+\item Often starts at 0.01 or 0.001
+\item May decrease during training
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/learning_rate_effects/learning_rate_effects.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/learning_rate_effects}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/learning_rate_effects}{\includegraphics[width=0.6cm]{charts/learning_rate_effects/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/learning_rate_effects}{\tiny\texttt{\textcolor{gray}{learning\_rate\_effects}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Learning rate controls how far we move each step}
+\end{frame}
+
+% Slide 26: Learning Rate Too High
+\begin{frame}[t]{Learning Rate Too High}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Problem}
+
+When $\eta$ is too large:
+\begin{itemize}
+\item Steps overshoot the minimum
+\item May jump to worse regions
+\item Loss oscillates or explodes
+\item Training diverges
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Symptoms:}
+\begin{itemize}
+\item Loss goes up, not down
+\item Loss becomes NaN
+\item Weights grow very large
+\item Erratic training curves
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Finance Analogy}
+
+\vspace{0.5em}
+\textbf{Overtrading:}
+\begin{itemize}
+\item Adjusting positions too aggressively
+\item Chasing every signal
+\item Transaction costs accumulate
+\item Portfolio becomes unstable
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Solution:}
+
+Reduce learning rate until stable.
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Rule of Thumb:}} If loss explodes, halve $\eta$.
+\end{columns}
+\bottomnote{Too big = overshoot the minimum}
+\end{frame}
+
+% Slide 27: Learning Rate Too Low
+\begin{frame}[t]{Learning Rate Too Low}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Problem}
+
+When $\eta$ is too small:
+\begin{itemize}
+\item Steps are tiny
+\item Progress is slow
+\item May get stuck in flat regions
+\item Training takes forever
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Symptoms:}
+\begin{itemize}
+\item Loss decreases very slowly
+\item Many epochs with little improvement
+\item May stop before reaching minimum
+\item Wasted computation
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Finance Analogy}
+
+\vspace{0.5em}
+\textbf{Underreacting:}
+\begin{itemize}
+\item Ignoring market signals
+\item Missing opportunities
+\item Portfolio drifts from target
+\item Slow adaptation to regime changes
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Solution:}
+
+Increase learning rate or use adaptive methods.
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Modern Practice:}} Adaptive optimizers (Adam, RMSprop) adjust $\eta$ automatically.
+\end{columns}
+\bottomnote{Too small = converge too slowly}
+\end{frame}
+
+% Slide 28: Discussion Question 2
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``In trading, what's analogous to learning rate? What happens if you adjust positions too aggressively or too conservatively?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Position Sizing:}
+\begin{itemize}
+\item How much to trade per signal
+\item Kelly criterion vs. fractional Kelly
+\item Risk management constraints
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Rebalancing Frequency:}
+\begin{itemize}
+\item How often to adjust
+\item Transaction cost vs. tracking error
+\item Market impact considerations
+\end{itemize}
+\end{columns}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Key Insight:}} Both trading and ML require balancing responsiveness against stability.
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% ==================== SECTION 5: BACKPROPAGATION (Slides 29-38) ====================
+\section{Backpropagation: Credit Assignment}
+
+% Slide 29: The Attribution Problem
+\begin{frame}[t]{The Attribution Problem}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Challenge}
+
+We know:
+\begin{itemize}
+\item The output was wrong
+\item We need to update weights
+\item There are thousands of weights
+\end{itemize}
+
+\textbf{The Question:}
+
+\begin{center}
+\textit{Which weights caused the error?}
+\end{center}
+
+\vspace{0.5em}
+\textbf{Credit Assignment:}
+
+Attributing output error to individual weights deep in the network.
+
+\column{0.48\textwidth}
+\textbf{Why Is This Hard?}
+
+\vspace{0.5em}
+\textbf{Direct Attribution:}
+\begin{itemize}
+\item Output layer weights: clear influence
+\item Hidden layer weights: indirect
+\item Early layers: very indirect
+\end{itemize}
+
+\textbf{The Chain of Influence:}
+
+$w_1 \rightarrow h_1 \rightarrow h_2 \rightarrow \cdots \rightarrow \hat{y} \rightarrow \mathcal{L}$
+
+Each weight affects the loss through many intermediate steps.
+\end{columns}
+\bottomnote{The output was wrong. Which weights caused it?}
+\end{frame}
+
+% Slide 30: Finance Analogy
+\begin{frame}[t]{Finance Analogy: Post-Trade Analysis}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Attribution in Trading}
+
+A portfolio lost money. Why?
+
+\begin{enumerate}
+\item Macro call wrong?
+\item Sector allocation off?
+\item Stock selection bad?
+\item Timing poor?
+\item Execution costly?
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Performance Attribution:}
+\begin{itemize}
+\item Decompose returns by factor
+\item Trace P\&L to decisions
+\item Learn which calls were wrong
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Neural Network Attribution}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{Trading} & \textbf{Neural Net} \\
+\midrule
+Macro view & Early layers \\
+Sector allocation & Hidden layers \\
+Stock picks & Later layers \\
+Final trades & Output \\
+P\&L & Loss \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{Backpropagation} is the neural network's performance attribution algorithm.
+\end{columns}
+\bottomnote{``Which decisions led to this P\&L?''}
+\end{frame}
+
+% Slide 31: Backpropagation Definition
+\begin{frame}[t]{Backpropagation: Blame Assignment}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{The Algorithm}
+
+Backpropagation computes $\frac{\partial \mathcal{L}}{\partial w}$ for every weight $w$ in the network.
+
+\vspace{0.5em}
+\textbf{Key Idea:}
+
+Work backward from output to input, propagating error attribution.
+
+\vspace{0.5em}
+\textbf{Two Passes:}
+\begin{enumerate}
+\item \textbf{Forward Pass:} Compute outputs
+\item \textbf{Backward Pass:} Compute gradients
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Efficiency:}
+
+Computes ALL gradients in time proportional to one forward pass.
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/backprop_computational_graph/backprop_computational_graph.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/backprop_computational_graph}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/backprop_computational_graph}{\includegraphics[width=0.6cm]{charts/backprop_computational_graph/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/backprop_computational_graph}{\tiny\texttt{\textcolor{gray}{backprop\_computational\_graph}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Propagating error backward through the network}
+\end{frame}
+
+% Slide 32: The Chain Rule Intuition
+\begin{frame}[t]{The Chain Rule: Intuition}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{The Core Mathematical Tool}
+
+If $A$ affects $B$ and $B$ affects $C$:
+
+$$\frac{\partial C}{\partial A} = \frac{\partial C}{\partial B} \cdot \frac{\partial B}{\partial A}$$
+
+\vspace{0.5em}
+\textbf{Example:}
+
+Temperature $\rightarrow$ Ice cream sales $\rightarrow$ Profit
+
+\vspace{0.5em}
+How does temperature affect profit?
+
+$$\frac{\partial \text{Profit}}{\partial \text{Temp}} = \frac{\partial \text{Profit}}{\partial \text{Sales}} \cdot \frac{\partial \text{Sales}}{\partial \text{Temp}}$$
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/chain_rule_visualization/chain_rule_visualization.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/chain_rule_visualization}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/chain_rule_visualization}{\includegraphics[width=0.6cm]{charts/chain_rule_visualization/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/chain_rule_visualization}{\tiny\texttt{\textcolor{gray}{chain\_rule\_visualization}}}
+};
+\end{tikzpicture}
+
+\bottomnote{``If A affects B and B affects C, how does A affect C?''}
+\end{frame}
+
+% Slide 33: Finance Chain Example
+\begin{frame}[t]{Finance Chain Example}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Chain of Effects}
+
+\begin{center}
+Fed Rate $\rightarrow$ Mortgages $\rightarrow$ Housing $\rightarrow$ Banks $\rightarrow$ Portfolio
+\end{center}
+
+\vspace{0.5em}
+\textbf{How does Fed rate affect your portfolio?}
+
+$$\frac{\partial \text{Portfolio}}{\partial \text{Fed}} = \frac{\partial P}{\partial B} \cdot \frac{\partial B}{\partial H} \cdot \frac{\partial H}{\partial M} \cdot \frac{\partial M}{\partial F}$$
+
+\vspace{0.5em}
+\textbf{Each Link:}
+\begin{itemize}
+\item Fed $\rightarrow$ Mortgages: rate sensitivity
+\item Mortgages $\rightarrow$ Housing: demand elasticity
+\item Housing $\rightarrow$ Banks: credit exposure
+\item Banks $\rightarrow$ Portfolio: position size
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Neural Network Parallel}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{Finance} & \textbf{Neural Net} \\
+\midrule
+Fed rate & Input $x$ \\
+Mortgages & Hidden layer 1 \\
+Housing & Hidden layer 2 \\
+Banks & Hidden layer 3 \\
+Portfolio & Output \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{Backprop does this automatically:}
+
+Chains together all the local sensitivities to get the total effect of each input/weight on the loss.
+\end{columns}
+\bottomnote{Effects propagate through chains of influence}
+\end{frame}
+
+% Slide 34: Output Layer Gradients
+\begin{frame}[t]{Backprop: Output Layer}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{At the Output}
+
+For output weight $w^{(L)}$:
+
+$$\frac{\partial \mathcal{L}}{\partial w^{(L)}} = \frac{\partial \mathcal{L}}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z^{(L)}} \cdot \frac{\partial z^{(L)}}{\partial w^{(L)}}$$
+
+\vspace{0.5em}
+\textbf{Each Term:}
+\begin{itemize}
+\item $\frac{\partial \mathcal{L}}{\partial \hat{y}}$: How loss changes with output
+\item $\frac{\partial \hat{y}}{\partial z^{(L)}}$: Activation derivative
+\item $\frac{\partial z^{(L)}}{\partial w^{(L)}}$: Input from previous layer
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{For MSE + Sigmoid:}
+
+$$\frac{\partial \mathcal{L}}{\partial w^{(L)}} = (\hat{y} - y) \cdot \hat{y}(1-\hat{y}) \cdot a^{(L-1)}$$
+
+\column{0.48\textwidth}
+\textbf{Output Error ($\delta^{(L)}$)}
+
+\vspace{0.5em}
+Define the ``error signal'':
+
+$$\delta^{(L)} = \frac{\partial \mathcal{L}}{\partial z^{(L)}}$$
+
+\vspace{0.5em}
+For MSE loss + sigmoid:
+
+$$\delta^{(L)} = (\hat{y} - y) \cdot \sigma'(z^{(L)})$$
+
+\vspace{0.5em}
+\textbf{Then:}
+
+$$\frac{\partial \mathcal{L}}{\partial w^{(L)}} = \delta^{(L)} \cdot a^{(L-1)}$$
+
+This is just error $\times$ input!
+\end{columns}
+\bottomnote{At the output, error attribution is straightforward}
+\end{frame}
+
+% Slide 35: Hidden Layer Gradients
+\begin{frame}[t]{Backprop: Hidden Layers}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Key Insight}
+
+Hidden layer error comes from downstream:
+
+$$\delta^{(l)} = ((W^{(l+1)})^T \delta^{(l+1)}) \odot \sigma'(z^{(l)})$$
+
+\vspace{0.5em}
+\textbf{In Words:}
+\begin{enumerate}
+\item Take error from next layer ($\delta^{(l+1)}$)
+\item Multiply by weights connecting to next layer
+\item Scale by local activation derivative
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Error Flows Backward:}
+
+Output $\rightarrow$ Last hidden $\rightarrow$ ... $\rightarrow$ First hidden
+
+\column{0.48\textwidth}
+\textbf{Why This Works}
+
+\vspace{0.5em}
+Chain rule connects layers:
+
+$$\frac{\partial \mathcal{L}}{\partial z^{(l)}} = \sum_j \frac{\partial \mathcal{L}}{\partial z^{(l+1)}_j} \cdot \frac{\partial z^{(l+1)}_j}{\partial z^{(l)}}$$
+
+\vspace{0.5em}
+\textbf{Gradient for Hidden Weight:}
+
+$$\frac{\partial \mathcal{L}}{\partial w^{(l)}} = \delta^{(l)} \cdot a^{(l-1)}$$
+
+Same formula as output layer!
+\end{columns}
+\bottomnote{Hidden layer gradients require the chain rule}
+\end{frame}
+
+% Slide 36: The Complete Picture
+\begin{frame}[t]{The Complete Training Loop}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{One Training Step}
+
+\begin{enumerate}
+\item \textbf{Forward Pass}
+\begin{itemize}
+\item Compute all activations
+\item Get prediction $\hat{y}$
+\end{itemize}
+
+\item \textbf{Compute Loss}
+\begin{itemize}
+\item $\mathcal{L} = \ell(\hat{y}, y)$
+\end{itemize}
+
+\item \textbf{Backward Pass}
+\begin{itemize}
+\item Compute $\delta^{(L)}$ at output
+\item Propagate backward to get all $\delta^{(l)}$
+\item Compute all weight gradients
+\end{itemize}
+
+\item \textbf{Update Weights}
+\begin{itemize}
+\item $\mathbf{W} \leftarrow \mathbf{W} - \eta \nabla \mathcal{L}$
+\end{itemize}
+\end{enumerate}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/gradient_flow_mlp/gradient_flow_mlp.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/gradient_flow_mlp}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/gradient_flow_mlp}{\includegraphics[width=0.6cm]{charts/gradient_flow_mlp/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/gradient_flow_mlp}{\tiny\texttt{\textcolor{gray}{gradient\_flow\_mlp}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Forward pass, compute loss, backward pass, update weights}
+\end{frame}
+
+% Slide 37: Why "Backpropagation"?
+\begin{frame}[t]{Why ``Backpropagation''?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Name}
+
+``Back-propagation of errors''
+
+\vspace{0.5em}
+\textbf{Information Flow:}
+
+\textbf{Forward:}
+\begin{itemize}
+\item Data flows input $\rightarrow$ output
+\item Activations computed layer by layer
+\end{itemize}
+
+\textbf{Backward:}
+\begin{itemize}
+\item Errors flow output $\rightarrow$ input
+\item Gradients computed layer by layer
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Symmetry:}
+
+Each layer: one forward operation, one backward operation.
+
+\column{0.48\textwidth}
+\textbf{Historical Note}
+
+\vspace{0.5em}
+\textbf{The Algorithm:}
+\begin{itemize}
+\item Werbos (1974): first derivation
+\item Rumelhart et al. (1986): popularized
+\item Now standard in all deep learning
+\end{itemize}
+
+\textbf{Modern Perspective:}
+
+Backprop is just automatic differentiation applied to neural networks.
+
+\vspace{0.5em}
+\textbf{Frameworks (PyTorch, TensorFlow):}
+
+Compute gradients automatically -- you just specify the forward pass!
+\end{columns}
+\bottomnote{Error information flows from output to input}
+\end{frame}
+
+% Slide 38: Discussion Question 3
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``Why do deeper networks make training harder? What happens to gradients as they flow backward through many layers?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Vanishing Gradients:}
+\begin{itemize}
+\item Sigmoid: max derivative 0.25
+\item Through 10 layers: $0.25^{10}$
+\item Early layers get tiny gradients
+\item Learn extremely slowly
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Exploding Gradients:}
+\begin{itemize}
+\item If derivatives $>$ 1
+\item Gradients grow exponentially
+\item Weights become huge
+\item Training diverges
+\end{itemize}
+\end{columns}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Solutions:}} ReLU, batch normalization, residual connections, careful initialization.
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% ==================== SECTION 6: TRAINING DYNAMICS (Slides 39-46) ====================
+\section{Training Dynamics}
+
+% Slide 39: Batch Gradient Descent
+\begin{frame}[t]{Batch Gradient Descent}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{Definition}
+
+Use \textbf{all} training data to compute gradient:
+
+$$\nabla \mathcal{L} = \frac{1}{m} \sum_{i=1}^{m} \nabla \ell(\hat{y}^{(i)}, y^{(i)})$$
+
+Then update weights once.
+
+\vspace{0.5em}
+\textbf{Advantages:}
+\begin{itemize}
+\item[\textcolor{mlgreen}{+}] Stable gradient estimate
+\item[\textcolor{mlgreen}{+}] Deterministic updates
+\item[\textcolor{mlgreen}{+}] Guaranteed descent direction
+\end{itemize}
+
+\textbf{Disadvantages:}
+\begin{itemize}
+\item[\textcolor{mlred}{-}] Slow for large datasets
+\item[\textcolor{mlred}{-}] Must load all data in memory
+\item[\textcolor{mlred}{-}] One update per full pass
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/batch_vs_stochastic/batch_vs_stochastic.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/batch_vs_stochastic}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/batch_vs_stochastic}{\includegraphics[width=0.6cm]{charts/batch_vs_stochastic/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/batch_vs_stochastic}{\tiny\texttt{\textcolor{gray}{batch\_vs\_stochastic}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Compute gradient using the entire dataset}
+\end{frame}
+
+% Slide 40: Stochastic Gradient Descent
+\begin{frame}[t]{Stochastic Gradient Descent (SGD)}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Definition}
+
+Update after \textbf{each} single example:
+
+$$\nabla \mathcal{L} \approx \nabla \ell(\hat{y}^{(i)}, y^{(i)})$$
+
+One sample = one update.
+
+\vspace{0.5em}
+\textbf{Advantages:}
+\begin{itemize}
+\item[\textcolor{mlgreen}{+}] Very fast updates
+\item[\textcolor{mlgreen}{+}] Can handle huge datasets
+\item[\textcolor{mlgreen}{+}] Noise helps escape local minima
+\item[\textcolor{mlgreen}{+}] Online learning possible
+\end{itemize}
+
+\textbf{Disadvantages:}
+\begin{itemize}
+\item[\textcolor{mlred}{-}] Noisy gradient estimate
+\item[\textcolor{mlred}{-}] Erratic convergence
+\item[\textcolor{mlred}{-}] May not settle at minimum
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Why ``Stochastic''?}
+
+\vspace{0.5em}
+Random sampling of training examples introduces randomness into gradient.
+
+\vspace{0.5em}
+\textbf{Expected Value:}
+
+$$\mathbb{E}[\nabla \ell^{(i)}] = \nabla \mathcal{L}$$
+
+On average, SGD points in the right direction.
+
+\vspace{0.5em}
+\textbf{Variance:}
+
+Individual updates are noisy, but noise can help exploration.
+\end{columns}
+\bottomnote{Update after each single example}
+\end{frame}
+
+% Slide 41: Mini-Batch SGD
+\begin{frame}[t]{Mini-Batch: The Sweet Spot}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Definition}
+
+Use small batches of $B$ examples:
+
+$$\nabla \mathcal{L} \approx \frac{1}{B} \sum_{i=1}^{B} \nabla \ell(\hat{y}^{(i)}, y^{(i)})$$
+
+Typical $B$: 32, 64, 128, 256
+
+\vspace{0.5em}
+\textbf{Advantages:}
+\begin{itemize}
+\item[\textcolor{mlgreen}{+}] Reduced variance vs SGD
+\item[\textcolor{mlgreen}{+}] GPU parallelization
+\item[\textcolor{mlgreen}{+}] Reasonable memory usage
+\item[\textcolor{mlgreen}{+}] Frequent updates
+\end{itemize}
+
+\textbf{The Modern Default}
+
+\column{0.48\textwidth}
+\textbf{Batch Size Trade-offs}
+
+\vspace{0.5em}
+\begin{tabular}{lll}
+\toprule
+\textbf{Size} & \textbf{Noise} & \textbf{Speed} \\
+\midrule
+1 (SGD) & High & Fast updates \\
+32-256 & Medium & Best practice \\
+Full batch & Low & Slow updates \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{Large Batch Issues:}
+\begin{itemize}
+\item May converge to sharp minima
+\item Worse generalization
+\item Need learning rate scaling
+\end{itemize}
+\end{columns}
+\bottomnote{Balance between efficiency and noise}
+\end{frame}
+
+% Slide 42: Epochs
+\begin{frame}[t]{Epochs: Full Passes Through Data}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Definition}
+
+\textbf{Epoch} = one complete pass through all training data.
+
+\vspace{0.5em}
+\textbf{With Mini-Batches:}
+\begin{itemize}
+\item 10,000 samples
+\item Batch size 100
+\item 100 updates per epoch
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Typical Training:}
+\begin{itemize}
+\item 10-1000 epochs
+\item Monitor loss curve
+\item Stop when converged
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Training Timeline}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{Stage} & \textbf{Behavior} \\
+\midrule
+Early epochs & Loss drops quickly \\
+Middle epochs & Progress slows \\
+Late epochs & Diminishing returns \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{When to Stop?}
+\begin{itemize}
+\item Loss stops improving
+\item Validation loss increases (overfitting!)
+\item Resource constraints
+\end{itemize}
+\end{columns}
+\bottomnote{Training typically requires multiple epochs}
+\end{frame}
+
+% Slide 43: Training Curves
+\begin{frame}[t]{Training Curves}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{What to Plot}
+
+\begin{itemize}
+\item Training loss vs. epoch
+\item Validation loss vs. epoch
+\item Learning rate schedule
+\item Gradient norms (debugging)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Healthy Training:}
+\begin{itemize}
+\item Both losses decrease
+\item Validation tracks training
+\item Smooth convergence
+\end{itemize}
+
+\textbf{Warning Signs:}
+\begin{itemize}
+\item Training drops, validation rises
+\item Loss oscillates wildly
+\item Loss becomes NaN
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/overfitting_curves/overfitting_curves.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/overfitting_curves}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/overfitting_curves}{\includegraphics[width=0.6cm]{charts/overfitting_curves/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/overfitting_curves}{\tiny\texttt{\textcolor{gray}{overfitting\_curves}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Monitoring progress during training}
+\end{frame}
+
+% Slide 44: Worked Example
+\begin{frame}[t]{Worked Example: One Training Step}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Simple 2-2-1 Network}
+
+\textbf{Given:}
+\begin{itemize}
+\item Input: $\mathbf{x} = (0.5, 0.8)^T$
+\item Target: $y = 1$
+\item Current weights (simplified)
+\end{itemize}
+
+\textbf{Forward Pass:}
+\begin{align*}
+z^{(1)} &= W^{(1)}\mathbf{x} + b^{(1)} \\
+a^{(1)} &= \sigma(z^{(1)}) \\
+z^{(2)} &= W^{(2)}a^{(1)} + b^{(2)} \\
+\hat{y} &= \sigma(z^{(2)}) = 0.62
+\end{align*}
+
+\column{0.48\textwidth}
+\textbf{Loss and Backward}
+
+\textbf{Loss:}
+$$\mathcal{L} = \frac{1}{2}(y - \hat{y})^2 = \frac{1}{2}(1 - 0.62)^2 = 0.072$$
+
+\textbf{Backward Pass:}
+\begin{align*}
+\delta^{(2)} &= (0.62 - 1) \cdot 0.62(1-0.62) \\
+&= -0.089
+\end{align*}
+
+\textbf{Weight Gradient:}
+$$\frac{\partial \mathcal{L}}{\partial W^{(2)}} = \delta^{(2)} \cdot a^{(1)}$$
+
+\textbf{Update:}
+$$W^{(2)} \leftarrow W^{(2)} - 0.1 \cdot \nabla W^{(2)}$$
+\end{columns}
+\bottomnote{Following the numbers through one training step}
+\end{frame}
+
+% Slide 45: Vanishing Gradients
+\begin{frame}[t]{The Vanishing Gradient Problem}
+\begin{columns}[T]
+\column{0.45\textwidth}
+\textbf{The Problem}
+
+Gradients shrink as they flow backward:
+
+$$\delta^{(l)} \propto \prod_{k=l}^{L-1} \sigma'(z^{(k)})$$
+
+\vspace{0.5em}
+For sigmoid: $\sigma'(z) \leq 0.25$
+
+Through 10 layers: gradient $\times 10^{-6}$
+
+\vspace{0.5em}
+\textbf{Symptoms:}
+\begin{itemize}
+\item Early layers don't learn
+\item Deep networks fail to train
+\item Loss plateaus quickly
+\end{itemize}
+
+\column{0.52\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{charts/vanishing_gradient_demo/vanishing_gradient_demo.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/vanishing_gradient_demo}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/vanishing_gradient_demo}{\includegraphics[width=0.6cm]{charts/vanishing_gradient_demo/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/vanishing_gradient_demo}{\tiny\texttt{\textcolor{gray}{vanishing\_gradient\_demo}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Deep networks: gradients can become vanishingly small}
+\end{frame}
+
+% Slide 46: Appendix Reference
+\begin{frame}[t]{Full Mathematical Derivation}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{This Module: Intuition}
+
+We covered:
+\begin{itemize}
+\item Why backprop works (chain rule)
+\item How errors flow backward
+\item Update rule intuition
+\item Training dynamics
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{What We Skipped:}
+\begin{itemize}
+\item Full mathematical derivation
+\item Matrix calculus details
+\item Vectorized implementations
+\item Automatic differentiation theory
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Appendix B Contains:}
+
+\vspace{0.5em}
+\begin{enumerate}
+\item Chain rule setup
+\item Output layer error derivation
+\item Hidden layer recursion formula
+\item Complete gradient equations
+\item Weight and bias gradients
+\item Algorithm pseudocode
+\end{enumerate}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{For the mathematically curious:}}
+
+The appendix provides the rigorous derivation with all matrix calculus steps.
+\end{columns}
+\bottomnote{See Appendix B for complete backpropagation derivation}
+\end{frame}
+
+% ==================== SECTION 7: OVERFITTING (Slides 47-54) ====================
+\section{Overfitting: The Enemy of Generalization}
+
+% Slide 47: What Is Overfitting?
+\begin{frame}[t]{What Is Overfitting?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Definition}
+
+\textbf{Overfitting:} When a model learns the training data too well, including its noise, and fails to generalize.
+
+\vspace{0.5em}
+\textbf{Analogy:}
+
+A student who memorizes exam answers but doesn't understand the material.
+
+\vspace{0.5em}
+\textbf{Symptoms:}
+\begin{itemize}
+\item Training loss: very low
+\item Test loss: high
+\item Model is ``too confident''
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Why It Happens}
+
+\vspace{0.5em}
+\textbf{Model Complexity:}
+\begin{itemize}
+\item Too many parameters
+\item Can fit any training data perfectly
+\item Including noise
+\end{itemize}
+
+\textbf{Limited Data:}
+\begin{itemize}
+\item Not enough examples
+\item Training set not representative
+\item Noise gets learned as signal
+\end{itemize}
+
+\textbf{Training Too Long:}
+\begin{itemize}
+\item Model eventually memorizes
+\item Needs early stopping
+\end{itemize}
+\end{columns}
+\bottomnote{When your model memorizes instead of learns}
+\end{frame}
+
+% Slide 48: Training vs Validation
+\begin{frame}[t]{Training vs Validation Loss}
+\begin{center}
+\includegraphics[width=0.76\textwidth]{charts/overfitting_curves/overfitting_curves.pdf}
+\end{center}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/overfitting_curves}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/overfitting_curves}{\includegraphics[width=0.6cm]{charts/overfitting_curves/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/overfitting_curves}{\tiny\texttt{\textcolor{gray}{overfitting\_curves}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Training loss decreases but validation increases}
+\end{frame}
+
+% Slide 49: The Backtest Trap
+\begin{frame}[t]{Finance: The Backtest Trap}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Trap}
+
+Every trading strategy looks good on historical data -- that's how you found it!
+
+\vspace{0.5em}
+\textbf{The Process:}
+\begin{enumerate}
+\item Try many strategies
+\item Keep the one that worked best
+\item By construction, it fits the past
+\item Future performance? Unknown.
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Multiple Testing:}
+\begin{itemize}
+\item Try 1000 random strategies
+\item Best one has Sharpe 2.0
+\item Is it skill or luck?
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Why Finance Overfits Easily}
+
+\vspace{0.5em}
+\begin{enumerate}
+\item \textbf{Limited Data}
+\begin{itemize}
+\item 20 years = 5000 trading days
+\item Few independent observations
+\end{itemize}
+\item \textbf{Low Signal-to-Noise}
+\begin{itemize}
+\item Markets are noisy
+\item Easy to fit noise
+\end{itemize}
+\item \textbf{Non-Stationarity}
+\begin{itemize}
+\item Regimes change
+\item Past may not predict future
+\end{itemize}
+\item \textbf{Look-Ahead Bias}
+\begin{itemize}
+\item Using future information
+\item Subtle but deadly
+\end{itemize}
+\end{enumerate}
+\end{columns}
+\bottomnote{``Every strategy looks good on historical data''}
+\end{frame}
+
+% Slide 50: Why Finance Overfits Easily
+\begin{frame}[t]{Why Finance Overfits So Easily}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Data Limitations}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{Domain} & \textbf{Samples} \\
+\midrule
+ImageNet & 1,200,000 \\
+MNIST & 60,000 \\
+Stock returns (daily, 10y) & 2,520 \\
+Stock returns (monthly, 50y) & 600 \\
+Market crashes & $\sim$10 \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{The Problem:}
+
+Neural networks have thousands of parameters but only thousands of data points.
+
+\column{0.48\textwidth}
+\textbf{Signal vs Noise}
+
+\vspace{0.5em}
+\textbf{Image Classification:}
+\begin{itemize}
+\item A cat is always a cat
+\item Signal is strong and consistent
+\item R$^2$ can reach 99\%+
+\end{itemize}
+
+\textbf{Stock Prediction:}
+\begin{itemize}
+\item Returns are mostly random
+\item Signal is weak and changing
+\item R$^2$ of 1\% is excellent!
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Implication:}}
+
+Standard ML practices don't directly transfer to finance.
+\end{columns}
+\bottomnote{Limited data, high noise, non-stationary markets}
+\end{frame}
+
+% Slide 51: Detecting Overfitting
+\begin{frame}[t]{Detecting Overfitting}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Train/Validation/Test Split}
+
+\begin{enumerate}
+\item \textbf{Training Set} (60-80\%)
+\begin{itemize}
+\item Used to fit weights
+\end{itemize}
+\item \textbf{Validation Set} (10-20\%)
+\begin{itemize}
+\item Used to tune hyperparameters
+\item Monitor for overfitting
+\end{itemize}
+\item \textbf{Test Set} (10-20\%)
+\begin{itemize}
+\item Final evaluation only
+\item Touch only once!
+\end{itemize}
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Key Rule:}
+
+Never use test data for decisions.
+
+\column{0.48\textwidth}
+\textbf{Warning Signs}
+
+\vspace{0.5em}
+\textbf{Overfitting Indicators:}
+\begin{itemize}
+\item Training loss $\ll$ validation loss
+\item Validation loss starts increasing
+\item Model predictions are ``too confident''
+\item Performance degrades out-of-sample
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{For Finance:}
+\begin{itemize}
+\item Backtest Sharpe $\gg$ live Sharpe
+\item Strategy ``stops working''
+\item Drawdowns worse than expected
+\end{itemize}
+\end{columns}
+\bottomnote{Always monitor out-of-sample performance}
+\end{frame}
+
+% Slide 52: Discussion Question 4
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``How would you know if your stock prediction model is overfitting? What specific symptoms would you look for?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{In Training:}
+\begin{itemize}
+\item Training/validation gap
+\item Validation loss trend
+\item Prediction confidence
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{In Production:}
+\begin{itemize}
+\item Live vs. backtest performance
+\item Regime sensitivity
+\item Transaction cost impact
+\end{itemize}
+\end{columns}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Best Practice:}} Always maintain a truly out-of-sample test set that you evaluate only once.
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% Slide 53: Preview: Regularization
+\begin{frame}[t]{Preview: Fighting Overfitting}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Solutions (Module 4)}
+
+\begin{enumerate}
+\item \textbf{L1/L2 Regularization}
+\begin{itemize}
+\item Penalize large weights
+\item Simpler models
+\end{itemize}
+\item \textbf{Dropout}
+\begin{itemize}
+\item Randomly disable neurons
+\item Ensemble effect
+\end{itemize}
+\item \textbf{Early Stopping}
+\begin{itemize}
+\item Stop before overfitting
+\item Use validation loss
+\end{itemize}
+\item \textbf{Data Augmentation}
+\begin{itemize}
+\item Create more training data
+\item Finance: bootstrap?
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Finance-Specific}
+
+\vspace{0.5em}
+\begin{enumerate}
+\item \textbf{Walk-Forward Validation}
+\begin{itemize}
+\item Respect time ordering
+\item Rolling windows
+\end{itemize}
+\item \textbf{Cross-Validation Variants}
+\begin{itemize}
+\item Purged CV
+\item Combinatorial CV
+\end{itemize}
+\item \textbf{Ensemble Methods}
+\begin{itemize}
+\item Average multiple models
+\item Reduce variance
+\end{itemize}
+\end{enumerate}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textit{Module 4 will cover these in detail.}}
+\end{columns}
+\bottomnote{Module 4 will cover solutions: regularization, dropout, early stopping}
+\end{frame}
+
+% Slide 54: Module 3 Summary Diagram
+\begin{frame}[t]{Training Pipeline Overview}
+\begin{center}
+\includegraphics[width=0.62\textwidth]{charts/module3_summary_diagram/module3_summary_diagram.pdf}
+\end{center}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/module3_summary_diagram}{\includegraphics[width=0.8cm]{../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/module3_summary_diagram}{\includegraphics[width=0.6cm]{charts/module3_summary_diagram/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/module3_summary_diagram}{\tiny\texttt{\textcolor{gray}{module3\_summary\_diagram}}}
+};
+\end{tikzpicture}
+
+\bottomnote{The complete neural network training process}
+\end{frame}
+
+% ==================== SECTION 8: SUMMARY (Slides 55-58) ====================
+\section{Summary and Preview}
+
+% Slide 55: Module 3 Key Takeaways
+\begin{frame}[t]{Module 3: Key Takeaways}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What We Learned}
+
+\begin{enumerate}
+\item \textbf{Loss Functions}
+\begin{itemize}
+\item Measure prediction error
+\item MSE, cross-entropy
+\item Define what ``good'' means
+\end{itemize}
+\item \textbf{Gradient Descent}
+\begin{itemize}
+\item Follow the slope downhill
+\item Learning rate matters
+\item Batch vs stochastic
+\end{itemize}
+\item \textbf{Backpropagation}
+\begin{itemize}
+\item Chain rule for credit assignment
+\item Error flows backward
+\item Enables efficient gradient computation
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item \textbf{Training Dynamics}
+\begin{itemize}
+\item Epochs and batches
+\item Monitoring with curves
+\item Vanishing gradients
+\end{itemize}
+\item \textbf{Overfitting}
+\begin{itemize}
+\item Memorizing vs learning
+\item Train/val/test split
+\item Finance-specific challenges
+\end{itemize}
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{The Big Picture:}
+
+We can now train neural networks. But making them work well requires more...
+\end{columns}
+\bottomnote{From measuring error to updating weights}
+\end{frame}
+
+% Slide 56: What We've Built
+\begin{frame}[t]{What We've Built So Far}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Modules 1-3 Foundation}
+
+\begin{enumerate}
+\item \textbf{Module 1: Architecture}
+\begin{itemize}
+\item Perceptron basics
+\item Linear decision boundaries
+\item Limitations (XOR)
+\end{itemize}
+\item \textbf{Module 2: MLPs}
+\begin{itemize}
+\item Hidden layers
+\item Non-linear activation
+\item Universal approximation
+\end{itemize}
+\item \textbf{Module 3: Training}
+\begin{itemize}
+\item Gradient descent
+\item Backpropagation
+\item Overfitting awareness
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{You Can Now:}
+
+\vspace{0.5em}
+\begin{itemize}
+\item Explain how neural networks compute
+\item Understand the training process
+\item Recognize overfitting
+\item Follow the math (or know where to look)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{What's Missing:}
+
+\begin{itemize}
+\item Practical regularization
+\item Real-world applications
+\item Finance case studies
+\item Modern developments
+\end{itemize}
+\end{columns}
+\bottomnote{Modules 1-3: The complete neural network foundation}
+\end{frame}
+
+% Slide 57: Discussion Questions Review
+\begin{frame}[t]{Key Questions for Reflection}
+\textbf{Think about these as you move to Module 4:}
+
+\vspace{0.5em}
+\begin{enumerate}
+\item \textbf{Loss vs. Profit:}
+
+Why might minimizing MSE not maximize trading profit? What loss function would better align with trading goals?
+
+\vspace{0.3em}
+\item \textbf{Overfitting in Finance:}
+
+With only 20 years of daily data, how many parameters can we safely learn? What's the ratio of samples to parameters you'd be comfortable with?
+
+\vspace{0.3em}
+\item \textbf{Non-Stationarity:}
+
+If market regimes change, what does that mean for our training strategy? Should we weight recent data more heavily?
+
+\vspace{0.3em}
+\item \textbf{The Efficient Market Hypothesis:}
+
+If markets are efficient, can neural networks find persistent patterns? What would success look like?
+\end{enumerate}
+\bottomnote{Reflect on the learning process}
+\end{frame}
+
+% Slide 58: Preview of Module 4
+\begin{frame}[t]{Preview: Module 4}
+\begin{center}
+\Large
+\textit{``Theory meets practice. How do we actually use neural networks in finance?''}
+\end{center}
+
+\vspace{1em}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Coming Up:}
+\begin{itemize}
+\item Regularization techniques
+\begin{itemize}
+\item L1/L2, dropout, early stopping
+\end{itemize}
+\item Financial data challenges
+\begin{itemize}
+\item Non-stationarity, noise
+\end{itemize}
+\item Complete case study
+\begin{itemize}
+\item Stock prediction end-to-end
+\end{itemize}
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{Also:}
+\begin{itemize}
+\item Modern architectures overview
+\begin{itemize}
+\item CNN, RNN, Transformers
+\end{itemize}
+\item Limitations and ethics
+\begin{itemize}
+\item Black-box decisions
+\item Regulatory concerns
+\end{itemize}
+\item Future directions
+\begin{itemize}
+\item Where the field is heading
+\end{itemize}
+\end{itemize}
+\end{columns}
+
+\vspace{0.5em}
+\textbf{Mathematical details: See Appendix B-D for derivations}
+\bottomnote{Next: Regularization, case studies, and modern developments}
+\end{frame}
+
+\end{document}

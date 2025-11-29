@@ -1,0 +1,1011 @@
+\documentclass[8pt,aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Color definitions
+\definecolor{mlblue}{RGB}{0,102,204}
+\definecolor{mlpurple}{RGB}{51,51,178}
+\definecolor{mllavender}{RGB}{173,173,224}
+\definecolor{mllavender2}{RGB}{193,193,232}
+\definecolor{mllavender3}{RGB}{204,204,235}
+\definecolor{mllavender4}{RGB}{214,214,239}
+\definecolor{mlorange}{RGB}{255, 127, 14}
+\definecolor{mlgreen}{RGB}{44, 160, 44}
+\definecolor{mlred}{RGB}{214, 39, 40}
+\definecolor{mlgray}{RGB}{127, 127, 127}
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{midgray}{RGB}{180, 180, 180}
+
+% Apply custom colors to Madrid theme
+\setbeamercolor{palette primary}{bg=mllavender3,fg=mlpurple}
+\setbeamercolor{palette secondary}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{palette tertiary}{bg=mllavender,fg=white}
+\setbeamercolor{palette quaternary}{bg=mlpurple,fg=white}
+\setbeamercolor{structure}{fg=mlpurple}
+\setbeamercolor{section in toc}{fg=mlpurple}
+\setbeamercolor{subsection in toc}{fg=mlblue}
+\setbeamercolor{title}{fg=mlpurple}
+\setbeamercolor{frametitle}{fg=mlpurple,bg=mllavender3}
+\setbeamercolor{block title}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{block body}{bg=mllavender4,fg=black}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+
+\newcommand{\bottomnote}[1]{%
+\vfill
+\vspace{-2mm}
+\textcolor{mllavender2}{\rule{\textwidth}{0.4pt}}
+\vspace{1mm}
+\footnotesize
+\textbf{#1}
+}
+
+\title{Mathematical Appendix}
+\subtitle{Complete Derivations for Neural Networks}
+\author{Neural Networks for Finance}
+\institute{BSc Lecture Series}
+\date{\today}
+
+\begin{document}
+
+% ==================== TITLE ====================
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+% ==================== TABLE OF CONTENTS ====================
+\begin{frame}[t]{Appendix Contents}
+\tableofcontents
+\bottomnote{Full mathematical derivations for all four modules}
+\end{frame}
+
+% ==================== APPENDIX A: PERCEPTRON CONVERGENCE ====================
+\section{Appendix A: Perceptron Convergence Theorem}
+
+% Slide A1: Theorem Statement
+\begin{frame}[t]{A.1 Perceptron Convergence Theorem}
+\begin{block}{Theorem (Novikoff, 1962)}
+If the training data $\{(\mathbf{x}_i, y_i)\}_{i=1}^n$ is \textbf{linearly separable}, the perceptron learning algorithm converges in a finite number of updates.
+\end{block}
+\vspace{3mm}
+\textbf{What This Means:}
+\begin{itemize}
+    \item The algorithm will find a separating hyperplane
+    \item It will stop updating weights (no more mistakes)
+    \item Convergence is \textbf{guaranteed}, not probabilistic
+\end{itemize}
+\vspace{3mm}
+\textbf{What It Doesn't Say:}
+\begin{itemize}
+    \item Nothing about non-separable data
+    \item Doesn't guarantee the ``best'' hyperplane
+    \item Number of steps can be large
+\end{itemize}
+\bottomnote{Referenced in Module 1}
+\end{frame}
+
+% Slide A2: Setup and Assumptions
+\begin{frame}[t]{A.2 Setup and Assumptions}
+\textbf{Data:} Training set $\{(\mathbf{x}_i, y_i)\}_{i=1}^n$ where $y_i \in \{-1, +1\}$
+
+\vspace{3mm}
+\textbf{Assumption 1: Linear Separability}\\
+There exists $\mathbf{w}^* \in \mathbb{R}^d$ with $\|\mathbf{w}^*\| = 1$ and margin $\gamma > 0$ such that:
+$$y_i(\mathbf{w}^{*T}\mathbf{x}_i) \geq \gamma \quad \text{for all } i = 1, \ldots, n$$
+
+\vspace{3mm}
+\textbf{Assumption 2: Bounded Data}\\
+All data points have bounded norm:
+$$\|\mathbf{x}_i\| \leq R \quad \text{for all } i = 1, \ldots, n$$
+
+\vspace{3mm}
+\textbf{Key Quantities:}
+\begin{itemize}
+    \item $\gamma$: The ``margin'' - minimum distance from any point to the hyperplane
+    \item $R$: Maximum radius - the data lies in a ball of radius $R$
+\end{itemize}
+\bottomnote{Defining the margin and bounded data}
+\end{frame}
+
+% Slide A3: Proof Step 1
+\begin{frame}[t]{A.3 Proof: Step 1 - Lower Bound on $\mathbf{w}^{*T}\mathbf{w}^{(t)}$}
+\textbf{Goal:} Show the inner product $\mathbf{w}^{*T}\mathbf{w}^{(t)}$ grows with each mistake.
+
+\vspace{3mm}
+\textbf{Update Rule:} When mistake on $(\mathbf{x}_i, y_i)$: $\mathbf{w}^{(t+1)} = \mathbf{w}^{(t)} + y_i\mathbf{x}_i$
+
+\vspace{3mm}
+\textbf{Computing the Inner Product:}
+\begin{align*}
+\mathbf{w}^{*T}\mathbf{w}^{(t+1)} &= \mathbf{w}^{*T}(\mathbf{w}^{(t)} + y_i\mathbf{x}_i)\\
+&= \mathbf{w}^{*T}\mathbf{w}^{(t)} + y_i(\mathbf{w}^{*T}\mathbf{x}_i)\\
+&\geq \mathbf{w}^{*T}\mathbf{w}^{(t)} + \gamma \quad \text{(by separability assumption)}
+\end{align*}
+
+\vspace{3mm}
+\textbf{After $t$ mistakes (starting from $\mathbf{w}^{(0)} = \mathbf{0}$):}
+$$\mathbf{w}^{*T}\mathbf{w}^{(t)} \geq t\gamma$$
+\bottomnote{Showing the inner product grows}
+\end{frame}
+
+% Slide A4: Proof Step 2
+\begin{frame}[t]{A.4 Proof: Step 2 - Upper Bound on $\|\mathbf{w}^{(t)}\|^2$}
+\textbf{Goal:} Show the squared norm $\|\mathbf{w}^{(t)}\|^2$ grows slowly.
+
+\vspace{3mm}
+\textbf{Computing the Squared Norm:}
+\begin{align*}
+\|\mathbf{w}^{(t+1)}\|^2 &= \|\mathbf{w}^{(t)} + y_i\mathbf{x}_i\|^2\\
+&= \|\mathbf{w}^{(t)}\|^2 + 2y_i(\mathbf{w}^{(t)T}\mathbf{x}_i) + \|\mathbf{x}_i\|^2\\
+&\leq \|\mathbf{w}^{(t)}\|^2 + 0 + R^2 \quad \text{(mistake means } y_i(\mathbf{w}^{(t)T}\mathbf{x}_i) \leq 0\text{)}\\
+&\leq \|\mathbf{w}^{(t)}\|^2 + R^2
+\end{align*}
+
+\vspace{3mm}
+\textbf{After $t$ mistakes (starting from $\mathbf{w}^{(0)} = \mathbf{0}$):}
+$$\|\mathbf{w}^{(t)}\|^2 \leq tR^2$$
+\bottomnote{Showing the norm is bounded}
+\end{frame}
+
+% Slide A5: Proof Conclusion
+\begin{frame}[t]{A.5 Proof: Conclusion}
+\textbf{Combining the Two Bounds:}
+
+\vspace{3mm}
+From Step 1: $\mathbf{w}^{*T}\mathbf{w}^{(t)} \geq t\gamma$
+
+From Step 2: $\|\mathbf{w}^{(t)}\|^2 \leq tR^2$, so $\|\mathbf{w}^{(t)}\| \leq \sqrt{t}R$
+
+\vspace{3mm}
+\textbf{Using Cauchy-Schwarz:}
+$$t\gamma \leq \mathbf{w}^{*T}\mathbf{w}^{(t)} \leq \|\mathbf{w}^*\|\|\mathbf{w}^{(t)}\| = 1 \cdot \|\mathbf{w}^{(t)}\| \leq \sqrt{t}R$$
+
+\vspace{3mm}
+\textbf{Solving for $t$:}
+$$t\gamma \leq \sqrt{t}R \implies \sqrt{t} \leq \frac{R}{\gamma} \implies t \leq \frac{R^2}{\gamma^2}$$
+
+\vspace{3mm}
+\begin{block}{Convergence Bound}
+$$\text{Number of mistakes} \leq \left(\frac{R}{\gamma}\right)^2$$
+\end{block}
+\bottomnote{Maximum number of mistakes: $(R/\gamma)^2$}
+\end{frame}
+
+% Slide A6: Geometric Interpretation
+\begin{frame}[t]{A.6 Geometric Interpretation}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\textbf{What the Bound $(R/\gamma)^2$ Tells Us:}
+\begin{itemize}
+    \item Large margin $\gamma \rightarrow$ fewer mistakes
+    \item Larger data spread $R \rightarrow$ more mistakes
+    \item Ratio matters, not absolute values
+\end{itemize}
+\vspace{3mm}
+\textbf{Intuition:}
+\begin{itemize}
+    \item $\gamma$ = ``wiggle room'' for the hyperplane
+    \item $R$ = how much ground to cover
+    \item Easy problem: large $\gamma$, small $R$
+    \item Hard problem: small $\gamma$, large $R$
+\end{itemize}
+\end{column}
+\begin{column}{0.43\textwidth}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{charts/perceptron_convergence_proof/perceptron_convergence_proof.pdf}
+\end{center}
+\end{column}
+\end{columns}
+\vspace{3mm}
+\textbf{Limitation:} If $\gamma = 0$ (not separable), bound is infinite $\rightarrow$ no convergence guarantee.
+\bottomnote{What the proof means geometrically}
+\end{frame}
+
+% ==================== APPENDIX B: BACKPROPAGATION ====================
+\section{Appendix B: Complete Backpropagation Derivation}
+
+% Slide B1: Overview
+\begin{frame}[t]{B.1 Backpropagation: Overview}
+\textbf{Goal:} Compute $\frac{\partial \mathcal{L}}{\partial W^{(l)}_{jk}}$ and $\frac{\partial \mathcal{L}}{\partial b^{(l)}_j}$ for all layers $l$.
+
+\vspace{3mm}
+\textbf{The Challenge:}
+\begin{itemize}
+    \item Loss depends on weights through many intermediate layers
+    \item Na\"ive approach: $O(n^2)$ operations per parameter
+    \item Backprop achieves: $O(n)$ total (same as forward pass!)
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Key Insight:} Reuse intermediate computations via the chain rule.
+
+\vspace{3mm}
+\textbf{What We Will Derive:}
+\begin{enumerate}
+    \item Error signal $\boldsymbol{\delta}^{(L)}$ at output layer
+    \item Recursion formula for $\boldsymbol{\delta}^{(l)}$ at hidden layers
+    \item Weight gradient $\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(l)}}$
+    \item Bias gradient $\frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(l)}}$
+\end{enumerate}
+\bottomnote{Referenced in Module 3}
+\end{frame}
+
+% Slide B2: Notation
+\begin{frame}[t]{B.2 Notation}
+\textbf{Network with $L$ layers:}
+\begin{itemize}
+    \item $\mathbf{h}^{(0)} = \mathbf{x}$: Input (layer 0)
+    \item $\mathbf{z}^{(l)} = \mathbf{W}^{(l)}\mathbf{h}^{(l-1)} + \mathbf{b}^{(l)}$: Pre-activation (layer $l$)
+    \item $\mathbf{h}^{(l)} = \phi(\mathbf{z}^{(l)})$: Activation (layer $l$)
+    \item $\hat{\mathbf{y}} = \mathbf{h}^{(L)}$: Output (layer $L$)
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Dimensions:}
+\begin{itemize}
+    \item $\mathbf{W}^{(l)} \in \mathbb{R}^{n_l \times n_{l-1}}$: Weight matrix
+    \item $\mathbf{b}^{(l)} \in \mathbb{R}^{n_l}$: Bias vector
+    \item $n_l$: Number of neurons in layer $l$
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Error Signal (key quantity):}
+$$\boldsymbol{\delta}^{(l)} \equiv \frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(l)}} \in \mathbb{R}^{n_l}$$
+\bottomnote{Consistent notation for the derivation}
+\end{frame}
+
+% Slide B3: Chain Rule Review
+\begin{frame}[t]{B.3 Chain Rule Review}
+\textbf{Univariate Chain Rule:}
+$$\frac{dz}{dx} = \frac{dz}{dy} \cdot \frac{dy}{dx}$$
+
+\vspace{3mm}
+\textbf{Multivariate Chain Rule:}\\
+If $L$ depends on $z_1, \ldots, z_n$, each depending on $w$:
+$$\frac{\partial L}{\partial w} = \sum_{i=1}^{n} \frac{\partial L}{\partial z_i} \cdot \frac{\partial z_i}{\partial w}$$
+
+\vspace{3mm}
+\textbf{Matrix Form:}\\
+If $\mathbf{z} = f(\mathbf{h})$ and $L = L(\mathbf{z})$:
+$$\frac{\partial L}{\partial \mathbf{h}} = \left(\frac{\partial \mathbf{z}}{\partial \mathbf{h}}\right)^T \frac{\partial L}{\partial \mathbf{z}}$$
+
+\vspace{3mm}
+\textbf{Key for Backprop:} The Jacobian $\frac{\partial \mathbf{z}}{\partial \mathbf{h}}$ connects layers.
+\bottomnote{The mathematical foundation of backpropagation}
+\end{frame}
+
+% Slide B4: Forward Pass Equations
+\begin{frame}[t]{B.4 Forward Pass Equations}
+\textbf{Layer-by-Layer Computation:}
+
+\vspace{3mm}
+\textbf{For each layer $l = 1, 2, \ldots, L$:}
+\begin{align*}
+\text{Pre-activation:} \quad & \mathbf{z}^{(l)} = \mathbf{W}^{(l)}\mathbf{h}^{(l-1)} + \mathbf{b}^{(l)}\\[2mm]
+\text{Activation:} \quad & \mathbf{h}^{(l)} = \phi^{(l)}(\mathbf{z}^{(l)})
+\end{align*}
+
+\vspace{3mm}
+\textbf{Element-wise:}
+\begin{align*}
+z^{(l)}_j &= \sum_{k=1}^{n_{l-1}} W^{(l)}_{jk} h^{(l-1)}_k + b^{(l)}_j\\
+h^{(l)}_j &= \phi(z^{(l)}_j)
+\end{align*}
+
+\vspace{3mm}
+\textbf{Final Output:} $\hat{\mathbf{y}} = \mathbf{h}^{(L)}$
+
+\textbf{Loss:} $\mathcal{L} = \mathcal{L}(\hat{\mathbf{y}}, \mathbf{y})$
+\bottomnote{Computing outputs}
+\end{frame}
+
+% Slide B5: Error Signal Definition
+\begin{frame}[t]{B.5 Error Signal Definition}
+\textbf{Definition:} The error signal at layer $l$ is:
+$$\boldsymbol{\delta}^{(l)} \equiv \frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(l)}}$$
+
+\vspace{3mm}
+\textbf{Why This Quantity?}
+\begin{itemize}
+    \item It captures ``how much does the loss change if $\mathbf{z}^{(l)}$ changes''
+    \item All weight gradients can be expressed in terms of $\boldsymbol{\delta}^{(l)}$
+    \item Can be computed recursively from layer to layer
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Strategy:}
+\begin{enumerate}
+    \item Compute $\boldsymbol{\delta}^{(L)}$ at output layer (depends on loss function)
+    \item Propagate backward: $\boldsymbol{\delta}^{(l)} = f(\boldsymbol{\delta}^{(l+1)})$
+    \item Compute weight gradients: $\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(l)}} = g(\boldsymbol{\delta}^{(l)})$
+\end{enumerate}
+\bottomnote{The key quantity for backpropagation}
+\end{frame}
+
+% Slide B6: Output Layer Error
+\begin{frame}[t]{B.6 Output Layer Error Derivation}
+\textbf{At the output layer $L$:}
+$$\boldsymbol{\delta}^{(L)} = \frac{\partial \mathcal{L}}{\partial \mathbf{z}^{(L)}}$$
+
+\vspace{3mm}
+\textbf{Using the Chain Rule:}
+$$\delta^{(L)}_j = \frac{\partial \mathcal{L}}{\partial z^{(L)}_j} = \sum_k \frac{\partial \mathcal{L}}{\partial h^{(L)}_k} \cdot \frac{\partial h^{(L)}_k}{\partial z^{(L)}_j}$$
+
+\vspace{3mm}
+\textbf{For element-wise activation:}
+$$\frac{\partial h^{(L)}_k}{\partial z^{(L)}_j} = \phi'(z^{(L)}_j) \cdot \mathbf{1}_{j=k}$$
+
+\vspace{3mm}
+\textbf{Result:}
+$$\delta^{(L)}_j = \frac{\partial \mathcal{L}}{\partial h^{(L)}_j} \cdot \phi'(z^{(L)}_j)$$
+
+In vector form: $\boldsymbol{\delta}^{(L)} = \nabla_{\mathbf{h}^{(L)}} \mathcal{L} \odot \phi'(\mathbf{z}^{(L)})$
+\bottomnote{Starting point for backward pass}
+\end{frame}
+
+% Slide B7: MSE + Sigmoid Case
+\begin{frame}[t]{B.7 Special Case: MSE + Sigmoid}
+\textbf{Setup:}
+\begin{itemize}
+    \item Loss: $\mathcal{L} = \frac{1}{2}\|\hat{\mathbf{y}} - \mathbf{y}\|^2 = \frac{1}{2}\sum_j (h^{(L)}_j - y_j)^2$
+    \item Activation: $\phi(z) = \sigma(z) = \frac{1}{1+e^{-z}}$
+    \item Derivative: $\sigma'(z) = \sigma(z)(1-\sigma(z))$
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Gradient of Loss:}
+$$\frac{\partial \mathcal{L}}{\partial h^{(L)}_j} = h^{(L)}_j - y_j = \hat{y}_j - y_j$$
+
+\vspace{3mm}
+\textbf{Output Layer Error:}
+\begin{align*}
+\delta^{(L)}_j &= (h^{(L)}_j - y_j) \cdot \sigma(z^{(L)}_j)(1 - \sigma(z^{(L)}_j))\\
+&= (\hat{y}_j - y_j) \cdot \hat{y}_j(1 - \hat{y}_j)
+\end{align*}
+
+\textbf{Vector form:} $\boldsymbol{\delta}^{(L)} = (\hat{\mathbf{y}} - \mathbf{y}) \odot \hat{\mathbf{y}} \odot (1 - \hat{\mathbf{y}})$
+\bottomnote{Complete derivation for common case}
+\end{frame}
+
+% Slide B8: Cross-Entropy + Softmax Case
+\begin{frame}[t]{B.8 Special Case: Cross-Entropy + Softmax}
+\textbf{Setup:}
+\begin{itemize}
+    \item Loss: $\mathcal{L} = -\sum_j y_j \log(\hat{y}_j)$ (one-hot $\mathbf{y}$)
+    \item Activation: $\hat{y}_j = \text{softmax}(z^{(L)}_j) = \frac{e^{z^{(L)}_j}}{\sum_k e^{z^{(L)}_k}}$
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Combined Derivative (remarkably simple):}
+$$\delta^{(L)}_j = \frac{\partial \mathcal{L}}{\partial z^{(L)}_j} = \hat{y}_j - y_j$$
+
+\vspace{3mm}
+\textbf{Derivation Sketch:}
+\begin{align*}
+\frac{\partial \mathcal{L}}{\partial z^{(L)}_j} &= -\sum_k y_k \frac{\partial \log \hat{y}_k}{\partial z^{(L)}_j} = -\sum_k y_k \frac{1}{\hat{y}_k} \frac{\partial \hat{y}_k}{\partial z^{(L)}_j}\\
+&= -y_j(1 - \hat{y}_j) + \sum_{k \neq j} y_k \hat{y}_j = \hat{y}_j - y_j
+\end{align*}
+
+\textbf{Vector form:} $\boldsymbol{\delta}^{(L)} = \hat{\mathbf{y}} - \mathbf{y}$
+\bottomnote{Complete derivation for classification - elegantly simple!}
+\end{frame}
+
+% Slide B9: Hidden Layer Error - Setup
+\begin{frame}[t]{B.9 Hidden Layer Error: Setup}
+\textbf{Goal:} Express $\boldsymbol{\delta}^{(l)}$ in terms of $\boldsymbol{\delta}^{(l+1)}$
+
+\vspace{3mm}
+\textbf{The Computational Graph:}
+$$\mathbf{z}^{(l)} \rightarrow \mathbf{h}^{(l)} \rightarrow \mathbf{z}^{(l+1)} \rightarrow \mathbf{h}^{(l+1)} \rightarrow \cdots \rightarrow \mathcal{L}$$
+
+\vspace{3mm}
+\textbf{Chain Rule:}
+$$\delta^{(l)}_j = \frac{\partial \mathcal{L}}{\partial z^{(l)}_j} = \sum_k \frac{\partial \mathcal{L}}{\partial z^{(l+1)}_k} \cdot \frac{\partial z^{(l+1)}_k}{\partial z^{(l)}_j}$$
+
+\vspace{3mm}
+\textbf{Breaking It Down:}
+\begin{enumerate}
+    \item $\frac{\partial \mathcal{L}}{\partial z^{(l+1)}_k} = \delta^{(l+1)}_k$ (already computed)
+    \item $\frac{\partial z^{(l+1)}_k}{\partial z^{(l)}_j}$ needs to be derived
+\end{enumerate}
+\bottomnote{Applying the chain rule through layers}
+\end{frame}
+
+% Slide B10: Hidden Layer Error - Step 1
+\begin{frame}[t]{B.10 Hidden Layer Error: Step 1}
+\textbf{Computing $\frac{\partial z^{(l+1)}_k}{\partial z^{(l)}_j}$:}
+
+\vspace{3mm}
+\textbf{Recall:}
+$$z^{(l+1)}_k = \sum_m W^{(l+1)}_{km} h^{(l)}_m + b^{(l+1)}_k$$
+
+\vspace{3mm}
+\textbf{Chain Rule:}
+$$\frac{\partial z^{(l+1)}_k}{\partial z^{(l)}_j} = \sum_m W^{(l+1)}_{km} \frac{\partial h^{(l)}_m}{\partial z^{(l)}_j}$$
+
+\vspace{3mm}
+\textbf{For element-wise activation:}
+$$\frac{\partial h^{(l)}_m}{\partial z^{(l)}_j} = \phi'(z^{(l)}_j) \cdot \mathbf{1}_{m=j}$$
+
+\vspace{3mm}
+\textbf{Therefore:}
+$$\frac{\partial z^{(l+1)}_k}{\partial z^{(l)}_j} = W^{(l+1)}_{kj} \cdot \phi'(z^{(l)}_j)$$
+\bottomnote{First component of the chain}
+\end{frame}
+
+% Slide B11: Hidden Layer Error - Step 2
+\begin{frame}[t]{B.11 Hidden Layer Error: Step 2}
+\textbf{Substituting Back:}
+\begin{align*}
+\delta^{(l)}_j &= \sum_k \delta^{(l+1)}_k \cdot \frac{\partial z^{(l+1)}_k}{\partial z^{(l)}_j}\\[2mm]
+&= \sum_k \delta^{(l+1)}_k \cdot W^{(l+1)}_{kj} \cdot \phi'(z^{(l)}_j)\\[2mm]
+&= \phi'(z^{(l)}_j) \cdot \sum_k W^{(l+1)}_{kj} \delta^{(l+1)}_k\\[2mm]
+&= \phi'(z^{(l)}_j) \cdot [\mathbf{W}^{(l+1)T}\boldsymbol{\delta}^{(l+1)}]_j
+\end{align*}
+
+\vspace{3mm}
+\textbf{Interpretation:}
+\begin{itemize}
+    \item $\mathbf{W}^{(l+1)T}\boldsymbol{\delta}^{(l+1)}$: Error from next layer, weighted by connection strengths
+    \item $\phi'(z^{(l)}_j)$: Scaled by local gradient of activation
+\end{itemize}
+\bottomnote{Second component of the chain}
+\end{frame}
+
+% Slide B12: Hidden Layer Error - Step 3
+\begin{frame}[t]{B.12 Hidden Layer Error: Activation Derivatives}
+\textbf{Common Activation Functions and Their Derivatives:}
+
+\vspace{3mm}
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Activation} & $\phi(z)$ & $\phi'(z)$ \\
+\midrule
+Sigmoid & $\frac{1}{1+e^{-z}}$ & $\phi(z)(1-\phi(z))$ \\[2mm]
+Tanh & $\frac{e^z - e^{-z}}{e^z + e^{-z}}$ & $1 - \phi(z)^2$ \\[2mm]
+ReLU & $\max(0, z)$ & $\mathbf{1}_{z > 0}$ \\[2mm]
+Leaky ReLU & $\max(\alpha z, z)$ & $\alpha\mathbf{1}_{z \leq 0} + \mathbf{1}_{z > 0}$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{5mm}
+\textbf{Note:} ReLU derivative is 0 for $z \leq 0$, 1 for $z > 0$\\
+This can cause ``dead neurons'' if $z$ is always negative.
+\bottomnote{Third component of the chain}
+\end{frame}
+
+% Slide B13: Hidden Layer Error - Complete
+\begin{frame}[t]{B.13 Hidden Layer Error: Complete Formula}
+\begin{block}{Backpropagation Recursion}
+$$\boldsymbol{\delta}^{(l)} = (\mathbf{W}^{(l+1)T}\boldsymbol{\delta}^{(l+1)}) \odot \phi'(\mathbf{z}^{(l)})$$
+\end{block}
+
+\vspace{3mm}
+\textbf{Element-wise:}
+$$\delta^{(l)}_j = \phi'(z^{(l)}_j) \cdot \sum_k W^{(l+1)}_{kj} \delta^{(l+1)}_k$$
+
+\vspace{3mm}
+\textbf{Interpretation:}
+\begin{itemize}
+    \item \textbf{Matrix multiply:} $\mathbf{W}^{(l+1)T}\boldsymbol{\delta}^{(l+1)}$ - ``pull back'' error through weights
+    \item \textbf{Element-wise multiply:} $\odot \phi'(\mathbf{z}^{(l)})$ - scale by local gradient
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Why ``Back'' Propagation?}
+\begin{itemize}
+    \item Errors flow backward: $\boldsymbol{\delta}^{(L)} \rightarrow \boldsymbol{\delta}^{(L-1)} \rightarrow \cdots \rightarrow \boldsymbol{\delta}^{(1)}$
+    \item Uses transpose of forward weights $\mathbf{W}^T$
+\end{itemize}
+\bottomnote{The backpropagation recursion}
+\end{frame}
+
+% Slide B14: Weight Gradient - Setup
+\begin{frame}[t]{B.14 Weight Gradient: Setup}
+\textbf{Goal:} Compute $\frac{\partial \mathcal{L}}{\partial W^{(l)}_{jk}}$
+
+\vspace{3mm}
+\textbf{How $W^{(l)}_{jk}$ Affects the Loss:}
+$$W^{(l)}_{jk} \rightarrow z^{(l)}_j \rightarrow h^{(l)}_j \rightarrow \cdots \rightarrow \mathcal{L}$$
+
+\vspace{3mm}
+\textbf{Chain Rule:}
+$$\frac{\partial \mathcal{L}}{\partial W^{(l)}_{jk}} = \frac{\partial \mathcal{L}}{\partial z^{(l)}_j} \cdot \frac{\partial z^{(l)}_j}{\partial W^{(l)}_{jk}}$$
+
+\vspace{3mm}
+\textbf{We Already Know:}
+$$\frac{\partial \mathcal{L}}{\partial z^{(l)}_j} = \delta^{(l)}_j$$
+
+\vspace{3mm}
+\textbf{Need to Compute:}
+$$\frac{\partial z^{(l)}_j}{\partial W^{(l)}_{jk}} = ?$$
+\bottomnote{Computing the gradient with respect to weights}
+\end{frame}
+
+% Slide B15: Weight Gradient - Derivation
+\begin{frame}[t]{B.15 Weight Gradient: Derivation}
+\textbf{Recall:}
+$$z^{(l)}_j = \sum_m W^{(l)}_{jm} h^{(l-1)}_m + b^{(l)}_j$$
+
+\vspace{3mm}
+\textbf{Partial Derivative:}
+$$\frac{\partial z^{(l)}_j}{\partial W^{(l)}_{jk}} = h^{(l-1)}_k$$
+
+\vspace{3mm}
+\textbf{Therefore:}
+$$\frac{\partial \mathcal{L}}{\partial W^{(l)}_{jk}} = \delta^{(l)}_j \cdot h^{(l-1)}_k$$
+
+\vspace{3mm}
+\textbf{Interpretation:}
+\begin{itemize}
+    \item Error at neuron $j$ ($\delta^{(l)}_j$)
+    \item Times activation of input $k$ ($h^{(l-1)}_k$)
+    \item ``Blame'' is proportional to both
+\end{itemize}
+\bottomnote{Applying the chain rule to weights}
+\end{frame}
+
+% Slide B16: Weight Gradient - Complete
+\begin{frame}[t]{B.16 Weight Gradient: Complete Formula}
+\begin{block}{Weight Gradient Formula}
+$$\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(l)}} = \boldsymbol{\delta}^{(l)} (\mathbf{h}^{(l-1)})^T$$
+\end{block}
+
+\vspace{3mm}
+\textbf{Dimensions:}
+\begin{itemize}
+    \item $\boldsymbol{\delta}^{(l)} \in \mathbb{R}^{n_l}$ (column vector)
+    \item $\mathbf{h}^{(l-1)} \in \mathbb{R}^{n_{l-1}}$ (column vector)
+    \item $\boldsymbol{\delta}^{(l)} (\mathbf{h}^{(l-1)})^T \in \mathbb{R}^{n_l \times n_{l-1}}$ (outer product = matrix)
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Element-wise:}
+$$\left[\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(l)}}\right]_{jk} = \delta^{(l)}_j h^{(l-1)}_k$$
+
+\vspace{3mm}
+\textbf{Intuition:} The gradient is an outer product of error and activation.
+\bottomnote{The weight update formula}
+\end{frame}
+
+% Slide B17: Bias Gradient
+\begin{frame}[t]{B.17 Bias Gradient Derivation}
+\textbf{Goal:} Compute $\frac{\partial \mathcal{L}}{\partial b^{(l)}_j}$
+
+\vspace{3mm}
+\textbf{Recall:}
+$$z^{(l)}_j = \sum_m W^{(l)}_{jm} h^{(l-1)}_m + b^{(l)}_j$$
+
+\vspace{3mm}
+\textbf{Partial Derivative:}
+$$\frac{\partial z^{(l)}_j}{\partial b^{(l)}_j} = 1$$
+
+\vspace{3mm}
+\textbf{Therefore:}
+$$\frac{\partial \mathcal{L}}{\partial b^{(l)}_j} = \delta^{(l)}_j \cdot 1 = \delta^{(l)}_j$$
+
+\begin{block}{Bias Gradient Formula}
+$$\frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(l)}} = \boldsymbol{\delta}^{(l)}$$
+\end{block}
+
+\textbf{Note:} The bias gradient is simply the error signal itself!
+\bottomnote{Simpler than the weight gradient}
+\end{frame}
+
+% Slide B18: Complete Algorithm
+\begin{frame}[t]{B.18 Complete Backpropagation Algorithm}
+\textbf{Input:} Training example $(\mathbf{x}, \mathbf{y})$, network weights $\{\mathbf{W}^{(l)}, \mathbf{b}^{(l)}\}$
+
+\vspace{2mm}
+\textbf{Forward Pass:}
+\begin{enumerate}
+    \item Set $\mathbf{h}^{(0)} = \mathbf{x}$
+    \item For $l = 1$ to $L$:
+    \begin{itemize}
+        \item $\mathbf{z}^{(l)} = \mathbf{W}^{(l)}\mathbf{h}^{(l-1)} + \mathbf{b}^{(l)}$
+        \item $\mathbf{h}^{(l)} = \phi^{(l)}(\mathbf{z}^{(l)})$
+    \end{itemize}
+    \item Compute loss $\mathcal{L}(\mathbf{h}^{(L)}, \mathbf{y})$
+\end{enumerate}
+
+\vspace{2mm}
+\textbf{Backward Pass:}
+\begin{enumerate}
+    \item Compute $\boldsymbol{\delta}^{(L)} = \nabla_{\mathbf{h}^{(L)}}\mathcal{L} \odot \phi'^{(L)}(\mathbf{z}^{(L)})$
+    \item For $l = L-1$ to $1$:
+    \begin{itemize}
+        \item $\boldsymbol{\delta}^{(l)} = (\mathbf{W}^{(l+1)T}\boldsymbol{\delta}^{(l+1)}) \odot \phi'^{(l)}(\mathbf{z}^{(l)})$
+    \end{itemize}
+\end{enumerate}
+
+\vspace{2mm}
+\textbf{Gradients:} $\frac{\partial \mathcal{L}}{\partial \mathbf{W}^{(l)}} = \boldsymbol{\delta}^{(l)}(\mathbf{h}^{(l-1)})^T$, \quad $\frac{\partial \mathcal{L}}{\partial \mathbf{b}^{(l)}} = \boldsymbol{\delta}^{(l)}$
+\bottomnote{The full algorithm}
+\end{frame}
+
+% Slide B19: Worked Example
+\begin{frame}[t]{B.19 Worked Example: 2-2-1 Network}
+\textbf{Network:} 2 inputs, 2 hidden neurons (sigmoid), 1 output (sigmoid), MSE loss
+
+\vspace{2mm}
+\textbf{Given:} $\mathbf{x} = [1, 0.5]^T$, $y = 1$,
+$\mathbf{W}^{(1)} = \begin{bmatrix} 0.1 & 0.2 \\ 0.3 & 0.4 \end{bmatrix}$,
+$\mathbf{W}^{(2)} = [0.5, 0.6]$
+
+\vspace{2mm}
+\textbf{Forward Pass:}
+\begin{align*}
+\mathbf{z}^{(1)} &= \mathbf{W}^{(1)}\mathbf{x} = [0.2, 0.5]^T\\
+\mathbf{h}^{(1)} &= \sigma(\mathbf{z}^{(1)}) = [0.550, 0.622]^T\\
+z^{(2)} &= \mathbf{W}^{(2)}\mathbf{h}^{(1)} = 0.648\\
+\hat{y} &= \sigma(z^{(2)}) = 0.656
+\end{align*}
+
+\vspace{2mm}
+\textbf{Backward Pass:}
+\begin{align*}
+\delta^{(2)} &= (\hat{y} - y) \cdot \hat{y}(1-\hat{y}) = -0.078\\
+\boldsymbol{\delta}^{(1)} &= (\mathbf{W}^{(2)T}\delta^{(2)}) \odot \mathbf{h}^{(1)} \odot (1-\mathbf{h}^{(1)}) = [-0.010, -0.011]^T
+\end{align*}
+\bottomnote{Following the numbers through the algorithm}
+\end{frame}
+
+% Slide B20: Computational Complexity
+\begin{frame}[t]{B.20 Computational Complexity Analysis}
+\textbf{For a Network with $L$ Layers:}
+
+\vspace{3mm}
+\textbf{Forward Pass:}
+\begin{itemize}
+    \item Layer $l$: Matrix-vector multiply $\mathbf{W}^{(l)}\mathbf{h}^{(l-1)}$
+    \item Cost: $O(n_l \times n_{l-1})$ per layer
+    \item Total: $O(\sum_l n_l n_{l-1}) = O(W)$ where $W$ = total weights
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Backward Pass:}
+\begin{itemize}
+    \item Layer $l$: Matrix-vector multiply $\mathbf{W}^{(l+1)T}\boldsymbol{\delta}^{(l+1)}$
+    \item Same cost as forward: $O(n_{l+1} \times n_l)$ per layer
+    \item Total: $O(W)$
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Key Result:}
+\begin{block}{Backpropagation Complexity}
+Computing all gradients: $O(W)$ = same as one forward pass!
+\end{block}
+Na\"ive finite differences would cost $O(W^2)$ - backprop is $W\times$ faster.
+\bottomnote{Why backpropagation is efficient}
+\end{frame}
+
+% ==================== APPENDIX C: LOSS FUNCTIONS ====================
+\section{Appendix C: Loss Function Derivations}
+
+% Slide C1: MSE from Maximum Likelihood
+\begin{frame}[t]{C.1 MSE from Maximum Likelihood}
+\textbf{Setup:} Regression problem where we model:
+$$y = f_\theta(\mathbf{x}) + \epsilon, \quad \epsilon \sim \mathcal{N}(0, \sigma^2)$$
+
+\vspace{3mm}
+\textbf{This Implies:}
+$$p(y|\mathbf{x}, \theta) = \mathcal{N}(y; f_\theta(\mathbf{x}), \sigma^2) = \frac{1}{\sqrt{2\pi\sigma^2}}\exp\left(-\frac{(y - f_\theta(\mathbf{x}))^2}{2\sigma^2}\right)$$
+
+\vspace{3mm}
+\textbf{Log-Likelihood for Dataset $\{(\mathbf{x}_i, y_i)\}_{i=1}^n$:}
+\begin{align*}
+\log p(\mathbf{y}|\mathbf{X}, \theta) &= \sum_{i=1}^n \log p(y_i|\mathbf{x}_i, \theta)\\
+&= -\frac{n}{2}\log(2\pi\sigma^2) - \frac{1}{2\sigma^2}\sum_{i=1}^n (y_i - f_\theta(\mathbf{x}_i))^2
+\end{align*}
+\bottomnote{Why MSE is the natural choice for regression}
+\end{frame}
+
+% Slide C2: MSE Derivation
+\begin{frame}[t]{C.2 MSE Derivation}
+\textbf{Maximum Likelihood Estimation:}
+$$\hat{\theta}_{ML} = \arg\max_\theta \log p(\mathbf{y}|\mathbf{X}, \theta)$$
+
+\vspace{3mm}
+\textbf{Equivalently (dropping constants):}
+$$\hat{\theta}_{ML} = \arg\min_\theta \sum_{i=1}^n (y_i - f_\theta(\mathbf{x}_i))^2$$
+
+\vspace{3mm}
+\textbf{This is Mean Squared Error (MSE):}
+$$\mathcal{L}_{MSE} = \frac{1}{n}\sum_{i=1}^n (y_i - \hat{y}_i)^2$$
+
+\vspace{3mm}
+\begin{block}{Key Insight}
+MSE loss = Maximum likelihood under Gaussian noise assumption
+\end{block}
+
+\textbf{The $\frac{1}{n}$ is for averaging; the $\frac{1}{2}$ often added is for cleaner gradients.}
+\bottomnote{From Gaussian likelihood to squared error}
+\end{frame}
+
+% Slide C3: Cross-Entropy from Maximum Likelihood
+\begin{frame}[t]{C.3 Cross-Entropy from Maximum Likelihood}
+\textbf{Setup:} Binary classification where:
+$$p(y=1|\mathbf{x}, \theta) = f_\theta(\mathbf{x}) = \hat{y} \in [0,1]$$
+
+\vspace{3mm}
+\textbf{Bernoulli Distribution:}
+$$p(y|\mathbf{x}, \theta) = \hat{y}^y (1-\hat{y})^{1-y}$$
+
+\vspace{3mm}
+\textbf{Log-Likelihood:}
+\begin{align*}
+\log p(y|\mathbf{x}, \theta) &= y\log\hat{y} + (1-y)\log(1-\hat{y})
+\end{align*}
+
+\vspace{3mm}
+\textbf{Negative Log-Likelihood (what we minimize):}
+$$\mathcal{L} = -y\log\hat{y} - (1-y)\log(1-\hat{y})$$
+
+This is the \textbf{Binary Cross-Entropy} loss!
+\bottomnote{Why cross-entropy is natural for classification}
+\end{frame}
+
+% Slide C4: Binary Cross-Entropy
+\begin{frame}[t]{C.4 Binary Cross-Entropy Derivation}
+\textbf{Loss Function:}
+$$\mathcal{L}_{BCE} = -\frac{1}{n}\sum_{i=1}^n \left[y_i\log\hat{y}_i + (1-y_i)\log(1-\hat{y}_i)\right]$$
+
+\vspace{3mm}
+\textbf{Gradient with Respect to $\hat{y}$:}
+$$\frac{\partial \mathcal{L}}{\partial \hat{y}} = -\frac{y}{\hat{y}} + \frac{1-y}{1-\hat{y}} = \frac{\hat{y} - y}{\hat{y}(1-\hat{y})}$$
+
+\vspace{3mm}
+\textbf{Combined with Sigmoid Output:}\\
+If $\hat{y} = \sigma(z)$, then $\frac{\partial \hat{y}}{\partial z} = \hat{y}(1-\hat{y})$
+
+$$\frac{\partial \mathcal{L}}{\partial z} = \frac{\partial \mathcal{L}}{\partial \hat{y}} \cdot \frac{\partial \hat{y}}{\partial z} = \frac{\hat{y} - y}{\hat{y}(1-\hat{y})} \cdot \hat{y}(1-\hat{y}) = \hat{y} - y$$
+
+\textbf{Beautifully simple gradient!}
+\bottomnote{The two-class case}
+\end{frame}
+
+% Slide C5: Categorical Cross-Entropy
+\begin{frame}[t]{C.5 Categorical Cross-Entropy Derivation}
+\textbf{Setup:} $K$-class classification with one-hot encoding $\mathbf{y} \in \{0,1\}^K$
+
+\vspace{3mm}
+\textbf{Categorical Distribution:}
+$$p(\mathbf{y}|\mathbf{x}, \theta) = \prod_{k=1}^K \hat{y}_k^{y_k}$$
+
+\vspace{3mm}
+\textbf{Negative Log-Likelihood:}
+$$\mathcal{L}_{CE} = -\sum_{k=1}^K y_k \log\hat{y}_k$$
+
+\vspace{3mm}
+\textbf{For Single Sample (one-hot $\mathbf{y}$ with $y_c = 1$):}
+$$\mathcal{L} = -\log\hat{y}_c$$
+
+\textbf{Interpretation:} Minimize negative log of predicted probability for correct class.
+\bottomnote{The multi-class case}
+\end{frame}
+
+% Slide C6: Softmax Function
+\begin{frame}[t]{C.6 Softmax Function Derivation}
+\textbf{Problem:} Convert raw scores $\mathbf{z} \in \mathbb{R}^K$ to probabilities $\hat{\mathbf{y}} \in [0,1]^K$
+
+\vspace{3mm}
+\textbf{Requirements:}
+\begin{itemize}
+    \item $\hat{y}_k \geq 0$ for all $k$
+    \item $\sum_k \hat{y}_k = 1$
+    \item Larger $z_k$ $\rightarrow$ larger $\hat{y}_k$
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Solution - Softmax:}
+$$\hat{y}_k = \text{softmax}(z_k) = \frac{e^{z_k}}{\sum_{j=1}^K e^{z_j}}$$
+
+\vspace{3mm}
+\textbf{Properties:}
+\begin{itemize}
+    \item Exponential ensures positivity
+    \item Normalization ensures sum to 1
+    \item Invariant to adding constant: $\text{softmax}(z_k + c) = \text{softmax}(z_k)$
+    \item In limit: $\text{softmax} \rightarrow \arg\max$ (``soft'' version)
+\end{itemize}
+\bottomnote{Converting scores to probabilities}
+\end{frame}
+
+% Slide C7: Softmax Gradient
+\begin{frame}[t]{C.7 Softmax Gradient}
+\textbf{Computing $\frac{\partial \hat{y}_i}{\partial z_j}$:}
+
+\vspace{3mm}
+\textbf{Case 1: $i = j$}
+$$\frac{\partial \hat{y}_i}{\partial z_i} = \frac{e^{z_i} \cdot Z - e^{z_i} \cdot e^{z_i}}{Z^2} = \hat{y}_i - \hat{y}_i^2 = \hat{y}_i(1 - \hat{y}_i)$$
+
+\vspace{3mm}
+\textbf{Case 2: $i \neq j$}
+$$\frac{\partial \hat{y}_i}{\partial z_j} = \frac{0 - e^{z_i} \cdot e^{z_j}}{Z^2} = -\hat{y}_i \hat{y}_j$$
+
+\vspace{3mm}
+\textbf{Jacobian Matrix:}
+$$\frac{\partial \hat{\mathbf{y}}}{\partial \mathbf{z}} = \text{diag}(\hat{\mathbf{y}}) - \hat{\mathbf{y}}\hat{\mathbf{y}}^T$$
+
+\vspace{3mm}
+\textbf{Combined with Cross-Entropy:} $\frac{\partial \mathcal{L}}{\partial z_j} = \hat{y}_j - y_j$ (same simple form!)
+\bottomnote{The derivative of softmax}
+\end{frame}
+
+% ==================== APPENDIX D: REGULARIZATION ====================
+\section{Appendix D: Regularization Theory}
+
+% Slide D1: L2 from Bayesian Perspective
+\begin{frame}[t]{D.1 L2 Regularization: Bayesian View}
+\textbf{Bayesian Setup:}
+\begin{itemize}
+    \item Prior belief about weights: $p(\theta)$
+    \item Likelihood of data given weights: $p(D|\theta)$
+    \item Posterior: $p(\theta|D) \propto p(D|\theta)p(\theta)$
+\end{itemize}
+
+\vspace{3mm}
+\textbf{L2 Corresponds to Gaussian Prior:}
+$$p(\theta) = \mathcal{N}(\mathbf{0}, \sigma_\theta^2 \mathbf{I}) = \prod_i \frac{1}{\sqrt{2\pi\sigma_\theta^2}}\exp\left(-\frac{\theta_i^2}{2\sigma_\theta^2}\right)$$
+
+\vspace{3mm}
+\textbf{Log Prior:}
+$$\log p(\theta) = -\frac{1}{2\sigma_\theta^2}\sum_i \theta_i^2 + \text{const} = -\frac{1}{2\sigma_\theta^2}\|\theta\|_2^2 + \text{const}$$
+
+\vspace{3mm}
+\textbf{Interpretation:} We believe weights should be small (centered at 0).
+\bottomnote{Referenced in Module 4}
+\end{frame}
+
+% Slide D2: L2 Derivation
+\begin{frame}[t]{D.2 L2 from MAP Estimation}
+\textbf{Maximum A Posteriori (MAP) Estimation:}
+$$\hat{\theta}_{MAP} = \arg\max_\theta p(\theta|D) = \arg\max_\theta p(D|\theta)p(\theta)$$
+
+\vspace{3mm}
+\textbf{Taking Logs:}
+$$\hat{\theta}_{MAP} = \arg\max_\theta \left[\log p(D|\theta) + \log p(\theta)\right]$$
+
+\vspace{3mm}
+\textbf{With Gaussian Prior and Gaussian Likelihood (MSE):}
+$$\hat{\theta}_{MAP} = \arg\min_\theta \left[\frac{1}{2\sigma^2}\sum_i(y_i - f_\theta(\mathbf{x}_i))^2 + \frac{1}{2\sigma_\theta^2}\|\theta\|_2^2\right]$$
+
+\vspace{3mm}
+\textbf{Defining $\lambda = \frac{\sigma^2}{\sigma_\theta^2}$:}
+$$\hat{\theta}_{MAP} = \arg\min_\theta \left[\mathcal{L}_{MSE} + \lambda\|\theta\|_2^2\right]$$
+
+This is exactly L2 regularization (weight decay)!
+\bottomnote{From Gaussian prior to weight decay}
+\end{frame}
+
+% Slide D3: L1 from Bayesian Perspective
+\begin{frame}[t]{D.3 L1 Regularization: Bayesian View}
+\textbf{L1 Corresponds to Laplace Prior:}
+$$p(\theta) = \prod_i \frac{1}{2b}\exp\left(-\frac{|\theta_i|}{b}\right)$$
+
+\vspace{3mm}
+\textbf{Log Prior:}
+$$\log p(\theta) = -\frac{1}{b}\sum_i |\theta_i| + \text{const} = -\frac{1}{b}\|\theta\|_1 + \text{const}$$
+
+\vspace{3mm}
+\textbf{Why Laplace Induces Sparsity:}
+\begin{itemize}
+    \item Laplace has sharp peak at 0
+    \item Higher probability mass near exactly 0
+    \item MAP estimate tends to push weights to exactly 0
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Geometric View:}
+\begin{itemize}
+    \item L2: Ball constraint (smooth, no corners)
+    \item L1: Diamond constraint (corners at axes)
+    \item Solution often lands on corners $\rightarrow$ sparse
+\end{itemize}
+\bottomnote{Why L1 induces sparsity}
+\end{frame}
+
+% Slide D4: L1 Derivation
+\begin{frame}[t]{D.4 L1 from MAP Estimation}
+\textbf{MAP with Laplace Prior:}
+$$\hat{\theta}_{MAP} = \arg\max_\theta \left[\log p(D|\theta) - \frac{1}{b}\|\theta\|_1\right]$$
+
+\vspace{3mm}
+\textbf{Equivalently:}
+$$\hat{\theta}_{MAP} = \arg\min_\theta \left[\mathcal{L} + \lambda\|\theta\|_1\right]$$
+
+where $\lambda = \frac{\sigma^2}{b}$ (ratio of noise variance to prior scale).
+
+\vspace{3mm}
+\textbf{Why Some Weights Become Exactly Zero:}
+\begin{itemize}
+    \item L1 gradient is $\pm\lambda$ (constant magnitude)
+    \item Even small weights get constant ``push'' toward 0
+    \item Eventually cross zero and stay there
+    \item L2 gradient is $\lambda\theta$ (proportional to $\theta$)
+    \item Push decreases as $\theta \rightarrow 0$, never reaches 0
+\end{itemize}
+\bottomnote{From Laplace prior to sparse solutions}
+\end{frame}
+
+% Slide D5: Dropout as Approximate Inference
+\begin{frame}[t]{D.5 Dropout as Approximate Bayesian Inference}
+\textbf{Gal and Ghahramani (2016) Result:}
+
+Dropout training approximates variational inference in a deep Gaussian process.
+
+\vspace{3mm}
+\textbf{Key Insight:}
+\begin{itemize}
+    \item Dropout = sampling from approximate posterior
+    \item Each forward pass samples different ``network''
+    \item Prediction uncertainty = variance across samples
+\end{itemize}
+
+\vspace{3mm}
+\textbf{Monte Carlo Dropout:}
+\begin{enumerate}
+    \item Keep dropout enabled at test time
+    \item Run multiple forward passes
+    \item Mean = prediction, Variance = uncertainty
+\end{enumerate}
+
+\vspace{3mm}
+\textbf{Practical Benefit:}
+\begin{itemize}
+    \item Free uncertainty estimates!
+    \item No additional training required
+    \item Useful for detecting out-of-distribution inputs
+\end{itemize}
+\bottomnote{A theoretical justification for dropout}
+\end{frame}
+
+% Slide D6: Dropout Derivation
+\begin{frame}[t]{D.6 Dropout: Mathematical Analysis}
+\textbf{Dropout During Training:}
+$$\tilde{\mathbf{h}}^{(l)} = \mathbf{m}^{(l)} \odot \mathbf{h}^{(l)}, \quad m^{(l)}_j \sim \text{Bernoulli}(1-p)$$
+
+\vspace{3mm}
+\textbf{Expected Value:}
+$$\mathbb{E}[\tilde{h}^{(l)}_j] = (1-p) \cdot h^{(l)}_j$$
+
+\vspace{3mm}
+\textbf{At Test Time (Inverted Dropout):}\\
+Scale by $(1-p)$ during training: $\tilde{\mathbf{h}}^{(l)} = \frac{1}{1-p}\mathbf{m}^{(l)} \odot \mathbf{h}^{(l)}$\\
+No scaling needed at test time.
+
+\vspace{3mm}
+\textbf{Implicit Regularization Effect:}
+\begin{itemize}
+    \item Prevents co-adaptation of neurons
+    \item Each neuron must be useful independently
+    \item Equivalent to training exponentially many networks
+    \item Final model = average of all subnetworks
+\end{itemize}
+\bottomnote{Why random dropout improves generalization}
+\end{frame}
+
+% ==================== CLOSING ====================
+\begin{frame}[plain]
+\begin{center}
+\vspace{2cm}
+{\LARGE \textcolor{mlpurple}{\textbf{End of Mathematical Appendix}}}\\[1.5cm]
+{\large Complete Derivations for Neural Networks}\\[1.5cm]
+{\normalsize For questions about derivations, consult:}\\[0.5cm]
+{\small \textcolor{mlgray}{Goodfellow, Bengio, Courville - ``Deep Learning'' (2016)}}\\
+{\small \textcolor{mlgray}{Bishop - ``Pattern Recognition and Machine Learning'' (2006)}}\\
+{\small \textcolor{mlgray}{Nielsen - ``Neural Networks and Deep Learning'' (online)}}
+\end{center}
+\end{frame}
+
+\end{document}
