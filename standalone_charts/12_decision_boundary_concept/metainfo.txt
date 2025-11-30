@@ -1,0 +1,15 @@
+Name of Quantlet: 12_decision_boundary_concept
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: decision_boundary_concept. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: boundary, concept, decision, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: decision_boundary_concept.pdf
+
+Example: See 12_decision_boundary_concept.py for implementation details

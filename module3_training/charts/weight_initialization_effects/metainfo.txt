@@ -1,0 +1,15 @@
+Name of Quantlet: weight_initialization_effects
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Weight Initialization Effects. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: effects, initialization, neural network, visualization, weight
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: weight_initialization_effects.pdf, weight_initialization_effects.png
+
+Example: See weight_initialization_effects.py for implementation details

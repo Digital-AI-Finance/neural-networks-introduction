@@ -1,0 +1,15 @@
+Name of Quantlet: ai_winter_timeline
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: AI Winter Timeline. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: neural network, timeline, visualization, winter
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: ai_winter_timeline.pdf, ai_winter_timeline.png
+
+Example: See ai_winter_timeline.py for implementation details

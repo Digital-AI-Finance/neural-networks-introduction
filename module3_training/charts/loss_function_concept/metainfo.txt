@@ -1,0 +1,15 @@
+Name of Quantlet: loss_function_concept
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Loss Function Concept. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: concept, function, loss, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: loss_function_concept.pdf, loss_function_concept.png
+
+Example: See loss_function_concept.py for implementation details

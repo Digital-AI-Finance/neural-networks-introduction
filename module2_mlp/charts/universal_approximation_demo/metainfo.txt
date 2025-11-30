@@ -1,0 +1,15 @@
+Name of Quantlet: universal_approximation_demo
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Universal Approximation Demo. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: approximation, neural network, universal, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: universal_approximation_demo.pdf, universal_approximation_demo.png
+
+Example: See universal_approximation_demo.py for implementation details

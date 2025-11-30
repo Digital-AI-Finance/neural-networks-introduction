@@ -1,0 +1,15 @@
+Name of Quantlet: case_study_features
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Case Study Features. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: features, neural network, study, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: case_study_features.pdf, case_study_features.png
+
+Example: See case_study_features.py for implementation details

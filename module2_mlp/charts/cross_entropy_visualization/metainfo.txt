@@ -1,0 +1,15 @@
+Name of Quantlet: cross_entropy_visualization
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Cross Entropy Visualization. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: cross, entropy, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: cross_entropy_visualization.pdf, cross_entropy_visualization.png
+
+Example: See cross_entropy_visualization.py for implementation details

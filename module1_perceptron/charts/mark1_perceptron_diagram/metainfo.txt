@@ -1,0 +1,15 @@
+Name of Quantlet: mark1_perceptron_diagram
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Mark1 Perceptron Diagram. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: diagram, mark1, neural network, perceptron, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: mark1_perceptron_diagram.pdf, mark1_perceptron_diagram.png
+
+Example: See mark1_perceptron_diagram.py for implementation details

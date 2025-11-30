@@ -1,0 +1,15 @@
+Name of Quantlet: regularization_effect
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Regularization Effect. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: effect, neural network, regularization, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: regularization_effect.pdf, regularization_effect.png
+
+Example: See regularization_effect.py for implementation details

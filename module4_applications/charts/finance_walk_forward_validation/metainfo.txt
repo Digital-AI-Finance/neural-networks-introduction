@@ -1,0 +1,15 @@
+Name of Quantlet: finance_walk_forward_validation
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Finance Walk Forward Validation. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: finance, forward, neural network, validation, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: finance_walk_forward_validation.pdf, finance_walk_forward_validation.png
+
+Example: See finance_walk_forward_validation.py for implementation details

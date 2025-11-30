@@ -1,0 +1,15 @@
+Name of Quantlet: architecture_family_tree
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Architecture Family Tree. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: architecture, family, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: architecture_family_tree.pdf, architecture_family_tree.png
+
+Example: See architecture_family_tree.py for implementation details

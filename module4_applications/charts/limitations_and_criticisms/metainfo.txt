@@ -1,0 +1,15 @@
+Name of Quantlet: limitations_and_criticisms
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Limitations And Criticisms. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: criticisms, limitations, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: limitations_and_criticisms.pdf, limitations_and_criticisms.png
+
+Example: See limitations_and_criticisms.py for implementation details

@@ -1,0 +1,15 @@
+Name of Quantlet: matrix_calculus_reference
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Matrix Calculus Reference. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: calculus, matrix, neural network, reference, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: matrix_calculus_reference.pdf, matrix_calculus_reference.png
+
+Example: See matrix_calculus_reference.py for implementation details

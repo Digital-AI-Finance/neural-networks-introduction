@@ -1,0 +1,15 @@
+Name of Quantlet: 13_neuron_decision_maker
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: neuron_decision_maker. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: decision, maker, neural network, neuron, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: neuron_decision_maker.pdf
+
+Example: See 13_neuron_decision_maker.py for implementation details

@@ -1,0 +1,15 @@
+Name of Quantlet: convergence_plot
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Convergence Plot. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: convergence, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: convergence_plot.pdf, convergence_plot.png
+
+Example: See convergence_plot.py for implementation details

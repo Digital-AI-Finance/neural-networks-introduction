@@ -1,0 +1,15 @@
+Name of Quantlet: learning_rate_comparison
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Learning Rate Comparison. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: comparison, learning, neural network, rate, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: learning_rate_comparison.pdf, learning_rate_comparison.png
+
+Example: See learning_rate_comparison.py for implementation details

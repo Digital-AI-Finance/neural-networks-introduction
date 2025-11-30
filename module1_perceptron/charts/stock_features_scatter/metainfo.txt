@@ -1,0 +1,15 @@
+Name of Quantlet: stock_features_scatter
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Stock Features Scatter. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: features, neural network, scatter, stock, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: stock_features_scatter.pdf, stock_features_scatter.png
+
+Example: See stock_features_scatter.py for implementation details

@@ -1,0 +1,15 @@
+Name of Quantlet: 06_forward_propagation
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: forward_propagation. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: forward, neural network, propagation, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: forward_propagation.pdf
+
+Example: See 06_forward_propagation.py for implementation details

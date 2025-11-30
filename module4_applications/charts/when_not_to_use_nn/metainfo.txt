@@ -1,0 +1,15 @@
+Name of Quantlet: when_not_to_use_nn
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: When Not To Use Nn. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: when_not_to_use_nn.pdf, when_not_to_use_nn.png
+
+Example: See when_not_to_use_nn.py for implementation details

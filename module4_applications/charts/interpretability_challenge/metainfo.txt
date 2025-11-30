@@ -1,0 +1,15 @@
+Name of Quantlet: interpretability_challenge
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Interpretability Challenge. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: challenge, interpretability, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: interpretability_challenge.pdf, interpretability_challenge.png
+
+Example: See interpretability_challenge.py for implementation details

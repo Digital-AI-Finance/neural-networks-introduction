@@ -1,0 +1,15 @@
+Name of Quantlet: hidden_layer_representations
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Hidden Layer Representations. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: hidden, layer, neural network, representations, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: hidden_layer_representations.pdf, hidden_layer_representations.png
+
+Example: See hidden_layer_representations.py for implementation details

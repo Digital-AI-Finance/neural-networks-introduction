@@ -1,0 +1,15 @@
+Name of Quantlet: backprop_flow_diagram
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Backprop Flow Diagram. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: backprop, diagram, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: backprop_flow_diagram.pdf, backprop_flow_diagram.png
+
+Example: See backprop_flow_diagram.py for implementation details

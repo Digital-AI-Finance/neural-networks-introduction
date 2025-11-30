@@ -1,0 +1,15 @@
+Name of Quantlet: finance_risk_adjusted_returns
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Finance Risk Adjusted Returns. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: adjusted, finance, neural network, returns, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: finance_risk_adjusted_returns.pdf, finance_risk_adjusted_returns.png
+
+Example: See finance_risk_adjusted_returns.py for implementation details

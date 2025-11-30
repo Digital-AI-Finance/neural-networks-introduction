@@ -1,0 +1,15 @@
+Name of Quantlet: hebb_learning_visualization
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Hebb Learning Visualization. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: learning, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: hebb_learning_visualization.pdf, hebb_learning_visualization.png
+
+Example: See hebb_learning_visualization.py for implementation details

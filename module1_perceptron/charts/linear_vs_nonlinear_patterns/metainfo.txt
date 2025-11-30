@@ -1,0 +1,15 @@
+Name of Quantlet: linear_vs_nonlinear_patterns
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Linear Vs Nonlinear Patterns. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: linear, neural network, nonlinear, patterns, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: linear_vs_nonlinear_patterns.pdf, linear_vs_nonlinear_patterns.png
+
+Example: See linear_vs_nonlinear_patterns.py for implementation details

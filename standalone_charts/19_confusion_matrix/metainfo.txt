@@ -1,0 +1,15 @@
+Name of Quantlet: 19_confusion_matrix
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: confusion_matrix. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: confusion, matrix, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: confusion_matrix.pdf
+
+Example: See 19_confusion_matrix.py for implementation details

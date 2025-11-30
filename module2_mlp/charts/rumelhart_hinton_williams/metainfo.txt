@@ -1,0 +1,15 @@
+Name of Quantlet: rumelhart_hinton_williams
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Rumelhart Hinton Williams. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: hinton, neural network, rumelhart, visualization, williams
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: rumelhart_hinton_williams.pdf, rumelhart_hinton_williams.png
+
+Example: See rumelhart_hinton_williams.py for implementation details

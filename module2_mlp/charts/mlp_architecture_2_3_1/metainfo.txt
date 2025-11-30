@@ -1,0 +1,15 @@
+Name of Quantlet: mlp_architecture_2_3_1
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: MLP Architecture 2 3 1. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: architecture, mlp, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: mlp_architecture_2_3_1.pdf, mlp_architecture_2_3_1.png
+
+Example: See mlp_architecture_2_3_1.py for implementation details

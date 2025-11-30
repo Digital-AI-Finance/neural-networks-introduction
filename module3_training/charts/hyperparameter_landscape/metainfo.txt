@@ -1,0 +1,15 @@
+Name of Quantlet: hyperparameter_landscape
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Hyperparameter Landscape. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: hyperparameter, landscape, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: hyperparameter_landscape.pdf, hyperparameter_landscape.png
+
+Example: See hyperparameter_landscape.py for implementation details

@@ -1,0 +1,15 @@
+Name of Quantlet: case_study_architecture
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Case Study Architecture. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: architecture, neural network, study, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: case_study_architecture.pdf, case_study_architecture.png
+
+Example: See case_study_architecture.py for implementation details

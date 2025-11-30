@@ -1,0 +1,15 @@
+Name of Quantlet: mcculloch_pitts_diagram
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Mcculloch Pitts Diagram. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: diagram, mcculloch, neural network, pitts, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: mcculloch_pitts_diagram.pdf, mcculloch_pitts_diagram.png
+
+Example: See mcculloch_pitts_diagram.py for implementation details

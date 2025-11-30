@@ -1,0 +1,15 @@
+Name of Quantlet: 07_loss_landscape
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: loss_landscape. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: landscape, loss, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: loss_landscape.pdf
+
+Example: See 07_loss_landscape.py for implementation details

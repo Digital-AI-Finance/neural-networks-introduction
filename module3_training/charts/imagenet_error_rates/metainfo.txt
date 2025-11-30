@@ -1,0 +1,15 @@
+Name of Quantlet: imagenet_error_rates
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: ImageNet Error Rates. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: error, imagenet, neural network, rates, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: imagenet_error_rates.pdf, imagenet_error_rates.png
+
+Example: See imagenet_error_rates.py for implementation details

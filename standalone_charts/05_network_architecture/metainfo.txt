@@ -1,0 +1,15 @@
+Name of Quantlet: 05_network_architecture
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: network_architecture. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: architecture, network, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: network_architecture.pdf
+
+Example: See 05_network_architecture.py for implementation details

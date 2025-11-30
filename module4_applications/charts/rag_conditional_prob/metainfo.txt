@@ -1,0 +1,15 @@
+Name of Quantlet: rag_conditional_prob
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: RAG Conditional Probability Venn Diagram. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: conditional, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: rag_conditional_prob.pdf, rag_conditional_prob.png
+
+Example: See rag_conditional_prob.py for implementation details

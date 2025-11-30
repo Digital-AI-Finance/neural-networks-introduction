@@ -1,0 +1,15 @@
+Name of Quantlet: 02_single_neuron_function
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: single_neuron_computation. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: function, neural network, neuron, single, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: single_neuron_computation.pdf
+
+Example: See 02_single_neuron_function.py for implementation details

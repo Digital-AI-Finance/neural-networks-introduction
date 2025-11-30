@@ -1,0 +1,15 @@
+Name of Quantlet: training_curve
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Training Curve. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: curve, neural network, training, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: training_curve.pdf, training_curve.png
+
+Example: See training_curve.py for implementation details

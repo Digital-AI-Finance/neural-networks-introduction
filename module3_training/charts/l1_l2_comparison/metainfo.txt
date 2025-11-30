@@ -1,0 +1,15 @@
+Name of Quantlet: l1_l2_comparison
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: L1 L2 Comparison. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: comparison, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: l1_l2_comparison.pdf, l1_l2_comparison.png
+
+Example: See l1_l2_comparison.py for implementation details

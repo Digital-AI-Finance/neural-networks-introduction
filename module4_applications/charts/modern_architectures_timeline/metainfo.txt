@@ -1,0 +1,15 @@
+Name of Quantlet: modern_architectures_timeline
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Modern Architectures Timeline. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: architectures, modern, neural network, timeline, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: modern_architectures_timeline.pdf, modern_architectures_timeline.png
+
+Example: See modern_architectures_timeline.py for implementation details

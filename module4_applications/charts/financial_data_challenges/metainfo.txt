@@ -1,0 +1,15 @@
+Name of Quantlet: financial_data_challenges
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Financial Data Challenges. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: challenges, financial, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: financial_data_challenges.pdf, financial_data_challenges.png
+
+Example: See financial_data_challenges.py for implementation details

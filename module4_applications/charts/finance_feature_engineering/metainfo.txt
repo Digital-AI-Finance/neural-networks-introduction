@@ -1,0 +1,15 @@
+Name of Quantlet: finance_feature_engineering
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Finance Feature Engineering. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: engineering, feature, finance, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: finance_feature_engineering.pdf, finance_feature_engineering.png
+
+Example: See finance_feature_engineering.py for implementation details

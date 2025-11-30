@@ -1,0 +1,15 @@
+Name of Quantlet: relu_function
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Relu Function. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: function, neural network, relu, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: relu_function.pdf, relu_function.png
+
+Example: See relu_function.py for implementation details

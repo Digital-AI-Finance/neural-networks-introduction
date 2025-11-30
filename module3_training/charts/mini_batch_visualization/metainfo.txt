@@ -1,0 +1,15 @@
+Name of Quantlet: mini_batch_visualization
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Mini Batch Visualization. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: batch, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: mini_batch_visualization.pdf, mini_batch_visualization.png
+
+Example: See mini_batch_visualization.py for implementation details

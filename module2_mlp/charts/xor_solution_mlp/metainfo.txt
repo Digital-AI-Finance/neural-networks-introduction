@@ -1,0 +1,15 @@
+Name of Quantlet: xor_solution_mlp
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: XOR Solution MLP. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: mlp, neural network, solution, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: xor_solution_mlp.pdf, xor_solution_mlp.png
+
+Example: See xor_solution_mlp.py for implementation details

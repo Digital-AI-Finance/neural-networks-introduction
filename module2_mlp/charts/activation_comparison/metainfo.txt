@@ -1,0 +1,15 @@
+Name of Quantlet: activation_comparison
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Activation Comparison. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: activation, comparison, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: activation_comparison.pdf, activation_comparison.png
+
+Example: See activation_comparison.py for implementation details

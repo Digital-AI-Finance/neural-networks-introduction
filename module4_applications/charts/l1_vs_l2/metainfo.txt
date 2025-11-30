@@ -1,0 +1,15 @@
+Name of Quantlet: l1_vs_l2
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: L1 Vs L2. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: l1_vs_l2.pdf, l1_vs_l2.png
+
+Example: See l1_vs_l2.py for implementation details

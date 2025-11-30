@@ -1,0 +1,15 @@
+Name of Quantlet: full_timeline_1943_2024
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Full Timeline 1943 2024. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: neural network, timeline, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: full_timeline_1943_2024.pdf, full_timeline_1943_2024.png
+
+Example: See full_timeline_1943_2024.py for implementation details

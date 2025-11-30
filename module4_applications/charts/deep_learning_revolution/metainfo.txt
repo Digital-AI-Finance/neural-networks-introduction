@@ -1,0 +1,15 @@
+Name of Quantlet: deep_learning_revolution
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Deep Learning Revolution. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: learning, neural network, revolution, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: deep_learning_revolution.pdf, deep_learning_revolution.png
+
+Example: See deep_learning_revolution.py for implementation details

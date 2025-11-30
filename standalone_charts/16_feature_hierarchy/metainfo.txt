@@ -1,0 +1,15 @@
+Name of Quantlet: 16_feature_hierarchy
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: feature_hierarchy. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: feature, hierarchy, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: feature_hierarchy.pdf
+
+Example: See 16_feature_hierarchy.py for implementation details

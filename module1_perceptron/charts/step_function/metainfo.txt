@@ -1,0 +1,15 @@
+Name of Quantlet: step_function
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Step Function. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: function, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: step_function.pdf, step_function.png
+
+Example: See step_function.py for implementation details

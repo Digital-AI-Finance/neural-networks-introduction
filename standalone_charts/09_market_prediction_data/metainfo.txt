@@ -1,0 +1,15 @@
+Name of Quantlet: 09_market_prediction_data
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: market_prediction_data. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: market, neural network, prediction, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: market_prediction_data.pdf
+
+Example: See 09_market_prediction_data.py for implementation details

@@ -1,0 +1,15 @@
+Name of Quantlet: backprop_computational_graph
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Backprop Computational Graph. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: backprop, computational, graph, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: backprop_computational_graph.pdf, backprop_computational_graph.png
+
+Example: See backprop_computational_graph.py for implementation details

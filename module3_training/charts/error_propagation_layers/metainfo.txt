@@ -1,0 +1,15 @@
+Name of Quantlet: error_propagation_layers
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Error Propagation Layers. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: error, layers, neural network, propagation, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: error_propagation_layers.pdf, error_propagation_layers.png
+
+Example: See error_propagation_layers.py for implementation details

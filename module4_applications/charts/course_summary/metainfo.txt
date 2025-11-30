@@ -1,0 +1,15 @@
+Name of Quantlet: course_summary
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Course Summary. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: course, neural network, summary, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: course_summary.pdf, course_summary.png
+
+Example: See course_summary.py for implementation details

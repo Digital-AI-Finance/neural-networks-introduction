@@ -1,0 +1,15 @@
+Name of Quantlet: loss_landscape_3d
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Loss Landscape 3D. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: landscape, loss, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: loss_landscape_3d.pdf, loss_landscape_3d.png
+
+Example: See loss_landscape_3d.py for implementation details

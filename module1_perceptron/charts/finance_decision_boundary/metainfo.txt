@@ -1,0 +1,15 @@
+Name of Quantlet: finance_decision_boundary
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Finance Decision Boundary. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: boundary, decision, finance, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: finance_decision_boundary.pdf, finance_decision_boundary.png
+
+Example: See finance_decision_boundary.py for implementation details

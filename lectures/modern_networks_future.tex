@@ -1,0 +1,718 @@
+\documentclass[8pt,aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{amssymb}
+
+% Color definitions
+\definecolor{mlblue}{RGB}{0,102,204}
+\definecolor{mlpurple}{RGB}{51,51,178}
+\definecolor{mllavender}{RGB}{173,173,224}
+\definecolor{mllavender2}{RGB}{193,193,232}
+\definecolor{mllavender3}{RGB}{204,204,235}
+\definecolor{mllavender4}{RGB}{214,214,239}
+\definecolor{mlorange}{RGB}{255, 127, 14}
+\definecolor{mlgreen}{RGB}{44, 160, 44}
+\definecolor{mlred}{RGB}{214, 39, 40}
+\definecolor{mlgray}{RGB}{127, 127, 127}
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{midgray}{RGB}{180, 180, 180}
+
+% Apply custom colors to Madrid theme
+\setbeamercolor{palette primary}{bg=mllavender3,fg=mlpurple}
+\setbeamercolor{palette secondary}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{palette tertiary}{bg=mllavender,fg=white}
+\setbeamercolor{palette quaternary}{bg=mlpurple,fg=white}
+\setbeamercolor{structure}{fg=mlpurple}
+\setbeamercolor{section in toc}{fg=mlpurple}
+\setbeamercolor{subsection in toc}{fg=mlblue}
+\setbeamercolor{title}{fg=mlpurple}
+\setbeamercolor{frametitle}{fg=mlpurple,bg=mllavender3}
+\setbeamercolor{block title}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{block body}{bg=mllavender4,fg=black}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+
+\newcommand{\bottomnote}[1]{%
+\vfill
+\vspace{-2mm}
+\textcolor{mllavender2}{\rule{\textwidth}{0.4pt}}
+\vspace{1mm}
+\footnotesize
+\textbf{#1}
+}
+
+\title{Modern Networks and Future Directions}
+\subtitle{Neural Networks for Finance}
+\author{Neural Networks for Finance}
+\institute{BSc Lecture Series}
+\date{\today}
+
+\begin{document}
+
+\section{Modern Architectures}
+
+
+% Slide 45: Beyond MLPs
+\begin{frame}[t]{Beyond MLPs: Modern Architectures}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\textbf{The MLP Foundation:}
+\begin{itemize}
+    \item Everything we learned applies to modern architectures
+    \item Backpropagation: same algorithm
+    \item Activation functions: same choices
+    \item Regularization: same techniques
+\end{itemize}
+\vspace{3mm}
+\textbf{Key Modern Architectures:}
+\begin{enumerate}
+    \item \textbf{CNN}: Convolutional Neural Networks
+    \item \textbf{RNN/LSTM}: Recurrent Networks
+    \item \textbf{Transformer}: Attention-based
+\end{enumerate}
+\vspace{3mm}
+\textbf{Common Thread:}\\
+All contain feedforward (MLP) components!
+\end{column}
+\begin{column}{0.43\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{../module4_applications/charts/architecture_family_tree/architecture_family_tree.pdf}
+\end{center}
+\end{column}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/architecture_family_tree}{\includegraphics[width=0.8cm]{../../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.8] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/architecture_family_tree}{\includegraphics[width=0.6cm]{../module4_applications/charts/architecture_family_tree/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/architecture_family_tree}{\tiny\texttt{\textcolor{gray}{architecture\_family\_tree}}}
+};
+\end{tikzpicture}
+
+\bottomnote{MLPs are the foundation for everything that followed}
+\end{frame}
+
+% Slide 46: CNNs for Time Series
+\begin{frame}[t]{Convolutional Neural Networks}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\textbf{Key Idea:} Learnable pattern detectors
+\vspace{3mm}
+\begin{itemize}
+    \item Convolutional filters slide over input
+    \item Detect local patterns (edges, shapes)
+    \item Weight sharing reduces parameters
+    \item Hierarchical feature learning
+\end{itemize}
+\vspace{3mm}
+\textbf{For Time Series:}
+\begin{itemize}
+    \item 1D convolutions over time
+    \item Detect patterns in price/volume sequences
+    \item Filter learns what to look for
+    \item E.g., ``head and shoulders'' pattern
+\end{itemize}
+\end{column}
+\begin{column}{0.43\textwidth}
+\textbf{Architecture:}
+$$\text{Conv1D} \rightarrow \text{ReLU} \rightarrow \text{Pool}$$
+$$\rightarrow \text{Conv1D} \rightarrow \text{ReLU} \rightarrow \text{Pool}$$
+$$\rightarrow \text{Flatten} \rightarrow \text{MLP} \rightarrow \text{Output}$$
+
+\vspace{3mm}
+\textbf{Finance Use Cases:}
+\begin{itemize}
+    \item Technical pattern recognition
+    \item Order book analysis
+    \item Multi-asset correlation patterns
+\end{itemize}
+\end{column}
+\end{columns}
+\bottomnote{CNNs: Finding patterns with learnable filters}
+\end{frame}
+
+% Slide 47: RNNs and LSTMs
+\begin{frame}[t]{Recurrent Neural Networks}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\textbf{Key Idea:} Memory for sequences
+\vspace{3mm}
+\begin{itemize}
+    \item Process sequences one step at a time
+    \item Maintain hidden state (memory)
+    \item Output depends on current + past inputs
+    \item Natural for time series
+\end{itemize}
+\vspace{3mm}
+\textbf{RNN Update:}
+$$h_t = \tanh(W_{hh}h_{t-1} + W_{xh}x_t + b)$$
+
+\textbf{Problem:} Vanishing gradients over long sequences
+\end{column}
+\begin{column}{0.43\textwidth}
+\textbf{LSTM Solution (1997):}
+\begin{itemize}
+    \item Forget gate: what to discard
+    \item Input gate: what to add
+    \item Output gate: what to reveal
+    \item Cell state: long-term memory
+\end{itemize}
+\vspace{3mm}
+\textbf{Finance Use Cases:}
+\begin{itemize}
+    \item Time series forecasting
+    \item Sequence-to-sequence (prices)
+    \item Combining with attention
+\end{itemize}
+\end{column}
+\end{columns}
+\bottomnote{RNNs and LSTMs: Designed for sequences}
+\end{frame}
+
+% Slide 48: Transformers
+\begin{frame}[t]{Transformers and Attention}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\textbf{Key Innovation:} Self-attention
+\vspace{3mm}
+\begin{itemize}
+    \item Each position attends to all others
+    \item No recurrence needed
+    \item Parallelizable (fast training)
+    \item Captures long-range dependencies
+\end{itemize}
+\vspace{3mm}
+\textbf{Components:}
+\begin{itemize}
+    \item Multi-head attention
+    \item Feedforward layers (MLPs!)
+    \item Layer normalization
+    \item Positional encoding
+\end{itemize}
+\end{column}
+\begin{column}{0.43\textwidth}
+\textbf{Attention Formula:}
+$$\text{Attn} = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+
+\vspace{3mm}
+\textbf{Finance Use Cases:}
+\begin{itemize}
+    \item News/sentiment analysis (NLP)
+    \item Document understanding
+    \item Multi-asset attention
+    \item Temporal attention for prices
+\end{itemize}
+\end{column}
+\end{columns}
+\bottomnote{The architecture behind GPT and modern NLP}
+\end{frame}
+
+% Slide 48b: RAG Formula with Venn Diagrams
+\begin{frame}[t]{RAG Formula: A Concrete Example}
+\begin{columns}[T]
+\begin{column}{0.52\textwidth}
+\textbf{Retrieval-Augmented Generation (RAG):}
+\vspace{2mm}
+\begin{itemize}
+    \item Combines retrieval with generation
+    \item Query x retrieves relevant documents z
+    \item Model generates answer y conditioned on both
+\end{itemize}
+\vspace{3mm}
+\textbf{The RAG Formula:}
+$$P(y|x) = \sum_{z} P(y|x,z) \cdot P(z|x)$$
+\vspace{2mm}
+\begin{itemize}
+    \item $P(z|x)$: Retriever finds relevant docs
+    \item $P(y|x,z)$: Generator produces answer
+    \item Marginalizes over retrieved documents
+\end{itemize}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{../module4_applications/charts/rag_conditional_prob/rag_conditional_prob.pdf}
+\end{center}
+\end{column}
+\end{columns}
+\vspace{2mm}
+\textbf{Finance Application:} Retrieve relevant filings/news, then generate analysis conditioned on context.
+% QUANTLET_BRANDING_START
+\begin{tikzpicture}[remember picture, overlay]
+  \node[anchor=south west, inner sep=0pt, opacity=0.9] at ([xshift=3mm, yshift=3mm]current page.south west) {\includegraphics[height=7mm]{../../quantlet_tools/logo/quantlet.png}};
+  \node[anchor=south east, inner sep=0pt] at ([xshift=-3mm, yshift=3mm]current page.south east) {\includegraphics[height=10mm]{../module4_applications/charts/rag_conditional_prob/qr_code.png}};
+  \node[anchor=south, inner sep=0pt, font=\tiny\ttfamily, text=gray] at ([yshift=4mm]current page.south) {\href{https://github.com/QuantLet/neural-networks-introduction/tree/main/rag_conditional_prob}{github.com/QuantLet/.../rag\_conditional\_prob}};
+\end{tikzpicture}
+% QUANTLET_BRANDING_END
+\end{frame}
+
+% Slide 49: Connection to Feedforward
+\begin{frame}[t]{The MLP Foundation}
+\textbf{Every Modern Architecture Contains MLPs:}
+\vspace{5mm}
+\begin{columns}[T]
+\begin{column}{0.32\textwidth}
+\textbf{CNN:}
+\begin{itemize}
+    \item Conv layers: shared MLPs
+    \item Final classifier: MLP
+    \item Same activation functions
+\end{itemize}
+\end{column}
+\begin{column}{0.32\textwidth}
+\textbf{RNN/LSTM:}
+\begin{itemize}
+    \item Gate computations: MLPs
+    \item Output layer: MLP
+    \item Same backprop algorithm
+\end{itemize}
+\end{column}
+\begin{column}{0.32\textwidth}
+\textbf{Transformer:}
+\begin{itemize}
+    \item FFN after attention: MLP
+    \item Position-wise: MLP
+    \item 2/3 of parameters in MLPs!
+\end{itemize}
+\end{column}
+\end{columns}
+\vspace{5mm}
+\begin{center}
+\textbf{What you learned in this course is the foundation for all of deep learning.}\\[3mm]
+Perceptron $\rightarrow$ MLP $\rightarrow$ CNN/RNN/Transformer
+\end{center}
+\bottomnote{Every modern architecture contains feedforward components}
+\end{frame}
+
+% Slide 50: Discussion Question 5
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\vspace{1cm}
+{\Large \textit{``If you were building a financial AI startup today,}}\\[0.3cm]
+{\Large \textit{what architecture and problem would you focus on?''}}
+\vspace{1cm}
+\begin{itemize}
+    \item Direct price prediction vs risk management?
+    \item Traditional features vs alternative data?
+    \item Simple MLP vs complex Transformer?
+    \item Retail product vs institutional tool?
+\end{itemize}
+\end{center}
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% ==================== SECTION 7: LIMITATIONS AND ETHICS (Slides 51-56) ====================
+
+\section{Limitations and Ethical Considerations}
+
+
+% Slide 51: Black Box Problem
+\begin{frame}[t]{The Black Box Problem}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\textbf{The Interpretability Challenge:}
+\begin{itemize}
+    \item Neural networks: millions of parameters
+    \item No simple explanation for decisions
+    \item ``Why did you sell?'' - ``Because weight 47,823 was 0.0032''
+\end{itemize}
+\vspace{3mm}
+\textbf{Why This Matters in Finance:}
+\begin{itemize}
+    \item Regulatory requirements (explainability)
+    \item Risk management needs understanding
+    \item Client trust requires explanation
+    \item Debugging requires insight
+\end{itemize}
+\vspace{3mm}
+\textbf{Partial Solutions:}
+\begin{itemize}
+    \item SHAP values, LIME
+    \item Attention visualization
+    \item Simpler models where possible
+\end{itemize}
+\end{column}
+\begin{column}{0.43\textwidth}
+\textbf{Trade-off:}
+\begin{center}
+\begin{tabular}{cc}
+\toprule
+Simple & Complex \\
+\midrule
+Interpretable & Black box \\
+Linear & Non-linear \\
+Stable & May overfit \\
+Lower accuracy & Higher accuracy \\
+\bottomrule
+\end{tabular}
+\end{center}
+\vspace{3mm}
+\textbf{Question:}\\
+Is 1\% more accuracy worth losing all interpretability?
+\end{column}
+\end{columns}
+\bottomnote{Neural networks are often difficult to interpret}
+\end{frame}
+
+% Slide 52: Regulatory Requirements
+\begin{frame}[t]{Regulatory Requirements}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\textbf{Key Regulations:}
+\begin{itemize}
+    \item \textbf{MiFID II} (EU): Best execution, transparency
+    \item \textbf{GDPR}: Right to explanation for automated decisions
+    \item \textbf{SR 11-7} (US): Model risk management
+    \item \textbf{Basel III}: Capital requirements, risk models
+\end{itemize}
+\vspace{3mm}
+\textbf{Explainability Mandates:}
+\begin{itemize}
+    \item Credit decisions must be explainable
+    \item Trading algorithms need documentation
+    \item Model validation required
+    \item Audit trails essential
+\end{itemize}
+\end{column}
+\begin{column}{0.43\textwidth}
+\begin{center}
+\includegraphics[width=0.98\textwidth]{../module4_applications/charts/ethical_considerations/ethical_considerations.pdf}
+\end{center}
+\end{column}
+\end{columns}
+\vspace{3mm}
+\textbf{Trend:} Increasing regulation of algorithmic decision-making
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/ethical_considerations}{\includegraphics[width=0.8cm]{../../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.8] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/ethical_considerations}{\includegraphics[width=0.6cm]{../module4_applications/charts/ethical_considerations/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/ethical_considerations}{\tiny\texttt{\textcolor{gray}{ethical\_considerations}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Regulations increasingly demand explainable AI}
+\end{frame}
+
+% Slide 53: Systemic Risk
+\begin{frame}[t]{Systemic Risk from Correlated AI}
+\textbf{What if everyone uses similar models?}
+\vspace{3mm}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{The Problem:}
+\begin{itemize}
+    \item Similar training data
+    \item Similar architectures
+    \item Similar features
+    \item $\Rightarrow$ Similar predictions
+    \item $\Rightarrow$ Correlated trades
+    \item $\Rightarrow$ Amplified market moves
+\end{itemize}
+\vspace{3mm}
+\textbf{Historical Example:}
+\begin{itemize}
+    \item August 2007: Quant meltdown
+    \item Many funds used similar strategies
+    \item All deleveraged simultaneously
+    \item Massive losses in days
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Flash Crash Risk:}
+\begin{itemize}
+    \item May 6, 2010: Dow dropped 1000 points in minutes
+    \item Algorithmic trading implicated
+    \item Feedback loops between systems
+\end{itemize}
+\vspace{3mm}
+\textbf{Mitigations:}
+\begin{itemize}
+    \item Circuit breakers
+    \item Position limits
+    \item Diversity requirements
+    \item Human oversight
+    \item Stress testing for crowding
+\end{itemize}
+\end{column}
+\end{columns}
+\bottomnote{Correlated AI trading could amplify market instability}
+\end{frame}
+
+% Slide 54: Model Risk
+\begin{frame}[t]{Model Risk Management}
+\textbf{``All models are wrong, some are useful'' - George Box}
+\vspace{3mm}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Types of Model Risk:}
+\begin{itemize}
+    \item \textbf{Specification risk}: Wrong model type
+    \item \textbf{Implementation risk}: Coding bugs
+    \item \textbf{Data risk}: Bad inputs
+    \item \textbf{Usage risk}: Misapplication
+\end{itemize}
+\vspace{3mm}
+\textbf{Famous Failures:}
+\begin{itemize}
+    \item LTCM (1998): Model assumptions failed
+    \item Knight Capital (2012): \$440M in 45 minutes
+    \item London Whale (2012): VAR model issues
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Governance Framework:}
+\begin{itemize}
+    \item Independent model validation
+    \item Documentation requirements
+    \item Regular backtesting
+    \item Stress testing
+    \item Change management
+    \item Clear ownership
+\end{itemize}
+\vspace{3mm}
+\textbf{Key Principle:}\\
+Never deploy a model you don't understand well enough to know when it might fail.
+\end{column}
+\end{columns}
+\bottomnote{Responsible deployment requires proper oversight}
+\end{frame}
+
+% Slide 55: Historical Lesson
+\begin{frame}[t]{Historical Lesson: Responsible Innovation}
+\textbf{AI Has Seen Hype Cycles Before:}
+\vspace{3mm}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{The Pattern:}
+\begin{enumerate}
+    \item Breakthrough discovery
+    \item Excessive optimism/funding
+    \item Over-promising
+    \item Failure to deliver
+    \item ``AI Winter'' backlash
+    \item Quiet progress
+    \item Next breakthrough...
+\end{enumerate}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Examples:}
+\begin{itemize}
+    \item 1960s: ``Machines will think in 20 years''
+    \item 1980s: Expert systems will replace experts
+    \item 2010s: ``Deep learning solves everything''
+    \item Today: ``AGI is imminent''
+\end{itemize}
+\vspace{3mm}
+\textbf{Lesson:}\\
+Hype damages the field. Responsible claims and honest assessment help it grow sustainably.
+\end{column}
+\end{columns}
+\vspace{3mm}
+\textbf{Your Responsibility:} Be honest about what neural networks can and cannot do.
+\bottomnote{Hype cycles damage the field; responsible claims help it grow}
+\end{frame}
+
+% Slide 56: Where NNs Add Real Value
+\begin{frame}[t]{Where Neural Networks Add Value}
+\textbf{Realistic Assessment of Neural Networks in Finance:}
+\vspace{3mm}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{High Value Applications:}
+\begin{itemize}
+    \item \textbf{Risk Management}
+    \begin{itemize}
+        \item Fraud detection
+        \item Credit scoring
+        \item Anomaly detection
+    \end{itemize}
+    \item \textbf{Alternative Data}
+    \begin{itemize}
+        \item Satellite imagery analysis
+        \item News sentiment
+        \item Social media signals
+    \end{itemize}
+    \item \textbf{Execution}
+    \begin{itemize}
+        \item Optimal order routing
+        \item Market making
+        \item Transaction cost analysis
+    \end{itemize}
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Lower Value (Often Overhyped):}
+\begin{itemize}
+    \item Direct price prediction
+    \item ``AI-powered'' retail trading apps
+    \item Fully automated strategies
+    \item Complex models on limited data
+\end{itemize}
+\vspace{3mm}
+\textbf{Key Insight:}\\
+Neural networks work best when:
+\begin{itemize}
+    \item Abundant data available
+    \item Clear signal exists
+    \item Domain expertise integrated
+    \item Proper validation done
+\end{itemize}
+\end{column}
+\end{columns}
+\bottomnote{Risk management, alternative data, market making}
+\end{frame}
+
+% ==================== SECTION 8: SYNTHESIS AND FUTURE (Slides 57-60) ====================
+
+\section{Synthesis and Future}
+
+
+% Slide 57: The Complete Timeline
+\begin{frame}[t]{Neural Networks: 1943-2024}
+\begin{center}
+\includegraphics[width=0.72\textwidth]{../module4_applications/charts/full_timeline_1943_2024/full_timeline_1943_2024.pdf}
+\end{center}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/full_timeline_1943_2024}{\includegraphics[width=0.8cm]{../../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.8] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/full_timeline_1943_2024}{\includegraphics[width=0.6cm]{../module4_applications/charts/full_timeline_1943_2024/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/full_timeline_1943_2024}{\tiny\texttt{\textcolor{gray}{full\_timeline\_1943\_2024}}}
+};
+\end{tikzpicture}
+
+\bottomnote{From McCulloch-Pitts to GPT: 80 years of progress}
+\end{frame}
+
+% Slide 58: Key Takeaways
+\begin{frame}[t]{Course Summary: Key Takeaways}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Module 1 - Perceptron:}
+\begin{itemize}
+    \item Neuron as weighted voting
+    \item Linear separability limits
+    \item XOR problem $\rightarrow$ AI Winter
+\end{itemize}
+\vspace{2mm}
+\textbf{Module 2 - MLPs:}
+\begin{itemize}
+    \item Hidden layers solve XOR
+    \item Activation functions enable non-linearity
+    \item Universal Approximation Theorem
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Module 3 - Training:}
+\begin{itemize}
+    \item Gradient descent finds minimum
+    \item Backprop: efficient gradient computation
+    \item Overfitting is the main enemy
+\end{itemize}
+\vspace{2mm}
+\textbf{Module 4 - Practice:}
+\begin{itemize}
+    \item Regularization fights overfitting
+    \item Financial data is uniquely challenging
+    \item Honest assessment of capabilities
+\end{itemize}
+\end{column}
+\end{columns}
+\vspace{3mm}
+\begin{center}
+\textcolor{mlpurple}{\textbf{The Foundation:}} Everything in modern AI builds on these concepts.
+\end{center}
+\bottomnote{The essential concepts from all four modules}
+\end{frame}
+
+% Slide 59: Where to Go from Here
+\begin{frame}[t]{Where to Go from Here}
+\textbf{Suggested Learning Path:}
+\vspace{3mm}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{Theory:}
+\begin{itemize}
+    \item Deep Learning (Goodfellow et al.)
+    \item Neural Networks and Deep Learning (Nielsen) - free online
+    \item Stanford CS231n (CNNs)
+    \item Stanford CS224n (NLP)
+\end{itemize}
+\vspace{3mm}
+\textbf{Practice:}
+\begin{itemize}
+    \item PyTorch or TensorFlow tutorials
+    \item Kaggle competitions
+    \item Personal projects
+    \item Open-source contributions
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{Finance-Specific:}
+\begin{itemize}
+    \item Advances in Financial ML (de Prado)
+    \item Machine Learning for Asset Managers
+    \item QuantConnect, Zipline (backtesting)
+    \item Academic papers (SSRN, arXiv q-fin)
+\end{itemize}
+\vspace{3mm}
+\textbf{Key Advice:}
+\begin{itemize}
+    \item Build things!
+    \item Start simple, add complexity
+    \item Focus on fundamentals
+    \item Be skeptical of claims
+    \item Domain knowledge matters
+\end{itemize}
+\end{column}
+\end{columns}
+\bottomnote{Suggested resources for continued learning}
+\end{frame}
+
+% Slide 60: Closing
+\begin{frame}[plain]
+\begin{center}
+\vspace{2cm}
+{\LARGE \textcolor{mlpurple}{\textbf{Thank You}}}\\[1.5cm]
+{\large Neural Networks for Finance}\\
+{\large BSc Lecture Series}\\[1.5cm]
+{\normalsize Questions?}\\[1cm]
+{\small \textcolor{mlgray}{See Mathematical Appendix for full derivations}}\\[0.5cm]
+{\footnotesize \textcolor{mlgray}{Module 4: From Theory to Practice}}
+\end{center}
+\end{frame}
+
+
+\end{document}

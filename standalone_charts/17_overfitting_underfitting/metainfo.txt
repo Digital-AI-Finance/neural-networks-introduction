@@ -1,0 +1,15 @@
+Name of Quantlet: 17_overfitting_underfitting
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: overfitting_underfitting. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: neural network, overfitting, underfitting, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: overfitting_underfitting.pdf
+
+Example: See 17_overfitting_underfitting.py for implementation details

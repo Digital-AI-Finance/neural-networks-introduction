@@ -1,0 +1,15 @@
+Name of Quantlet: timeline_1969_1986
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Timeline 1969 1986. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: neural network, timeline, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: timeline_1969_1986.pdf, timeline_1969_1986.png
+
+Example: See timeline_1969_1986.py for implementation details

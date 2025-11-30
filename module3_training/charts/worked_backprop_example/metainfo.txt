@@ -1,0 +1,15 @@
+Name of Quantlet: worked_backprop_example
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Worked Backprop Example. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: backprop, example, neural network, visualization, worked
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: worked_backprop_example.pdf, worked_backprop_example.png
+
+Example: See worked_backprop_example.py for implementation details

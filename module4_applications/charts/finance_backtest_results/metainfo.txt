@@ -1,0 +1,15 @@
+Name of Quantlet: finance_backtest_results
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Finance Backtest Results. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: backtest, finance, neural network, results, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: finance_backtest_results.pdf, finance_backtest_results.png
+
+Example: See finance_backtest_results.py for implementation details

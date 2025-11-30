@@ -1,0 +1,15 @@
+Name of Quantlet: gradient_computation_example
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Gradient Computation Example. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: computation, example, gradient, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: gradient_computation_example.pdf, gradient_computation_example.png
+
+Example: See gradient_computation_example.py for implementation details

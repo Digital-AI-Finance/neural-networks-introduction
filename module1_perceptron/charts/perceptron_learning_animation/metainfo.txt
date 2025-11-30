@@ -1,0 +1,15 @@
+Name of Quantlet: perceptron_learning_animation
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Perceptron Learning Animation. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: animation, learning, neural network, perceptron, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: perceptron_learning_animation.pdf, perceptron_learning_animation.png
+
+Example: See perceptron_learning_animation.py for implementation details

@@ -1,0 +1,15 @@
+Name of Quantlet: train_val_test_split
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Train Val Test Split. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: neural network, split, train, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: train_val_test_split.pdf, train_val_test_split.png
+
+Example: See train_val_test_split.py for implementation details

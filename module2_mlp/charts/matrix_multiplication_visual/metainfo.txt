@@ -1,0 +1,15 @@
+Name of Quantlet: matrix_multiplication_visual
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Matrix Multiplication Visual. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: matrix, multiplication, neural network, visual, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: matrix_multiplication_visual.pdf, matrix_multiplication_visual.png
+
+Example: See matrix_multiplication_visual.py for implementation details

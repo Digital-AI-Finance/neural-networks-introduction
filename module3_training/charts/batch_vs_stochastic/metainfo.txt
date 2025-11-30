@@ -1,0 +1,15 @@
+Name of Quantlet: batch_vs_stochastic
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Batch Vs Stochastic. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: batch, neural network, stochastic, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: batch_vs_stochastic.pdf, batch_vs_stochastic.png
+
+Example: See batch_vs_stochastic.py for implementation details

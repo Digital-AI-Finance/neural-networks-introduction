@@ -1,0 +1,15 @@
+Name of Quantlet: gradient_descent_contour
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Gradient Descent Contour. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: contour, descent, gradient, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: gradient_descent_contour.pdf, gradient_descent_contour.png
+
+Example: See gradient_descent_contour.py for implementation details

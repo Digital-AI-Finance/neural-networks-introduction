@@ -1,0 +1,15 @@
+Name of Quantlet: ethical_considerations
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Ethical Considerations. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: considerations, ethical, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: ethical_considerations.pdf, ethical_considerations.png
+
+Example: See ethical_considerations.py for implementation details

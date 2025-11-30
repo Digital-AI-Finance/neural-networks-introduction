@@ -1,0 +1,15 @@
+Name of Quantlet: linear_collapse_proof
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Linear Collapse Proof. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: collapse, linear, neural network, proof, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: linear_collapse_proof.pdf, linear_collapse_proof.png
+
+Example: See linear_collapse_proof.py for implementation details

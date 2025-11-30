@@ -1,0 +1,15 @@
+Name of Quantlet: credit_assignment
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Credit Assignment. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: assignment, credit, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: credit_assignment.pdf, credit_assignment.png
+
+Example: See credit_assignment.py for implementation details

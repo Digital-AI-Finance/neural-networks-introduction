@@ -1,0 +1,15 @@
+Name of Quantlet: training_diagnostics
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Training Diagnostics. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: diagnostics, neural network, training, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: training_diagnostics.pdf, training_diagnostics.png
+
+Example: See training_diagnostics.py for implementation details

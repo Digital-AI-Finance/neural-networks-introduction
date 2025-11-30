@@ -1,0 +1,15 @@
+Name of Quantlet: 04_linear_limitation
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: linear_limitation. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: limitation, linear, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: linear_limitation.pdf
+
+Example: See 04_linear_limitation.py for implementation details

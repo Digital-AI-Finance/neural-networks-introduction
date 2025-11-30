@@ -1,0 +1,15 @@
+Name of Quantlet: activation_derivatives
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Activation Derivatives. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: activation, derivatives, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: activation_derivatives.pdf, activation_derivatives.png
+
+Example: See activation_derivatives.py for implementation details

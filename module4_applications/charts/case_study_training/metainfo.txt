@@ -1,0 +1,15 @@
+Name of Quantlet: case_study_training
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Case Study Training. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: neural network, study, training, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: case_study_training.pdf, case_study_training.png
+
+Example: See case_study_training.py for implementation details

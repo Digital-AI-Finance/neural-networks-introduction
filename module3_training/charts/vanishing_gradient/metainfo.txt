@@ -1,0 +1,15 @@
+Name of Quantlet: vanishing_gradient
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Vanishing Gradient. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: gradient, neural network, vanishing, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: vanishing_gradient.pdf, vanishing_gradient.png
+
+Example: See vanishing_gradient.py for implementation details

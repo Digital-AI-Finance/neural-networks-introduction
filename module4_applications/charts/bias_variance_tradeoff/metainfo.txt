@@ -1,0 +1,15 @@
+Name of Quantlet: bias_variance_tradeoff
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Bias Variance Tradeoff. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: bias, neural network, tradeoff, variance, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: bias_variance_tradeoff.pdf, bias_variance_tradeoff.png
+
+Example: See bias_variance_tradeoff.py for implementation details

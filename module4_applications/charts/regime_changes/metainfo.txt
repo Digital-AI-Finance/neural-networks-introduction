@@ -1,0 +1,15 @@
+Name of Quantlet: regime_changes
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Regime Changes. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: changes, neural network, regime, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: regime_changes.pdf, regime_changes.png
+
+Example: See regime_changes.py for implementation details

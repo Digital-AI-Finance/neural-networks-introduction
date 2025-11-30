@@ -1,0 +1,15 @@
+Name of Quantlet: finance_stock_prediction_pipeline
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Finance Stock Prediction Pipeline. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: finance, neural network, pipeline, prediction, stock, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: finance_stock_prediction_pipeline.pdf, finance_stock_prediction_pipeline.png
+
+Example: See finance_stock_prediction_pipeline.py for implementation details

@@ -1,0 +1,15 @@
+Name of Quantlet: look_ahead_bias
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Look Ahead Bias. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: ahead, bias, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: look_ahead_bias.pdf, look_ahead_bias.png
+
+Example: See look_ahead_bias.py for implementation details

@@ -1,0 +1,15 @@
+Name of Quantlet: finance_model_comparison
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Finance Model Comparison. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: comparison, finance, model, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: finance_model_comparison.pdf, finance_model_comparison.png
+
+Example: See finance_model_comparison.py for implementation details

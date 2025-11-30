@@ -1,0 +1,15 @@
+Name of Quantlet: walk_forward_validation
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Walk Forward Validation. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: forward, neural network, validation, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: walk_forward_validation.pdf, walk_forward_validation.png
+
+Example: See walk_forward_validation.py for implementation details

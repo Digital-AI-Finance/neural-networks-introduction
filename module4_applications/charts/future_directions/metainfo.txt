@@ -1,0 +1,15 @@
+Name of Quantlet: future_directions
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Future Directions. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: directions, future, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: future_directions.pdf, future_directions.png
+
+Example: See future_directions.py for implementation details

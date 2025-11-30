@@ -1,0 +1,15 @@
+Name of Quantlet: module3_summary_diagram
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Module3 Summary Diagram. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: diagram, module3, neural network, summary, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: module3_summary_diagram.pdf, module3_summary_diagram.png
+
+Example: See module3_summary_diagram.py for implementation details

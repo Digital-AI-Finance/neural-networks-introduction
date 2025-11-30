@@ -1,0 +1,15 @@
+Name of Quantlet: regularization_comparison
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Regularization Comparison. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: comparison, neural network, regularization, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: regularization_comparison.pdf, regularization_comparison.png
+
+Example: See regularization_comparison.py for implementation details

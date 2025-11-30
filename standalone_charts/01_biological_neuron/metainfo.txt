@@ -1,0 +1,15 @@
+Name of Quantlet: 01_biological_neuron
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: biological_vs_artificial. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: biological, neural network, neuron, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: biological_vs_artificial.pdf
+
+Example: See 01_biological_neuron.py for implementation details

@@ -1,0 +1,15 @@
+Name of Quantlet: 20_trading_backtest
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: trading_backtest. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: backtest, neural network, trading, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: trading_backtest.pdf
+
+Example: See 20_trading_backtest.py for implementation details

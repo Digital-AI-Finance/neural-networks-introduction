@@ -1,0 +1,883 @@
+\documentclass[8pt,aspectratio=169]{beamer}
+\usetheme{Madrid}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{adjustbox}
+\usepackage{multicol}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usepackage{amssymb}
+
+% Color definitions
+\definecolor{mlblue}{RGB}{0,102,204}
+\definecolor{mlpurple}{RGB}{51,51,178}
+\definecolor{mllavender}{RGB}{173,173,224}
+\definecolor{mllavender2}{RGB}{193,193,232}
+\definecolor{mllavender3}{RGB}{204,204,235}
+\definecolor{mllavender4}{RGB}{214,214,239}
+\definecolor{mlorange}{RGB}{255, 127, 14}
+\definecolor{mlgreen}{RGB}{44, 160, 44}
+\definecolor{mlred}{RGB}{214, 39, 40}
+\definecolor{mlgray}{RGB}{127, 127, 127}
+\definecolor{lightgray}{RGB}{240, 240, 240}
+\definecolor{midgray}{RGB}{180, 180, 180}
+
+% Apply custom colors to Madrid theme
+\setbeamercolor{palette primary}{bg=mllavender3,fg=mlpurple}
+\setbeamercolor{palette secondary}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{palette tertiary}{bg=mllavender,fg=white}
+\setbeamercolor{palette quaternary}{bg=mlpurple,fg=white}
+\setbeamercolor{structure}{fg=mlpurple}
+\setbeamercolor{section in toc}{fg=mlpurple}
+\setbeamercolor{subsection in toc}{fg=mlblue}
+\setbeamercolor{title}{fg=mlpurple}
+\setbeamercolor{frametitle}{fg=mlpurple,bg=mllavender3}
+\setbeamercolor{block title}{bg=mllavender2,fg=mlpurple}
+\setbeamercolor{block body}{bg=mllavender4,fg=black}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{enumerate items}[default]
+\setbeamersize{text margin left=5mm,text margin right=5mm}
+
+\newcommand{\bottomnote}[1]{%
+\vfill
+\vspace{-2mm}
+\textcolor{mllavender2}{\rule{\textwidth}{0.4pt}}
+\vspace{1mm}
+\footnotesize
+\textbf{#1}
+}
+
+\title{History and Biological Inspiration}
+\subtitle{Neural Networks for Finance}
+\author{Neural Networks for Finance}
+\institute{BSc Lecture Series}
+\date{\today}
+
+\begin{document}
+
+\section{Opening}
+
+
+% Slide 1: Title
+\begin{frame}[plain]
+\titlepage
+\end{frame}
+
+% Slide 2: The Investment Committee Analogy
+\begin{frame}[t]{The Investment Committee}
+\begin{columns}[T]
+\column{0.55\textwidth}
+\textbf{How Does a Committee Make Decisions?}
+
+Imagine an investment committee evaluating a stock:
+\begin{itemize}
+\item \textbf{Analyst A}: ``Strong earnings growth'' \textcolor{mlgreen}{(+1 vote)}
+\item \textbf{Analyst B}: ``High debt levels'' \textcolor{mlred}{(-1 vote)}
+\item \textbf{Analyst C}: ``Good momentum'' \textcolor{mlgreen}{(+1 vote)}
+\item \textbf{Senior Partner}: ``Market risk is elevated'' \textcolor{mlred}{(-2 votes)}
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Decision Process:}
+\begin{enumerate}
+\item Gather evidence from each analyst
+\item Weight opinions by seniority/expertise
+\item Sum the weighted votes
+\item If total $>$ threshold: \textbf{Buy}
+\end{enumerate}
+
+\column{0.42\textwidth}
+\begin{center}
+\textbf{Weighted Voting}
+
+\vspace{1em}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Analyst} & \textbf{Vote} & \textbf{Weight} \\
+\midrule
+Analyst A & +1 & 1.0 \\
+Analyst B & -1 & 1.0 \\
+Analyst C & +1 & 1.0 \\
+Senior Partner & -1 & 2.0 \\
+\midrule
+\textbf{Weighted Sum} & & \textbf{-1.0} \\
+\bottomrule
+\end{tabular}
+
+\vspace{1em}
+\textcolor{mlred}{\textbf{Decision: Don't Buy}}
+\end{center}
+\end{columns}
+\bottomnote{Finance Hook: This is exactly how a perceptron works!}
+\end{frame}
+
+% Slide 3: What If Machines Could Decide?
+\begin{frame}[t]{What If Machines Could Decide?}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Central Question}
+
+In 1943, scientists asked:
+
+\begin{center}
+\textit{``Can we build a machine that learns to make decisions like a brain?''}
+\end{center}
+
+\vspace{0.5em}
+\textbf{Why This Matters for Finance:}
+\begin{itemize}
+\item Humans are slow and biased
+\item Markets process millions of data points
+\item Pattern recognition at scale
+\item Consistent, emotionless decisions
+\end{itemize}
+
+\column{0.48\textwidth}
+\textbf{The Promise}
+
+If we could capture how neurons compute:
+\begin{itemize}
+\item Automatic stock screening
+\item Risk assessment at scale
+\item Pattern detection in market data
+\item Learning from historical decisions
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Challenge}
+
+How do we translate biological processes into mathematical operations?
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textit{This module tells the story of how scientists attempted this translation.}}
+\end{columns}
+\bottomnote{The fundamental question that started neural network research}
+\end{frame}
+
+% Slide 4: Module Roadmap
+\begin{frame}[t]{Module 1 Roadmap}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{The Complete Journey (4 Modules)}
+
+\begin{enumerate}
+\item \textcolor{mlpurple}{\textbf{The Perceptron (Today)}}
+\begin{itemize}
+\item Single neuron foundations
+\item 1943-1969 history
+\end{itemize}
+\item Multi-Layer Perceptrons
+\begin{itemize}
+\item Stacking layers, activation functions
+\end{itemize}
+\item Training Neural Networks
+\begin{itemize}
+\item Backpropagation, optimization
+\end{itemize}
+\item Applications in Finance
+\begin{itemize}
+\item Stock prediction case study
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Today's Module Structure}
+
+\begin{enumerate}
+\item \textbf{Historical Context} (1943-1969)
+\begin{itemize}
+\item McCulloch-Pitts, Hebb, Rosenblatt
+\end{itemize}
+\item \textbf{Biological Inspiration}
+\begin{itemize}
+\item From neurons to mathematics
+\end{itemize}
+\item \textbf{The Perceptron}
+\begin{itemize}
+\item Intuition, then math
+\end{itemize}
+\item \textbf{Learning Algorithm}
+\begin{itemize}
+\item How it adjusts weights
+\end{itemize}
+\item \textbf{Limitations}
+\begin{itemize}
+\item XOR problem, AI Winter
+\end{itemize}
+\end{enumerate}
+\end{columns}
+\bottomnote{Your journey through neural network fundamentals}
+\end{frame}
+
+% Slide 5: Learning Objectives
+\begin{frame}[t]{Learning Objectives}
+\textbf{By the end of this module, you will be able to:}
+
+\vspace{0.5em}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\begin{enumerate}
+\item \textbf{Understand biological inspiration}
+\begin{itemize}
+\item How real neurons inspired artificial ones
+\item What we kept and what we simplified
+\end{itemize}
+
+\vspace{0.3em}
+\item \textbf{Master the perceptron model}
+\begin{itemize}
+\item Inputs, weights, sum, activation
+\item The decision-making unit
+\end{itemize}
+
+\vspace{0.3em}
+\item \textbf{Interpret decision boundaries}
+\begin{itemize}
+\item Geometric meaning of weights
+\item Linear separability concept
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\begin{enumerate}
+\setcounter{enumi}{3}
+\item \textbf{Apply the learning algorithm}
+\begin{itemize}
+\item Weight update rule
+\item Convergence conditions
+\end{itemize}
+
+\vspace{0.3em}
+\item \textbf{Recognize limitations}
+\begin{itemize}
+\item XOR problem
+\item Why single layers are not enough
+\end{itemize}
+\end{enumerate}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Finance Connection:}} Throughout, we'll use stock classification as our running example.
+\end{columns}
+\bottomnote{By the end of this module, you will be able to...}
+\end{frame}
+
+% ==================== SECTION 2: HISTORICAL CONTEXT (Slides 6-12) ====================
+
+\section{Historical Context: 1943-1969}
+
+
+% Slide 6: 1943 - The Spark
+\begin{frame}[t]{1943: The Mathematical Neuron}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Warren McCulloch \& Walter Pitts}
+
+In 1943, a neurophysiologist and a logician asked:
+
+\begin{center}
+\textit{``Can we describe what neurons do using mathematics?''}
+\end{center}
+
+\vspace{0.5em}
+Their paper: ``A Logical Calculus of Ideas Immanent in Nervous Activity''
+
+\vspace{0.5em}
+\textbf{Key Insight:}
+\begin{itemize}
+\item Neurons have binary states (fire or not)
+\item This is like TRUE/FALSE in logic
+\item Networks of neurons can compute any logical function
+\end{itemize}
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{../module1_perceptron/charts/mcculloch_pitts_diagram/mcculloch_pitts_diagram.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mcculloch_pitts_diagram}{\includegraphics[width=0.8cm]{../../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.8] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mcculloch_pitts_diagram}{\includegraphics[width=0.6cm]{../module1_perceptron/charts/mcculloch_pitts_diagram/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mcculloch_pitts_diagram}{\tiny\texttt{\textcolor{gray}{mcculloch\_pitts\_diagram}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Warren McCulloch and Walter Pitts: ``A Logical Calculus of Ideas Immanent in Nervous Activity''}
+\end{frame}
+
+% Slide 7: The Big Idea
+\begin{frame}[t]{The Big Idea: Computation in the Brain}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{What McCulloch \& Pitts Proposed}
+
+The brain performs computation through:
+\begin{enumerate}
+\item \textbf{Binary Signals}
+\begin{itemize}
+\item Neurons either fire (1) or don't (0)
+\item Like bits in a computer
+\end{itemize}
+\item \textbf{Threshold Logic}
+\begin{itemize}
+\item Sum of inputs exceeds threshold $\rightarrow$ fire
+\item Otherwise $\rightarrow$ stay quiet
+\end{itemize}
+\item \textbf{Network Composition}
+\begin{itemize}
+\item Complex behaviors from simple units
+\item AND, OR, NOT gates from neurons
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Logical Operations with Neurons}
+
+\vspace{0.5em}
+\textbf{AND Gate} (threshold = 2):
+\begin{itemize}
+\item Both inputs = 1 $\rightarrow$ output = 1
+\item Otherwise $\rightarrow$ output = 0
+\end{itemize}
+
+\textbf{OR Gate} (threshold = 1):
+\begin{itemize}
+\item Any input = 1 $\rightarrow$ output = 1
+\item All inputs = 0 $\rightarrow$ output = 0
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Implication:}} If neurons compute logic, and computers compute logic, then we can build artificial brains!
+\end{columns}
+\bottomnote{If neurons compute, can we build artificial ones?}
+\end{frame}
+
+% Slide 8: 1949 - Hebb's Learning Rule
+\begin{frame}[t]{1949: Hebbian Learning}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Donald Hebb's Insight}
+
+McCulloch-Pitts neurons were fixed. But how does the brain \textit{learn}?
+
+\vspace{0.5em}
+\textbf{Hebb's Rule (1949):}
+\begin{center}
+\textit{``Neurons that fire together, wire together.''}
+\end{center}
+
+\vspace{0.5em}
+\textbf{In Plain Terms:}
+\begin{itemize}
+\item If neuron A consistently activates neuron B
+\item The connection A $\rightarrow$ B grows stronger
+\item Repeated patterns reinforce pathways
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Finance Analogy:}
+
+An analyst who repeatedly identifies winning stocks gains more influence in the committee.
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{../module1_perceptron/charts/hebb_learning_visualization/hebb_learning_visualization.pdf}
+\end{center}
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/hebb_learning_visualization}{\includegraphics[width=0.8cm]{../../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.8] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/hebb_learning_visualization}{\includegraphics[width=0.6cm]{../module1_perceptron/charts/hebb_learning_visualization/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/hebb_learning_visualization}{\tiny\texttt{\textcolor{gray}{hebb\_learning\_visualization}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Donald Hebb: ``Neurons that fire together, wire together''}
+\end{frame}
+
+% Slide 9: 1958 - The Perceptron
+\begin{frame}[t]{1958: The Perceptron is Born}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Frank Rosenblatt at Cornell}
+
+Combined McCulloch-Pitts neurons with Hebbian learning into a machine that could \textit{learn from examples}.
+
+\vspace{0.5em}
+\textbf{The Perceptron:}
+\begin{itemize}
+\item A single artificial neuron
+\item Adjustable connection weights
+\item Learns to classify patterns
+\item Implemented in hardware (Mark I)
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Key Innovation:}
+
+Not just fixed logic gates, but a system that \textbf{learns} the right weights from training data.
+
+\column{0.48\textwidth}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{../module1_perceptron/charts/mark1_perceptron_diagram/mark1_perceptron_diagram.pdf}
+\end{center}
+
+\vspace{0.5em}
+\small
+The Mark I Perceptron used 400 photocells connected to a single layer of neurons with adjustable weights.
+\end{columns}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mark1_perceptron_diagram}{\includegraphics[width=0.8cm]{../../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.8] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mark1_perceptron_diagram}{\includegraphics[width=0.6cm]{../module1_perceptron/charts/mark1_perceptron_diagram/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/mark1_perceptron_diagram}{\tiny\texttt{\textcolor{gray}{mark1\_perceptron\_diagram}}}
+};
+\end{tikzpicture}
+
+\bottomnote{Frank Rosenblatt creates a machine that can learn}
+\end{frame}
+
+% Slide 10: Media Hype
+\begin{frame}[t]{The New York Times Headline}
+\begin{columns}[T]
+\column{0.55\textwidth}
+\textbf{July 8, 1958 - The New York Times}
+
+\begin{center}
+\textit{``New Navy Device Learns By Doing; Psychologist Shows Embryo of Computer Designed to Read and Grow Wiser''}
+\end{center}
+
+\vspace{0.5em}
+\textbf{The Promises Made:}
+\begin{itemize}
+\item Machines that recognize faces
+\item Automatic translation of languages
+\item Systems that ``perceive'' like humans
+\item The Navy predicted: walking, talking, self-reproducing machines
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Reality:}
+
+The perceptron could classify simple patterns, but the gap between promise and capability was vast.
+
+\column{0.42\textwidth}
+\textbf{Lessons for Today}
+
+\vspace{0.5em}
+\textcolor{mlorange}{\textbf{Sound Familiar?}}
+\begin{itemize}
+\item ``AI will replace all jobs''
+\item ``Machines will be smarter than humans by 20XX''
+\item ``This changes everything''
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Pattern:}
+\begin{enumerate}
+\item Genuine breakthrough
+\item Media amplification
+\item Overpromising
+\item Disappointment
+\item ``AI Winter''
+\end{enumerate}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textit{History repeats...}}
+\end{columns}
+\bottomnote{``New Navy Device Learns By Doing'' - The hype cycle begins}
+\end{frame}
+
+% Slide 11: Timeline 1943-1958
+\begin{frame}[t]{Timeline: The Early Years}
+\begin{center}
+\includegraphics[width=0.78\textwidth]{../module1_perceptron/charts/timeline_1943_1969/timeline_1943_1969.pdf}
+\end{center}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1943_1969}{\includegraphics[width=0.8cm]{../../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.8] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1943_1969}{\includegraphics[width=0.6cm]{../module1_perceptron/charts/timeline_1943_1969/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/timeline_1943_1969}{\tiny\texttt{\textcolor{gray}{timeline\_1943\_1969}}}
+};
+\end{tikzpicture}
+
+\bottomnote{From theory to hardware in 15 years}
+\end{frame}
+
+% Slide 12: Discussion Question 1
+\begin{frame}[t]{Discussion Question}
+\begin{center}
+\Large
+\textit{``The perceptron was funded by the US Navy for military applications. How does funding source shape research direction? Are there parallels in modern AI development?''}
+\end{center}
+
+\vspace{1em}
+\textbf{Consider:}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\begin{itemize}
+\item Military vs. commercial vs. academic funding
+\item What problems get prioritized?
+\item Open vs. closed research
+\end{itemize}
+
+\column{0.48\textwidth}
+\begin{itemize}
+\item Today: Tech giants fund most AI research
+\item Government initiatives (CHIPS Act, etc.)
+\item Startup ecosystem influence
+\end{itemize}
+\end{columns}
+\bottomnote{Think-Pair-Share: 3 minutes}
+\end{frame}
+
+% ==================== SECTION 3: BIOLOGICAL INSPIRATION (Slides 13-18) ====================
+
+\section{Biological Inspiration}
+
+
+% Slide 13: The Real Neuron
+\begin{frame}[t]{The Biological Neuron}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Anatomy of a Real Neuron}
+
+\begin{enumerate}
+\item \textbf{Dendrites} (Input)
+\begin{itemize}
+\item Tree-like branches
+\item Receive signals from other neurons
+\item Thousands of connections
+\end{itemize}
+
+\item \textbf{Cell Body (Soma)} (Processing)
+\begin{itemize}
+\item Integrates incoming signals
+\item Contains the nucleus
+\item Determines if neuron fires
+\end{itemize}
+
+\item \textbf{Axon} (Output)
+\begin{itemize}
+\item Long fiber carrying output signal
+\item Connects to other neurons
+\item All-or-nothing signal
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{How It Works}
+
+\vspace{0.5em}
+\begin{enumerate}
+\item Signals arrive at dendrites
+\item Soma sums the inputs
+\item If sum exceeds threshold: neuron \textbf{fires}
+\item Action potential travels down axon
+\item Signal reaches next neurons
+\end{enumerate}
+
+\vspace{0.5em}
+\textbf{Key Numbers:}
+\begin{itemize}
+\item Human brain: $\sim$86 billion neurons
+\item Each neuron: $\sim$7,000 connections
+\item Total synapses: $\sim$100 trillion
+\end{itemize}
+\end{columns}
+\bottomnote{Dendrites receive, soma processes, axon transmits}
+\end{frame}
+
+% Slide 14: The Artificial Neuron
+\begin{frame}[t]{The Artificial Neuron}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Mathematical Abstraction}
+
+\vspace{0.5em}
+\begin{enumerate}
+\item \textbf{Inputs} ($x_1, x_2, \ldots, x_n$)
+\begin{itemize}
+\item Numerical values (features)
+\item Replace dendrites
+\end{itemize}
+
+\item \textbf{Weights} ($w_1, w_2, \ldots, w_n$)
+\begin{itemize}
+\item Importance of each input
+\item Replace synapse strength
+\end{itemize}
+
+\item \textbf{Weighted Sum}
+\begin{itemize}
+\item $z = \sum_{i=1}^{n} w_i x_i + b$
+\item Replace soma integration
+\end{itemize}
+
+\item \textbf{Activation Function}
+\begin{itemize}
+\item $y = f(z)$
+\item Replace firing decision
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{The Complete Model}
+
+\vspace{0.5em}
+$$y = f\left(\sum_{i=1}^{n} w_i x_i + b\right)$$
+
+\vspace{1em}
+\textbf{Components:}
+\begin{itemize}
+\item $x_i$: Input features
+\item $w_i$: Learnable weights
+\item $b$: Bias (threshold adjustment)
+\item $f$: Activation function
+\item $y$: Output (prediction)
+\end{itemize}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textbf{Key Point:}} The weights are what the network \textit{learns}.
+\end{columns}
+\bottomnote{From biology to mathematics: the abstraction trade-off}
+\end{frame}
+
+% Slide 15: Side-by-Side Comparison
+\begin{frame}[t]{Biological vs. Artificial: Side by Side}
+\begin{center}
+\includegraphics[width=0.95\textwidth]{../module1_perceptron/charts/biological_vs_artificial_neuron/biological_vs_artificial_neuron.pdf}
+\end{center}
+
+% Quantlet branding (auto-generated)
+\begin{tikzpicture}[remember picture,overlay]
+% Logo (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.6cm,opacity=1.0] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/biological_vs_artificial_neuron}{\includegraphics[width=0.8cm]{../../quantlet_tools/logo/quantlet.png}}
+};
+% QR Code (clickable)
+\node[anchor=south east,xshift=-1.3cm,yshift=0.6cm,opacity=0.8] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/biological_vs_artificial_neuron}{\includegraphics[width=0.6cm]{../module1_perceptron/charts/biological_vs_artificial_neuron/qr_code.png}}
+};
+% URL text (clickable)
+\node[anchor=south east,xshift=-0.3cm,yshift=0.2cm] at (current page.south east) {
+  \href{https://github.com/QuantLet/neural-networks-introduction/tree/main/biological_vs_artificial_neuron}{\tiny\texttt{\textcolor{gray}{biological\_vs\_artificial\_neuron}}}
+};
+\end{tikzpicture}
+
+\bottomnote{What did we keep? What did we simplify?}
+\end{frame}
+
+% Slide 16: The Finance Analyst Analogy
+\begin{frame}[t]{Finance Analogy: The Analyst}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{A Financial Analyst as a Neuron}
+
+\vspace{0.5em}
+\begin{tabular}{ll}
+\toprule
+\textbf{Biology} & \textbf{Finance} \\
+\midrule
+Dendrites & Market data feeds \\
+Synapses & Data reliability weights \\
+Soma & Analyst's judgment \\
+Threshold & Conviction level \\
+Axon & ``Buy'' recommendation \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\textbf{The Process:}
+\begin{enumerate}
+\item Receive multiple data points
+\item Weight by source quality
+\item Aggregate into overall view
+\item If conviction $>$ threshold: recommend
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Example: Stock Screening}
+
+\vspace{0.5em}
+\textbf{Inputs (Data):}
+\begin{itemize}
+\item $x_1$: P/E ratio = 15
+\item $x_2$: Revenue growth = 20\%
+\item $x_3$: Debt/Equity = 0.5
+\end{itemize}
+
+\textbf{Weights (Importance):}
+\begin{itemize}
+\item $w_1 = 0.3$ (value focus)
+\item $w_2 = 0.5$ (growth priority)
+\item $w_3 = -0.2$ (debt penalty)
+\end{itemize}
+
+\textbf{Decision:}
+$$z = 0.3(15) + 0.5(20) - 0.2(0.5) = 14.4$$
+
+If $z > 10$: \textcolor{mlgreen}{\textbf{Buy}}
+\end{columns}
+\bottomnote{Inputs (data) -> Weights (importance) -> Decision (output)}
+\end{frame}
+
+% Slide 17: What We Gained
+\begin{frame}[t]{What We Gained from Abstraction}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Benefits of Simplification}
+
+\begin{enumerate}
+\item \textbf{Mathematical Tractability}
+\begin{itemize}
+\item We can write equations
+\item Analyze behavior formally
+\item Prove theorems
+\end{itemize}
+
+\item \textbf{Computability}
+\begin{itemize}
+\item Easy to implement in code
+\item Fast computation
+\item Scales to millions of units
+\end{itemize}
+
+\item \textbf{Trainability}
+\begin{itemize}
+\item Can adjust weights systematically
+\item Gradient-based optimization
+\item Learn from data
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{What We Can Now Do}
+
+\vspace{0.5em}
+\begin{itemize}
+\item Define learning algorithms
+\item Compute exact outputs
+\item Train on historical data
+\item Make predictions on new data
+\item Analyze decision boundaries
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{Scale Comparison:}
+
+\begin{tabular}{lcc}
+\toprule
+& \textbf{Brain} & \textbf{GPU} \\
+\midrule
+Operations/sec & $10^{16}$ & $10^{15}$ \\
+Power & 20W & 300W \\
+Training time & Years & Hours \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.5em}
+\small
+Different trade-offs, different capabilities.
+\end{columns}
+\bottomnote{Simplification enables computation}
+\end{frame}
+
+% Slide 18: What We Lost
+\begin{frame}[t]{What We Lost from Abstraction}
+\begin{columns}[T]
+\column{0.48\textwidth}
+\textbf{Biological Complexity We Ignored}
+
+\begin{enumerate}
+\item \textbf{Temporal Dynamics}
+\begin{itemize}
+\item Real neurons have timing
+\item Spike patterns carry information
+\item We use static activations
+\end{itemize}
+
+\item \textbf{Structural Complexity}
+\begin{itemize}
+\item Dendrites have local computation
+\item Different neuron types
+\item We use uniform units
+\end{itemize}
+
+\item \textbf{Neurochemistry}
+\begin{itemize}
+\item Neurotransmitters vary
+\item Modulatory systems
+\item We use simple multiplication
+\end{itemize}
+\end{enumerate}
+
+\column{0.48\textwidth}
+\textbf{Implications}
+
+\vspace{0.5em}
+\textbf{What ANNs Cannot Do (Well):}
+\begin{itemize}
+\item Energy efficiency of brain
+\item One-shot learning
+\item Continuous adaptation
+\item Common sense reasoning
+\end{itemize}
+
+\vspace{0.5em}
+\textbf{The Trade-off:}
+
+\begin{center}
+\begin{tabular}{cc}
+\textcolor{mlgreen}{Tractability} & \textcolor{mlred}{Realism} \\
+$\uparrow$ & $\downarrow$ \\
+\end{tabular}
+\end{center}
+
+\vspace{0.5em}
+\textcolor{mlpurple}{\textit{Artificial neurons are inspired by biology, not copies of it.}}
+\end{columns}
+\bottomnote{The brain does far more than our models capture}
+\end{frame}
+
+% ==================== SECTION 4: PERCEPTRON INTUITION (Slides 19-28) ====================
+
+\end{document}

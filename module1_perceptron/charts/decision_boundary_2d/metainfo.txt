@@ -1,0 +1,15 @@
+Name of Quantlet: decision_boundary_2d
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Decision Boundary 2D. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: boundary, decision, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: decision_boundary_2d.pdf, decision_boundary_2d.png
+
+Example: See decision_boundary_2d.py for implementation details

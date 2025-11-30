@@ -1,0 +1,15 @@
+Name of Quantlet: overfitting_curves
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Overfitting Curves. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: curves, neural network, overfitting, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: overfitting_curves.pdf, overfitting_curves.png
+
+Example: See overfitting_curves.py for implementation details

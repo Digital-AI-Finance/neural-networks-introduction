@@ -1,0 +1,15 @@
+Name of Quantlet: 08_gradient_descent
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: gradient_descent. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: descent, gradient, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: gradient_descent.pdf
+
+Example: See 08_gradient_descent.py for implementation details

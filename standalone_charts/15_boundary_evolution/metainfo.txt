@@ -1,0 +1,15 @@
+Name of Quantlet: 15_boundary_evolution
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: boundary_evolution. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: boundary, evolution, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: boundary_evolution.pdf
+
+Example: See 15_boundary_evolution.py for implementation details

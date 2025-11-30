@@ -1,0 +1,15 @@
+Name of Quantlet: gradient_flow_mlp
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Gradient Flow MLP. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: gradient, mlp, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: gradient_flow_mlp.pdf, gradient_flow_mlp.png
+
+Example: See gradient_flow_mlp.py for implementation details

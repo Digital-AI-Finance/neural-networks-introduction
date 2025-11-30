@@ -1,0 +1,15 @@
+Name of Quantlet: dropout_visualization
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Dropout Visualization. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: dropout, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: dropout_visualization.pdf, dropout_visualization.png
+
+Example: See dropout_visualization.py for implementation details

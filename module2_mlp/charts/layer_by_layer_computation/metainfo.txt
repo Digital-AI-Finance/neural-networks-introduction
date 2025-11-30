@@ -1,0 +1,15 @@
+Name of Quantlet: layer_by_layer_computation
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Layer By Layer Computation. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: computation, layer, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: layer_by_layer_computation.pdf, layer_by_layer_computation.png
+
+Example: See layer_by_layer_computation.py for implementation details

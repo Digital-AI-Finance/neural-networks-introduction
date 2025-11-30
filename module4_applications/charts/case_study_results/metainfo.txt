@@ -1,0 +1,15 @@
+Name of Quantlet: case_study_results
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Case Study Results. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: neural network, results, study, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: case_study_results.pdf, case_study_results.png
+
+Example: See case_study_results.py for implementation details

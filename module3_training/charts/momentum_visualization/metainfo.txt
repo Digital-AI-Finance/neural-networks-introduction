@@ -1,0 +1,15 @@
+Name of Quantlet: momentum_visualization
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Momentum Visualization. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: momentum, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: momentum_visualization.pdf, momentum_visualization.png
+
+Example: See momentum_visualization.py for implementation details

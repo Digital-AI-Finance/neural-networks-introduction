@@ -1,0 +1,15 @@
+Name of Quantlet: backtest_trap
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Backtest Trap. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: backtest, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: backtest_trap.pdf, backtest_trap.png
+
+Example: See backtest_trap.py for implementation details

@@ -1,0 +1,15 @@
+Name of Quantlet: transaction_costs
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Transaction Costs. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: costs, neural network, transaction, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: transaction_costs.pdf, transaction_costs.png
+
+Example: See transaction_costs.py for implementation details

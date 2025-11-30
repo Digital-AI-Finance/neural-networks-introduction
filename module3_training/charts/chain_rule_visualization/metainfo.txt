@@ -1,0 +1,15 @@
+Name of Quantlet: chain_rule_visualization
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: Chain Rule Visualization. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: chain, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: chain_rule_visualization.pdf, chain_rule_visualization.png
+
+Example: See chain_rule_visualization.py for implementation details

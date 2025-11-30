@@ -1,0 +1,15 @@
+Name of Quantlet: 03_activation_functions
+
+Published in: Neural Networks Introduction - BSc Lecture Series
+
+Description: activation_functions. Educational visualization for neural networks course covering fundamental concepts of deep learning and machine learning.
+
+Keywords: activation, functions, neural network, visualization
+
+Author: Joerg Osterrieder
+
+Datafile: None
+
+Output: activation_functions.pdf
+
+Example: See 03_activation_functions.py for implementation details
