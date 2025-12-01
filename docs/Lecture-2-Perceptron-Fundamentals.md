@@ -1,5 +1,7 @@
 # Lecture 2: Perceptron Fundamentals
 
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/perceptron_fundamentals.pdf" class="download-btn">Download Slides (PDF)</a>
+
 **Duration**: ~45 minutes | **Slides**: 32 | **Prerequisites**: [Lecture 1](Lecture-1-History-and-Biological-Inspiration)
 
 ---
@@ -23,7 +25,12 @@ After completing this lecture, you should be able to:
 
 A perceptron is the simplest possible neural network: a single artificial neuron.
 
-![Perceptron Architecture](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/perceptron_architecture/perceptron_architecture.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module1_perceptron/charts/perceptron_architecture">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/perceptron_architecture/perceptron_architecture.png" alt="Perceptron Architecture">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 **Components:**
 
@@ -130,7 +137,12 @@ This is a line with:
 - Slope = -w_1/w_2
 - Intercept = -b/w_2
 
-![Decision Boundary](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/decision_boundary_2d/decision_boundary_2d.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module1_perceptron/charts/decision_boundary_2d">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/decision_boundary_2d/decision_boundary_2d.png" alt="Decision Boundary">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 **Key Insight**: Everything on one side of the line is classified as 1, everything on the other side as 0.
 
@@ -194,7 +206,12 @@ The XOR (exclusive or) function demonstrates the fundamental limitation of singl
 | 1 | 0 | 1 |
 | 1 | 1 | 0 |
 
-![XOR Problem](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/xor_problem/xor_problem.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module1_perceptron/charts/xor_problem">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/xor_problem/xor_problem.png" alt="XOR Problem">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 **Why can't a perceptron solve XOR?**
 
@@ -403,6 +420,8 @@ This lecture covered:
 
 **Next Lecture**: [MLP Architecture](Lecture-3-MLP-Architecture) - We'll see how stacking perceptrons into layers overcomes the XOR limitation.
 
----
-
-[Previous: Lecture 1](Lecture-1-History-and-Biological-Inspiration) | [Home](index) | [Next: Lecture 3](Lecture-3-MLP-Architecture)
+<div class="lecture-nav">
+<a href="Lecture-1-History-and-Biological-Inspiration">Previous: History</a>
+<a href="index">Home</a>
+<a href="Lecture-3-MLP-Architecture">Next: MLP Architecture</a>
+</div>

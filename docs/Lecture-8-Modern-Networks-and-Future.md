@@ -1,5 +1,7 @@
 # Lecture 8: Modern Networks and Future Directions
 
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/modern_networks_future.pdf" class="download-btn">Download Slides (PDF)</a>
+
 **Duration**: ~45 minutes | **Slides**: 17 | **Prerequisites**: [Lecture 7](Lecture-7-Financial-Applications)
 
 ---
@@ -35,7 +37,12 @@ The field has evolved dramatically since the perceptron:
 | 2017 | Transformer | Attention is all you need |
 | 2022-24 | GPT-4, Claude | Large language models |
 
-![Timeline](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/full_timeline_1943_2024/full_timeline_1943_2024.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module4_applications/charts/full_timeline_1943_2024">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/full_timeline_1943_2024/full_timeline_1943_2024.png" alt="Timeline">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -150,7 +157,12 @@ Neural Networks
                     +-- Claude, GPT-4 (large language models)
 ```
 
-![Architecture Family Tree](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/architecture_family_tree/architecture_family_tree.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module4_applications/charts/architecture_family_tree">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/architecture_family_tree/architecture_family_tree.png" alt="Architecture Family Tree">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -490,6 +502,8 @@ You've now completed all 8 lectures covering:
 
 Good luck in your neural network journey!
 
----
-
-[Previous: Lecture 7](Lecture-7-Financial-Applications) | [Home](index) | [Glossary](Glossary)
+<div class="lecture-nav">
+<a href="Lecture-7-Financial-Applications">Previous: Finance</a>
+<a href="index">Home</a>
+<a href="Glossary">Glossary</a>
+</div>

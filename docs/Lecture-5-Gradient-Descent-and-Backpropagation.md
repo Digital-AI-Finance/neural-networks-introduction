@@ -1,5 +1,7 @@
 # Lecture 5: Gradient Descent and Backpropagation
 
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/gradient_descent_backprop.pdf" class="download-btn">Download Slides (PDF)</a>
+
 **Duration**: ~45 minutes | **Slides**: 38 | **Prerequisites**: [Lecture 4](Lecture-4-Activation-and-Loss-Functions)
 
 ---
@@ -52,7 +54,12 @@ The loss function creates a "landscape" over the weight space.
 - **Saddle points**: Points that are minima in some directions, maxima in others
 - **Plateaus**: Flat regions where gradients are tiny
 
-![Loss Landscape](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/loss_landscape_3d/loss_landscape_3d.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/loss_landscape_3d">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/loss_landscape_3d/loss_landscape_3d.png" alt="Loss Landscape">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -82,7 +89,12 @@ Where:
 - eta (learning rate): How big each step is
 - dL/dw_i: Partial derivative of loss with respect to weight w_i
 
-![Gradient Descent Contour](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/gradient_descent_contour/gradient_descent_contour.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/gradient_descent_contour">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/gradient_descent_contour/gradient_descent_contour.png" alt="Gradient Descent Contour">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -106,7 +118,12 @@ The learning rate controls step size and is crucial for successful training.
 
 **Typical values:** 0.001 to 0.1 (often requires experimentation)
 
-![Learning Rate Comparison](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/learning_rate_comparison/learning_rate_comparison.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/learning_rate_comparison">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/learning_rate_comparison/learning_rate_comparison.png" alt="Learning Rate Comparison">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -157,7 +174,12 @@ Backpropagation efficiently computes all gradients by working backward through t
    dL/db_l = delta_l
    ```
 
-![Backprop Flow](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/backprop_flow_diagram/backprop_flow_diagram.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/backprop_flow_diagram">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/backprop_flow_diagram/backprop_flow_diagram.png" alt="Backprop Flow">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -172,7 +194,12 @@ Backpropagation efficiently computes all gradients by working backward through t
 - Weights connected to neurons with large gradients get more blame
 - The further a weight is from the output, the more its credit is diluted
 
-![Credit Assignment](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/credit_assignment/credit_assignment.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/credit_assignment">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/credit_assignment/credit_assignment.png" alt="Credit Assignment">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -433,6 +460,8 @@ This lecture covered:
 
 **Next Lecture**: [Training Dynamics and Regularization](Lecture-6-Training-Dynamics-and-Regularization) - We'll learn about practical training considerations and how to prevent overfitting.
 
----
-
-[Previous: Lecture 4](Lecture-4-Activation-and-Loss-Functions) | [Home](index) | [Next: Lecture 6](Lecture-6-Training-Dynamics-and-Regularization)
+<div class="lecture-nav">
+<a href="Lecture-4-Activation-and-Loss-Functions">Previous: Activations</a>
+<a href="index">Home</a>
+<a href="Lecture-6-Training-Dynamics-and-Regularization">Next: Training</a>
+</div>

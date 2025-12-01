@@ -1,5 +1,7 @@
 # Lecture 1: History and Biological Inspiration
 
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/history_biological_inspiration.pdf" class="download-btn">Download Slides (PDF)</a>
+
 **Duration**: ~45 minutes | **Slides**: 18 | **Prerequisites**: None
 
 ---
@@ -61,7 +63,12 @@ Their model:
 
 **Limitation**: Weights were fixed, not learned.
 
-![McCulloch-Pitts Model](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/mcculloch_pitts_diagram/mcculloch_pitts_diagram.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module1_perceptron/charts/mcculloch_pitts_diagram">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/mcculloch_pitts_diagram/mcculloch_pitts_diagram.png" alt="McCulloch-Pitts Model">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 #### 1949: Hebbian Learning
 
@@ -129,7 +136,12 @@ To understand artificial neurons, we must first understand their biological insp
 - Each neuron: ~7,000 synaptic connections
 - Total synapses: ~100 trillion
 
-![Biological vs Artificial Neuron](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/biological_vs_artificial_neuron/biological_vs_artificial_neuron.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module1_perceptron/charts/biological_vs_artificial_neuron">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/biological_vs_artificial_neuron/biological_vs_artificial_neuron.png" alt="Biological vs Artificial Neuron">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -271,6 +283,8 @@ This lecture covered:
 
 **Next Lecture**: [Perceptron Fundamentals](Lecture-2-Perceptron-Fundamentals) - We dive deep into the mathematics and learning algorithm of the perceptron.
 
----
-
-[Home](index) | Next: [Lecture 2: Perceptron Fundamentals](Lecture-2-Perceptron-Fundamentals)
+<div class="lecture-nav">
+<span class="disabled">Previous</span>
+<a href="index">Home</a>
+<a href="Lecture-2-Perceptron-Fundamentals">Next: Perceptron Fundamentals</a>
+</div>

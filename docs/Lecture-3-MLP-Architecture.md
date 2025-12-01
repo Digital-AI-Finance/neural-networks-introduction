@@ -1,5 +1,7 @@
 # Lecture 3: Multi-Layer Perceptron Architecture
 
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/mlp_architecture.pdf" class="download-btn">Download Slides (PDF)</a>
+
 **Duration**: ~45 minutes | **Slides**: 32 | **Prerequisites**: [Lecture 2](Lecture-2-Perceptron-Fundamentals)
 
 ---
@@ -27,7 +29,12 @@ Recall from Lecture 2: A single perceptron cannot solve XOR because it's not lin
 
 By combining simple linear classifiers, we can create complex non-linear decision boundaries.
 
-![MLP Architecture](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/mlp_architecture_2_3_1/mlp_architecture_2_3_1.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/mlp_architecture_2_3_1">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/mlp_architecture_2_3_1/mlp_architecture_2_3_1.png" alt="MLP Architecture">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -113,7 +120,12 @@ Layer 2:
 - z_2 = W_2 * h + b_2 (1x1)
 - y = f(z_2) (1x1)
 
-![Matrix Multiplication](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/matrix_multiplication_visual/matrix_multiplication_visual.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/matrix_multiplication_visual">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/matrix_multiplication_visual/matrix_multiplication_visual.png" alt="Matrix Multiplication">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -143,7 +155,12 @@ Let's see how a 2-2-1 network solves XOR.
 | 1 | 0 | 1 | 0 | 1 |
 | 1 | 1 | 1 | 1 | 0 |
 
-![XOR Solution](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/xor_solution_mlp/xor_solution_mlp.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/xor_solution_mlp">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/xor_solution_mlp/xor_solution_mlp.png" alt="XOR Solution">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -159,7 +176,12 @@ The hidden layer creates a new feature space where the problem becomes easier.
 - Same points mapped to new coordinates
 - NOW linearly separable!
 
-![Hidden Layer Representations](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/hidden_layer_representations/hidden_layer_representations.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/hidden_layer_representations">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/hidden_layer_representations/hidden_layer_representations.png" alt="Hidden Layer Representations">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 **Key insight**: Deep networks learn hierarchical representations - each layer transforms data into more useful forms.
 
@@ -404,6 +426,8 @@ This lecture covered:
 
 **Next Lecture**: [Activation and Loss Functions](Lecture-4-Activation-and-Loss-Functions) - We'll explore the activation functions that enable non-linearity and the loss functions that guide learning.
 
----
-
-[Previous: Lecture 2](Lecture-2-Perceptron-Fundamentals) | [Home](index) | [Next: Lecture 4](Lecture-4-Activation-and-Loss-Functions)
+<div class="lecture-nav">
+<a href="Lecture-2-Perceptron-Fundamentals">Previous: Perceptron</a>
+<a href="index">Home</a>
+<a href="Lecture-4-Activation-and-Loss-Functions">Next: Activations</a>
+</div>

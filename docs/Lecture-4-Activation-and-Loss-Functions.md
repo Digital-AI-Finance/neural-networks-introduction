@@ -1,5 +1,7 @@
 # Lecture 4: Activation and Loss Functions
 
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/activation_loss_functions.pdf" class="download-btn">Download Slides (PDF)</a>
+
 **Duration**: ~45 minutes | **Slides**: 23 | **Prerequisites**: [Lecture 3](Lecture-3-MLP-Architecture)
 
 ---
@@ -58,7 +60,12 @@ sigmoid'(z) = sigmoid(z) * (1 - sigmoid(z))
 - Not zero-centered
 - Computationally expensive (exponentials)
 
-![Sigmoid Function](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/sigmoid_function/sigmoid_function.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/sigmoid_function">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/sigmoid_function/sigmoid_function.png" alt="Sigmoid Function">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -94,7 +101,12 @@ tanh'(z) = 1 - tanh^2(z)
 - Still suffers from vanishing gradients
 - Computationally expensive
 
-![Tanh Function](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/tanh_function/tanh_function.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/tanh_function">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/tanh_function/tanh_function.png" alt="Tanh Function">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -129,7 +141,12 @@ ReLU'(z) = { 1 if z > 0
 - Not zero-centered
 - Unbounded (can cause exploding values)
 
-![ReLU Function](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/relu_function/relu_function.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/relu_function">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/relu_function/relu_function.png" alt="ReLU Function">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -141,7 +158,12 @@ ReLU'(z) = { 1 if z > 0
 | Tanh | (e^z-e^(-z))/(e^z+e^(-z)) | (-1,1) | Zero-centered | Vanishing gradient |
 | ReLU | max(0,z) | [0,inf) | Fast, no vanishing gradient | Dead neurons |
 
-![Activation Comparison](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/activation_comparison/activation_comparison.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/activation_comparison">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/activation_comparison/activation_comparison.png" alt="Activation Comparison">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 **Modern best practice:**
 - Hidden layers: ReLU (or variants like Leaky ReLU, ELU)
@@ -222,7 +244,12 @@ dL/dy_pred = -2 * (y_true - y_pred)
 - Portfolio return forecasting
 - Any continuous target variable
 
-![MSE Visualization](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/mse_visualization/mse_visualization.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/mse_visualization">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/mse_visualization/mse_visualization.png" alt="MSE Visualization">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -254,7 +281,12 @@ dL/dy_pred = -y_true/y_pred + (1-y_true)/(1-y_pred)
 - Fraud detection
 - Any binary outcome
 
-![Cross-Entropy Visualization](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/cross_entropy_visualization/cross_entropy_visualization.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/cross_entropy_visualization">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/cross_entropy_visualization/cross_entropy_visualization.png" alt="Cross-Entropy Visualization">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -448,6 +480,8 @@ This lecture covered:
 
 **Next Lecture**: [Gradient Descent and Backpropagation](Lecture-5-Gradient-Descent-and-Backpropagation) - We'll learn how neural networks actually find good weights.
 
----
-
-[Previous: Lecture 3](Lecture-3-MLP-Architecture) | [Home](index) | [Next: Lecture 5](Lecture-5-Gradient-Descent-and-Backpropagation)
+<div class="lecture-nav">
+<a href="Lecture-3-MLP-Architecture">Previous: MLP</a>
+<a href="index">Home</a>
+<a href="Lecture-5-Gradient-Descent-and-Backpropagation">Next: Backprop</a>
+</div>

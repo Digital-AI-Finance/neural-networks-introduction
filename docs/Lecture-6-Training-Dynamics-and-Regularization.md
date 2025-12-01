@@ -1,5 +1,7 @@
 # Lecture 6: Training Dynamics and Regularization
 
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/training_regularization.pdf" class="download-btn">Download Slides (PDF)</a>
+
 **Duration**: ~45 minutes | **Slides**: 37 | **Prerequisites**: [Lecture 5](Lecture-5-Gradient-Descent-and-Backpropagation)
 
 ---
@@ -84,7 +86,12 @@ Monitoring training progress is essential for understanding model behavior.
 - Patterns may not repeat in the future
 - Leads to poor live trading performance
 
-![Overfitting Curves](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/overfitting_curves/overfitting_curves.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/overfitting_curves">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/overfitting_curves/overfitting_curves.png" alt="Overfitting Curves">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 **Signs of overfitting:**
 - Training loss continues to decrease
@@ -161,7 +168,12 @@ L_total = L_original + lambda * sum(|w_i|)
 - Want a sparse model
 - Interpretability matters
 
-![L1 vs L2](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/l1_l2_comparison/l1_l2_comparison.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/l1_l2_comparison">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/l1_l2_comparison/l1_l2_comparison.png" alt="L1 vs L2">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -183,7 +195,12 @@ Dropout randomly "drops" neurons during training by setting their output to zero
 - Acts like training many networks and averaging
 - Encourages redundant representations
 
-![Dropout Visualization](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/dropout_visualization/dropout_visualization.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/dropout_visualization">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/dropout_visualization/dropout_visualization.png" alt="Dropout Visualization">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 **Implementation:**
 ```
@@ -213,7 +230,12 @@ Early stopping stops training when validation performance stops improving.
 - **Patience:** How many epochs to wait (typically 5-20)
 - **Min delta:** Minimum improvement to count (e.g., 0.0001)
 
-![Early Stopping](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/early_stopping_demo/early_stopping_demo.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/early_stopping_demo">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/early_stopping_demo/early_stopping_demo.png" alt="Early Stopping">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 **Advantages:**
 - Simple to implement
@@ -330,7 +352,12 @@ where m = batch size
 3. Use simple models when possible
 4. Test on truly out-of-sample data
 
-![Backtest Trap](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/backtest_trap/backtest_trap.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/backtest_trap">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/backtest_trap/backtest_trap.png" alt="Backtest Trap">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 ---
 
@@ -481,6 +508,8 @@ This lecture covered:
 
 **Next Lecture**: [Financial Applications](Lecture-7-Financial-Applications) - We'll apply everything learned to real financial problems.
 
----
-
-[Previous: Lecture 5](Lecture-5-Gradient-Descent-and-Backpropagation) | [Home](index) | [Next: Lecture 7](Lecture-7-Financial-Applications)
+<div class="lecture-nav">
+<a href="Lecture-5-Gradient-Descent-and-Backpropagation">Previous: Backprop</a>
+<a href="index">Home</a>
+<a href="Lecture-7-Financial-Applications">Next: Finance</a>
+</div>

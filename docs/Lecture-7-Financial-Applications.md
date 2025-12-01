@@ -1,5 +1,7 @@
 # Lecture 7: Financial Applications
 
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/financial_applications.pdf" class="download-btn">Download Slides (PDF)</a>
+
 **Duration**: ~45 minutes | **Slides**: 27 | **Prerequisites**: [Lecture 6](Lecture-6-Training-Dynamics-and-Regularization)
 
 ---
@@ -58,7 +60,12 @@ Period 3:     [====Train====][Val]
 3. Train on window, test on next period
 4. Roll forward, repeat
 
-![Walk-Forward Validation](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/walk_forward_validation/walk_forward_validation.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module4_applications/charts/walk_forward_validation">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/walk_forward_validation/walk_forward_validation.png" alt="Walk-Forward Validation">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 **Advantages:**
 - Never uses future data
@@ -80,7 +87,12 @@ Period 3:     [====Train====][Val]
 | **Survivorship bias** | Only training on companies that survived |
 | **Point-in-time data** | Using revised economic data instead of initial release |
 
-![Look-Ahead Bias](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/look_ahead_bias/look_ahead_bias.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module4_applications/charts/look_ahead_bias">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/look_ahead_bias/look_ahead_bias.png" alt="Look-Ahead Bias">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 **Prevention:**
 - Use point-in-time databases
@@ -100,7 +112,12 @@ Markets operate in different "regimes" with different statistical properties.
 
 **The problem:** A model trained in one regime may fail completely in another.
 
-![Regime Changes](https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/regime_changes/regime_changes.png)
+<div class="chart-container">
+<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module4_applications/charts/regime_changes">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/regime_changes/regime_changes.png" alt="Regime Changes">
+</a>
+<span class="chart-link">Click chart to view Python source code</span>
+</div>
 
 **Solutions:**
 - Walk-forward validation (exposes regime failures)
@@ -469,6 +486,8 @@ This lecture covered:
 
 **Next Lecture**: [Modern Networks and Future](Lecture-8-Modern-Networks-and-Future) - We'll explore modern architectures and future directions.
 
----
-
-[Previous: Lecture 6](Lecture-6-Training-Dynamics-and-Regularization) | [Home](index) | [Next: Lecture 8](Lecture-8-Modern-Networks-and-Future)
+<div class="lecture-nav">
+<a href="Lecture-6-Training-Dynamics-and-Regularization">Previous: Training</a>
+<a href="index">Home</a>
+<a href="Lecture-8-Modern-Networks-and-Future">Next: Modern</a>
+</div>
