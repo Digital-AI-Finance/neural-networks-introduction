@@ -471,4 +471,4 @@ This lecture covered:
 
 ---
 
-[Previous: Lecture 6](Lecture-6-Training-Dynamics-and-Regularization) | [Home](Home) | [Next: Lecture 8](Lecture-8-Modern-Networks-and-Future)
+[Previous: Lecture 6](Lecture-6-Training-Dynamics-and-Regularization) | [Home](index) | [Next: Lecture 8](Lecture-8-Modern-Networks-and-Future)

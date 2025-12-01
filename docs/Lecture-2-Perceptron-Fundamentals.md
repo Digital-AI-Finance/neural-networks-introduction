@@ -405,4 +405,4 @@ This lecture covered:
 
 ---
 
-[Previous: Lecture 1](Lecture-1-History-and-Biological-Inspiration) | [Home](Home) | [Next: Lecture 3](Lecture-3-MLP-Architecture)
+[Previous: Lecture 1](Lecture-1-History-and-Biological-Inspiration) | [Home](index) | [Next: Lecture 3](Lecture-3-MLP-Architecture)

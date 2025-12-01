@@ -273,4 +273,4 @@ This lecture covered:
 
 ---
 
-[Home](Home) | Next: [Lecture 2: Perceptron Fundamentals](Lecture-2-Perceptron-Fundamentals)
+[Home](index) | Next: [Lecture 2: Perceptron Fundamentals](Lecture-2-Perceptron-Fundamentals)

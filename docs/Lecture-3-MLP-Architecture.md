@@ -406,4 +406,4 @@ This lecture covered:
 
 ---
 
-[Previous: Lecture 2](Lecture-2-Perceptron-Fundamentals) | [Home](Home) | [Next: Lecture 4](Lecture-4-Activation-and-Loss-Functions)
+[Previous: Lecture 2](Lecture-2-Perceptron-Fundamentals) | [Home](index) | [Next: Lecture 4](Lecture-4-Activation-and-Loss-Functions)

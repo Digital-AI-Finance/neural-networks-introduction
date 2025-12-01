@@ -337,4 +337,4 @@ A classification problem that cannot be solved by a single perceptron because it
 
 ---
 
-[Home](Home) | [Lecture 1](Lecture-1-History-and-Biological-Inspiration)
+[Home](index) | [Lecture 1](Lecture-1-History-and-Biological-Inspiration)

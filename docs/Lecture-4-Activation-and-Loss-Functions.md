@@ -450,4 +450,4 @@ This lecture covered:
 
 ---
 
-[Previous: Lecture 3](Lecture-3-MLP-Architecture) | [Home](Home) | [Next: Lecture 5](Lecture-5-Gradient-Descent-and-Backpropagation)
+[Previous: Lecture 3](Lecture-3-MLP-Architecture) | [Home](index) | [Next: Lecture 5](Lecture-5-Gradient-Descent-and-Backpropagation)

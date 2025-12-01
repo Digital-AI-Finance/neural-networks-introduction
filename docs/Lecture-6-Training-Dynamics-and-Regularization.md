@@ -483,4 +483,4 @@ This lecture covered:
 
 ---
 
-[Previous: Lecture 5](Lecture-5-Gradient-Descent-and-Backpropagation) | [Home](Home) | [Next: Lecture 7](Lecture-7-Financial-Applications)
+[Previous: Lecture 5](Lecture-5-Gradient-Descent-and-Backpropagation) | [Home](index) | [Next: Lecture 7](Lecture-7-Financial-Applications)

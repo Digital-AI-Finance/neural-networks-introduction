@@ -492,4 +492,4 @@ Good luck in your neural network journey!
 
 ---
 
-[Previous: Lecture 7](Lecture-7-Financial-Applications) | [Home](Home) | [Glossary](Glossary)
+[Previous: Lecture 7](Lecture-7-Financial-Applications) | [Home](index) | [Glossary](Glossary)

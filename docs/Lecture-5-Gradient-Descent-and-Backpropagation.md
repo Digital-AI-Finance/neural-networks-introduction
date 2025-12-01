@@ -435,4 +435,4 @@ This lecture covered:
 
 ---
 
-[Previous: Lecture 4](Lecture-4-Activation-and-Loss-Functions) | [Home](Home) | [Next: Lecture 6](Lecture-6-Training-Dynamics-and-Regularization)
+[Previous: Lecture 4](Lecture-4-Activation-and-Loss-Functions) | [Home](index) | [Next: Lecture 6](Lecture-6-Training-Dynamics-and-Regularization)
