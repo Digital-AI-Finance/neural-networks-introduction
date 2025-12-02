@@ -428,5 +428,5 @@ This lecture covered:
 <div class="lecture-nav">
 <a href="Lecture-1-History-and-Biological-Inspiration">Previous: History</a>
 <a href="index">Home</a>
-<a href="Lecture-3-MLP-Architecture">Next: MLP Architecture</a>
+<a href="Lecture-3-MLP-Architecture">Next: MLP</a>
 </div>

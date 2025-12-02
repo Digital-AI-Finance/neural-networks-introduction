@@ -510,5 +510,5 @@ Good luck in your neural network journey!
 <div class="lecture-nav">
 <a href="Lecture-7-Financial-Applications">Previous: Finance</a>
 <a href="index">Home</a>
-<a href="Glossary">Glossary</a>
+<span class="disabled">Next</span>
 </div>

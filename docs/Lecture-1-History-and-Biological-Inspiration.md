@@ -291,5 +291,5 @@ This lecture covered:
 <div class="lecture-nav">
 <span class="disabled">Previous</span>
 <a href="index">Home</a>
-<a href="Lecture-2-Perceptron-Fundamentals">Next: Perceptron Fundamentals</a>
+<a href="Lecture-2-Perceptron-Fundamentals">Next: Perceptron</a>
 </div>
