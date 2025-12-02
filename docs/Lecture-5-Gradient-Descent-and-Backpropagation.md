@@ -1,6 +1,11 @@
-# Lecture 5: Gradient Descent and Backpropagation
+---
+title: "Gradient Descent and Backpropagation"
+lecture_num: 5
+pdf_file: gradient_descent_backprop.pdf
+short_title: "Backpropagation"
+---
 
-<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/gradient_descent_backprop.pdf" class="download-btn">Download Slides (PDF)</a>
+# Lecture 5: Gradient Descent and Backpropagation
 
 **Duration**: ~45 minutes | **Slides**: 38 | **Prerequisites**: [Lecture 4](Lecture-4-Activation-and-Loss-Functions)
 

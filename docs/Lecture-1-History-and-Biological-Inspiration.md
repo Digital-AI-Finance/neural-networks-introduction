@@ -1,6 +1,11 @@
-# Lecture 1: History and Biological Inspiration
+---
+title: "History and Biological Inspiration"
+lecture_num: 1
+pdf_file: history_biological_inspiration.pdf
+short_title: "History"
+---
 
-<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/history_biological_inspiration.pdf" class="download-btn">Download Slides (PDF)</a>
+# Lecture 1: History and Biological Inspiration
 
 **Duration**: ~45 minutes | **Slides**: 18 | **Prerequisites**: None
 

@@ -1,6 +1,11 @@
-# Lecture 4: Activation and Loss Functions
+---
+title: "Activation and Loss Functions"
+lecture_num: 4
+pdf_file: activation_loss_functions.pdf
+short_title: "Activations & Loss"
+---
 
-<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/activation_loss_functions.pdf" class="download-btn">Download Slides (PDF)</a>
+# Lecture 4: Activation and Loss Functions
 
 **Duration**: ~45 minutes | **Slides**: 23 | **Prerequisites**: [Lecture 3](Lecture-3-MLP-Architecture)
 

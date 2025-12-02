@@ -1,6 +1,11 @@
-# Lecture 8: Modern Networks and Future Directions
+---
+title: "Modern Networks and Future Directions"
+lecture_num: 8
+pdf_file: modern_networks_future.pdf
+short_title: "Modern & Future"
+---
 
-<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/modern_networks_future.pdf" class="download-btn">Download Slides (PDF)</a>
+# Lecture 8: Modern Networks and Future Directions
 
 **Duration**: ~45 minutes | **Slides**: 17 | **Prerequisites**: [Lecture 7](Lecture-7-Financial-Applications)
 

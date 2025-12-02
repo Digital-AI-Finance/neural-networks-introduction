@@ -1,6 +1,11 @@
-# Lecture 2: Perceptron Fundamentals
+---
+title: "Perceptron Fundamentals"
+lecture_num: 2
+pdf_file: perceptron_fundamentals.pdf
+short_title: "Perceptron"
+---
 
-<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/perceptron_fundamentals.pdf" class="download-btn">Download Slides (PDF)</a>
+# Lecture 2: Perceptron Fundamentals
 
 **Duration**: ~45 minutes | **Slides**: 32 | **Prerequisites**: [Lecture 1](Lecture-1-History-and-Biological-Inspiration)
 

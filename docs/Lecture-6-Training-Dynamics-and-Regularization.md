@@ -1,6 +1,11 @@
-# Lecture 6: Training Dynamics and Regularization
+---
+title: "Training Dynamics and Regularization"
+lecture_num: 6
+pdf_file: training_regularization.pdf
+short_title: "Training"
+---
 
-<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/training_regularization.pdf" class="download-btn">Download Slides (PDF)</a>
+# Lecture 6: Training Dynamics and Regularization
 
 **Duration**: ~45 minutes | **Slides**: 37 | **Prerequisites**: [Lecture 5](Lecture-5-Gradient-Descent-and-Backpropagation)
 

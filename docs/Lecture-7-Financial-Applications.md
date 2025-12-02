@@ -1,6 +1,11 @@
-# Lecture 7: Financial Applications
+---
+title: "Financial Applications"
+lecture_num: 7
+pdf_file: financial_applications.pdf
+short_title: "Finance"
+---
 
-<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/financial_applications.pdf" class="download-btn">Download Slides (PDF)</a>
+# Lecture 7: Financial Applications
 
 **Duration**: ~45 minutes | **Slides**: 27 | **Prerequisites**: [Lecture 6](Lecture-6-Training-Dynamics-and-Regularization)
 

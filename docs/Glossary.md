@@ -1,3 +1,8 @@
+---
+title: "Glossary"
+short_title: "Glossary"
+---
+
 # Glossary of Neural Network Terms
 
 This glossary provides definitions for key terms used throughout the Neural Networks for Finance course.

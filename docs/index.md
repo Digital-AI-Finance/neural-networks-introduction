@@ -1,3 +1,8 @@
+---
+title: "Neural Networks for Finance"
+short_title: "Home"
+---
+
 # Neural Networks for Finance - Student Wiki
 
 Welcome to the comprehensive study guide for the **Neural Networks for Finance** course. This BSc-level lecture series introduces feedforward neural networks with practical applications in finance and stock prediction.

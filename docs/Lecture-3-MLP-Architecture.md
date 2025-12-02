@@ -1,6 +1,11 @@
-# Lecture 3: Multi-Layer Perceptron Architecture
+---
+title: "Multi-Layer Perceptron Architecture"
+lecture_num: 3
+pdf_file: mlp_architecture.pdf
+short_title: "MLP Architecture"
+---
 
-<a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/mlp_architecture.pdf" class="download-btn">Download Slides (PDF)</a>
+# Lecture 3: Multi-Layer Perceptron Architecture
 
 **Duration**: ~45 minutes | **Slides**: 32 | **Prerequisites**: [Lecture 2](Lecture-2-Perceptron-Fundamentals)
 
