@@ -5,39 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | {{ site.title }}</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
       line-height: 1.6;
-      max-width: 900px;
-      margin: 0 auto;
-      padding: 20px;
+      margin: 0;
+      padding: 0;
       color: #333;
+      display: flex;
+      min-height: 100vh;
     }
+
+    /* Left sidebar navigation */
+    .sidebar {
+      width: 220px;
+      min-width: 220px;
+      background: linear-gradient(180deg, #3333B2, #0066CC);
+      padding: 20px 0;
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .sidebar-header {
+      padding: 10px 20px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+      margin-bottom: 15px;
+    }
+    .sidebar-header a {
+      color: white;
+      font-weight: bold;
+      font-size: 18px;
+      text-decoration: none;
+    }
+    .sidebar-header a:hover {
+      text-decoration: none;
+    }
+    .sidebar-section {
+      padding: 0 10px;
+      margin-bottom: 15px;
+    }
+    .sidebar-section-title {
+      color: rgba(255,255,255,0.6);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 5px 10px;
+      margin-bottom: 5px;
+    }
+    .sidebar a {
+      display: block;
+      color: rgba(255,255,255,0.9);
+      padding: 8px 15px;
+      border-radius: 5px;
+      font-size: 14px;
+      text-decoration: none;
+      margin: 2px 0;
+    }
+    .sidebar a:hover {
+      background: rgba(255,255,255,0.15);
+      color: white;
+      text-decoration: none;
+    }
+    .sidebar a.active {
+      background: rgba(255,255,255,0.2);
+      color: white;
+    }
+    .sidebar-footer {
+      padding: 15px 20px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+      margin-top: auto;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+    }
+    .sidebar-footer a {
+      font-size: 12px;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Main content area */
+    .main-wrapper {
+      margin-left: 220px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    main {
+      max-width: 900px;
+      padding: 30px 40px;
+      flex: 1;
+    }
+
     h1, h2, h3 { color: #3333B2; }
     a { color: #0066CC; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    nav {
-      background: linear-gradient(135deg, #3333B2, #0066CC);
-      padding: 15px 20px;
-      margin-bottom: 30px;
-      border-radius: 8px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-    nav a {
-      color: white;
-      padding: 5px 12px;
-      border-radius: 4px;
-      font-size: 14px;
-    }
-    nav a:hover {
-      background: rgba(255,255,255,0.2);
-      text-decoration: none;
-    }
-    nav a.home { font-weight: bold; font-size: 16px; }
-    nav .sep { color: rgba(255,255,255,0.5); }
     table { border-collapse: collapse; width: 100%; margin: 20px 0; }
     th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
     th { background: #f5f5f5; }
@@ -48,7 +111,13 @@
     details { background: #f9f9f9; padding: 10px 15px; border-radius: 5px; margin: 10px 0; }
     summary { cursor: pointer; font-weight: bold; color: #3333B2; }
     img { max-width: 100%; height: auto; }
-    .footer { margin-top: 50px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 14px; }
+    .footer {
+      padding: 20px 40px;
+      border-top: 1px solid #ddd;
+      color: #666;
+      font-size: 14px;
+      background: #f9f9f9;
+    }
 
     /* Download button */
     .download-btn {
@@ -109,30 +178,64 @@
       color: #666;
       margin-top: 5px;
     }
+
+    /* Responsive: collapse sidebar on small screens */
+    @media (max-width: 900px) {
+      .sidebar {
+        position: relative;
+        width: 100%;
+        height: auto;
+        min-width: 100%;
+      }
+      .main-wrapper {
+        margin-left: 0;
+      }
+      body {
+        flex-direction: column;
+      }
+      .sidebar-footer {
+        position: relative;
+      }
+    }
   </style>
 </head>
 <body>
-  <nav>
-    <a href="{{ '/' | relative_url }}" class="home">Neural Networks</a>
-    <span class="sep">|</span>
-    <a href="{{ '/Lecture-1-History-and-Biological-Inspiration' | relative_url }}">L1: History</a>
-    <a href="{{ '/Lecture-2-Perceptron-Fundamentals' | relative_url }}">L2: Perceptron</a>
-    <a href="{{ '/Lecture-3-MLP-Architecture' | relative_url }}">L3: MLP</a>
-    <a href="{{ '/Lecture-4-Activation-and-Loss-Functions' | relative_url }}">L4: Activations</a>
-    <a href="{{ '/Lecture-5-Gradient-Descent-and-Backpropagation' | relative_url }}">L5: Backprop</a>
-    <a href="{{ '/Lecture-6-Training-Dynamics-and-Regularization' | relative_url }}">L6: Training</a>
-    <a href="{{ '/Lecture-7-Financial-Applications' | relative_url }}">L7: Finance</a>
-    <a href="{{ '/Lecture-8-Modern-Networks-and-Future' | relative_url }}">L8: Modern</a>
-    <span class="sep">|</span>
-    <a href="{{ '/Glossary' | relative_url }}">Glossary</a>
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <a href="{{ '/' | relative_url }}">Neural Networks</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Lectures</div>
+      <a href="{{ '/Lecture-1-History-and-Biological-Inspiration' | relative_url }}">1. History</a>
+      <a href="{{ '/Lecture-2-Perceptron-Fundamentals' | relative_url }}">2. Perceptron</a>
+      <a href="{{ '/Lecture-3-MLP-Architecture' | relative_url }}">3. MLP Architecture</a>
+      <a href="{{ '/Lecture-4-Activation-and-Loss-Functions' | relative_url }}">4. Activations & Loss</a>
+      <a href="{{ '/Lecture-5-Gradient-Descent-and-Backpropagation' | relative_url }}">5. Backpropagation</a>
+      <a href="{{ '/Lecture-6-Training-Dynamics-and-Regularization' | relative_url }}">6. Training</a>
+      <a href="{{ '/Lecture-7-Financial-Applications' | relative_url }}">7. Finance</a>
+      <a href="{{ '/Lecture-8-Modern-Networks-and-Future' | relative_url }}">8. Modern & Future</a>
+    </div>
+
+    <div class="sidebar-section">
+      <div class="sidebar-section-title">Resources</div>
+      <a href="{{ '/Glossary' | relative_url }}">Glossary</a>
+      <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/lectures">All Slides (PDF)</a>
+    </div>
+
+    <div class="sidebar-footer">
+      <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction">GitHub Repo</a>
+    </div>
   </nav>
 
-  <main>
-    {{ content }}
-  </main>
+  <div class="main-wrapper">
+    <main>
+      {{ content }}
+    </main>
 
-  <div class="footer">
-    <p>Neural Networks for Finance | <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction">GitHub Repository</a> | <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/lectures">Download All Slides</a></p>
+    <div class="footer">
+      <p>Neural Networks for Finance | Digital-AI-Finance</p>
+    </div>
   </div>
 </body>
 </html>
