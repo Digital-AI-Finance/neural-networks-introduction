@@ -5,365 +5,407 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} | {{ site.title }}</title>
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-      line-height: 1.6;
-      margin: 0;
-      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      line-height: 1.5;
       color: #333;
-      display: flex;
-      min-height: 100vh;
+      font-size: 15px;
     }
 
-    /* Left sidebar navigation */
-    .sidebar {
-      width: 240px;
-      min-width: 240px;
-      background: linear-gradient(180deg, #3333B2, #0066CC);
-      padding: 20px 0;
+    /* Top navigation bar */
+    .topnav {
+      background: linear-gradient(90deg, #3333B2, #0066CC);
+      padding: 8px 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
       position: fixed;
       top: 0;
       left: 0;
-      height: 100vh;
-      overflow-y: auto;
+      right: 0;
+      z-index: 100;
+      height: 44px;
     }
-    .sidebar-header {
-      padding: 10px 20px 15px;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
-    }
-    .sidebar-header a {
+    .topnav-brand {
       color: white;
       font-weight: bold;
-      font-size: 18px;
+      font-size: 14px;
+      text-decoration: none;
+      margin-right: 15px;
+    }
+    .topnav-brand:hover { text-decoration: none; }
+    .topnav-lectures {
+      display: flex;
+      gap: 3px;
+    }
+    .topnav-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 2px;
+    }
+    .topnav-link {
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      padding: 4px 8px;
+      border-radius: 3px;
+      font-size: 12px;
+      font-weight: 500;
+    }
+    .topnav-link:hover {
+      background: rgba(255,255,255,0.15);
+      color: white;
       text-decoration: none;
     }
-    .sidebar-header a:hover {
+    .topnav-link.active {
+      background: rgba(255,255,255,0.25);
+      color: white;
+    }
+    .topnav-pdf {
+      color: rgba(255,255,255,0.7);
       text-decoration: none;
+      font-size: 10px;
+      padding: 2px 4px;
+      border-radius: 2px;
+    }
+    .topnav-pdf:hover {
+      background: #2CA02C;
+      color: white;
+    }
+    .topnav-sep {
+      color: rgba(255,255,255,0.3);
+      margin: 0 8px;
+    }
+    .topnav-right {
+      margin-left: auto;
+      display: flex;
+      gap: 10px;
+    }
+    .topnav-right a {
+      color: rgba(255,255,255,0.8);
+      text-decoration: none;
+      font-size: 12px;
+    }
+    .topnav-right a:hover { color: white; }
+
+    /* Main layout */
+    .layout {
+      display: flex;
+      margin-top: 44px;
+      min-height: calc(100vh - 44px);
     }
 
-    /* Progress bar */
-    .progress-section {
-      padding: 15px 20px;
-      border-bottom: 1px solid rgba(255,255,255,0.2);
+    /* Sidebar */
+    .sidebar {
+      width: 200px;
+      min-width: 200px;
+      background: #f8f9fa;
+      border-right: 1px solid #e0e0e0;
+      padding: 12px 0;
+      position: fixed;
+      top: 44px;
+      left: 0;
+      height: calc(100vh - 44px);
+      overflow-y: auto;
+      font-size: 13px;
     }
-    .progress-label {
-      color: rgba(255,255,255,0.8);
+    .sidebar-section {
+      padding: 8px 12px;
+    }
+    .sidebar-title {
+      color: #666;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+    .sidebar a {
+      display: block;
+      color: #444;
+      padding: 4px 8px;
+      border-radius: 3px;
+      text-decoration: none;
       font-size: 12px;
-      margin-bottom: 8px;
+    }
+    .sidebar a:hover {
+      background: #e8e8e8;
+      text-decoration: none;
+    }
+    .sidebar-progress {
+      padding: 10px 12px;
+      border-bottom: 1px solid #e0e0e0;
+    }
+    .progress-text {
+      font-size: 11px;
+      color: #666;
+      margin-bottom: 4px;
     }
     .progress-bar {
-      background: rgba(255,255,255,0.2);
-      border-radius: 10px;
-      height: 8px;
+      background: #ddd;
+      border-radius: 4px;
+      height: 6px;
       overflow: hidden;
     }
     .progress-fill {
       background: #2CA02C;
       height: 100%;
-      border-radius: 10px;
-      transition: width 0.3s;
+      border-radius: 4px;
     }
-
-    .sidebar-section {
-      padding: 0 10px;
-      margin: 15px 0;
-    }
-    .sidebar-section-title {
-      color: rgba(255,255,255,0.6);
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      padding: 5px 10px;
-      margin-bottom: 5px;
-    }
-    .sidebar a {
-      display: block;
-      color: rgba(255,255,255,0.9);
-      padding: 8px 15px;
-      border-radius: 5px;
-      font-size: 14px;
-      text-decoration: none;
-      margin: 2px 0;
-    }
-    .sidebar a:hover {
-      background: rgba(255,255,255,0.15);
-      color: white;
-      text-decoration: none;
-    }
-    .sidebar a.active {
-      background: rgba(255,255,255,0.2);
-      color: white;
-    }
-
-    /* Quick PDF button in sidebar */
     .sidebar-pdf-btn {
       display: block;
-      background: linear-gradient(135deg, #2CA02C, #228B22);
+      background: #2CA02C;
       color: white !important;
-      padding: 10px 15px;
-      border-radius: 5px;
-      font-weight: bold;
-      font-size: 13px;
+      padding: 6px 10px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
       text-align: center;
-      margin: 10px 10px 0;
+      margin: 8px 12px;
     }
     .sidebar-pdf-btn:hover {
-      background: linear-gradient(135deg, #228B22, #1E7B1E);
+      background: #228B22;
+      text-decoration: none;
     }
 
-    /* On-page TOC */
+    /* TOC in sidebar */
     .toc-section {
-      padding: 0 10px;
-      margin-top: 15px;
-      max-height: 200px;
-      overflow-y: auto;
+      border-top: 1px solid #e0e0e0;
+      margin-top: 8px;
+      padding-top: 8px;
     }
     .toc-section a {
-      font-size: 12px;
-      padding: 5px 15px;
-      color: rgba(255,255,255,0.7);
-    }
-    .toc-section a:hover {
-      color: white;
+      font-size: 11px;
+      color: #666;
+      padding: 3px 8px;
     }
 
-    .sidebar-footer {
-      padding: 15px 20px;
-      border-top: 1px solid rgba(255,255,255,0.2);
-      position: absolute;
-      bottom: 0;
-      width: 100%;
-      background: linear-gradient(180deg, #2929A0, #0055AA);
-    }
-    .sidebar-footer a {
-      font-size: 12px;
-      color: rgba(255,255,255,0.7);
-      padding: 5px 0;
-    }
-
-    /* Main content area */
+    /* Main content */
     .main-wrapper {
-      margin-left: 240px;
+      margin-left: 200px;
       flex: 1;
       display: flex;
       flex-direction: column;
     }
-
-    /* Breadcrumbs */
     .breadcrumbs {
-      padding: 15px 40px;
+      padding: 8px 24px;
       background: #f5f5f5;
-      border-bottom: 1px solid #ddd;
-      font-size: 14px;
+      border-bottom: 1px solid #e0e0e0;
+      font-size: 12px;
     }
-    .breadcrumbs a {
-      color: #0066CC;
-    }
-    .breadcrumbs span {
-      color: #999;
-      margin: 0 8px;
-    }
-    .breadcrumbs .current {
-      color: #666;
-    }
+    .breadcrumbs a { color: #0066CC; }
+    .breadcrumbs span { color: #999; margin: 0 6px; }
+    .breadcrumbs .current { color: #666; }
 
     main {
-      max-width: 900px;
-      padding: 30px 40px;
+      max-width: 860px;
+      padding: 20px 24px;
       flex: 1;
     }
 
-    h1, h2, h3 { color: #3333B2; }
-    h2 { scroll-margin-top: 20px; }
+    /* Typography - compact */
+    h1 { color: #3333B2; font-size: 1.6em; margin-bottom: 12px; }
+    h2 { color: #3333B2; font-size: 1.3em; margin: 20px 0 10px; scroll-margin-top: 60px; }
+    h3 { color: #3333B2; font-size: 1.1em; margin: 16px 0 8px; }
+    p { margin: 8px 0; }
     a { color: #0066CC; text-decoration: none; }
     a:hover { text-decoration: underline; }
-    table { border-collapse: collapse; width: 100%; margin: 20px 0; }
-    th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-    th { background: #f5f5f5; }
-    code { background: #f5f5f5; padding: 2px 6px; border-radius: 3px; font-size: 90%; }
-    pre { background: #f5f5f5; padding: 15px; border-radius: 5px; overflow-x: auto; }
+
+    /* Tables - compact */
+    table { border-collapse: collapse; width: 100%; margin: 12px 0; font-size: 13px; }
+    th, td { border: 1px solid #ddd; padding: 6px 10px; text-align: left; }
+    th { background: #f5f5f5; font-weight: 600; }
+
+    /* Code - compact */
+    code { background: #f5f5f5; padding: 1px 5px; border-radius: 3px; font-size: 13px; }
+    pre { background: #f5f5f5; padding: 12px; border-radius: 4px; overflow-x: auto; font-size: 13px; margin: 10px 0; }
     pre code { background: none; padding: 0; }
-    blockquote { border-left: 4px solid #3333B2; margin: 20px 0; padding-left: 20px; color: #666; }
-    details { background: #f9f9f9; padding: 10px 15px; border-radius: 5px; margin: 10px 0; }
-    summary { cursor: pointer; font-weight: bold; color: #3333B2; }
+
+    /* Other elements */
+    blockquote { border-left: 3px solid #3333B2; margin: 12px 0; padding-left: 16px; color: #666; font-style: italic; }
+    details { background: #f9f9f9; padding: 8px 12px; border-radius: 4px; margin: 8px 0; font-size: 14px; }
+    summary { cursor: pointer; font-weight: 600; color: #3333B2; }
     img { max-width: 100%; height: auto; }
+    ul, ol { margin: 8px 0; padding-left: 24px; }
+    li { margin: 4px 0; }
+
+    /* Footer */
     .footer {
-      padding: 20px 40px;
+      padding: 12px 24px;
       border-top: 1px solid #ddd;
       color: #666;
-      font-size: 14px;
+      font-size: 12px;
       background: #f9f9f9;
     }
 
-    /* Download button */
-    .download-btn {
-      display: inline-block;
-      background: linear-gradient(135deg, #2CA02C, #228B22);
-      color: white !important;
-      padding: 8px 16px;
-      border-radius: 5px;
-      font-weight: bold;
-      margin: 10px 0;
-    }
-    .download-btn:hover {
-      background: linear-gradient(135deg, #228B22, #1E7B1E);
-      text-decoration: none;
-    }
-
-    /* Prev/Next navigation */
+    /* Lecture nav - compact */
     .lecture-nav {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-top: 40px;
-      padding: 20px;
+      margin-top: 24px;
+      padding: 12px;
       background: #f5f5f5;
-      border-radius: 8px;
+      border-radius: 6px;
+      font-size: 13px;
     }
     .lecture-nav a {
-      padding: 10px 20px;
+      padding: 6px 14px;
       background: #3333B2;
       color: white !important;
-      border-radius: 5px;
+      border-radius: 4px;
     }
     .lecture-nav a:hover {
       background: #2929A0;
       text-decoration: none;
     }
-    .lecture-nav .disabled {
-      visibility: hidden;
-    }
+    .lecture-nav .disabled { visibility: hidden; }
 
-    /* Chart link styling */
+    /* Charts */
     .chart-container {
       text-align: center;
-      margin: 20px 0;
+      margin: 16px 0;
     }
     .chart-container img {
       border: 1px solid #ddd;
-      border-radius: 5px;
-      transition: transform 0.2s;
+      border-radius: 4px;
+      max-width: 100%;
     }
     .chart-container img:hover {
-      transform: scale(1.02);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
     }
     .chart-container .chart-link {
       display: block;
-      font-size: 12px;
-      color: #666;
-      margin-top: 5px;
+      font-size: 11px;
+      color: #888;
+      margin-top: 4px;
     }
 
-    /* Responsive: collapse sidebar on small screens */
-    @media (max-width: 900px) {
-      .sidebar {
-        position: relative;
-        width: 100%;
-        height: auto;
-        min-width: 100%;
-      }
-      .main-wrapper {
-        margin-left: 0;
-      }
-      body {
-        flex-direction: column;
-      }
-      .sidebar-footer {
-        position: relative;
-      }
-      .toc-section {
-        display: none;
-      }
+    /* Responsive */
+    @media (max-width: 800px) {
+      .sidebar { display: none; }
+      .main-wrapper { margin-left: 0; }
+      .topnav-lectures { display: none; }
     }
   </style>
 </head>
 <body>
-  <nav class="sidebar">
-    <div class="sidebar-header">
-      <a href="{{ '/' | relative_url }}">Neural Networks</a>
+  <!-- Top Navigation -->
+  <nav class="topnav">
+    <a href="{{ '/' | relative_url }}" class="topnav-brand">Neural Networks</a>
+    <div class="topnav-lectures">
+      <span class="topnav-item">
+        <a href="{{ '/Lecture-1-History-and-Biological-Inspiration' | relative_url }}" class="topnav-link{% if page.lecture_num == 1 %} active{% endif %}">1</a>
+        <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/history_biological_inspiration.pdf" class="topnav-pdf" title="PDF">pdf</a>
+      </span>
+      <span class="topnav-item">
+        <a href="{{ '/Lecture-2-Perceptron-Fundamentals' | relative_url }}" class="topnav-link{% if page.lecture_num == 2 %} active{% endif %}">2</a>
+        <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/perceptron_fundamentals.pdf" class="topnav-pdf" title="PDF">pdf</a>
+      </span>
+      <span class="topnav-item">
+        <a href="{{ '/Lecture-3-MLP-Architecture' | relative_url }}" class="topnav-link{% if page.lecture_num == 3 %} active{% endif %}">3</a>
+        <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/mlp_architecture.pdf" class="topnav-pdf" title="PDF">pdf</a>
+      </span>
+      <span class="topnav-item">
+        <a href="{{ '/Lecture-4-Activation-and-Loss-Functions' | relative_url }}" class="topnav-link{% if page.lecture_num == 4 %} active{% endif %}">4</a>
+        <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/activation_loss_functions.pdf" class="topnav-pdf" title="PDF">pdf</a>
+      </span>
+      <span class="topnav-item">
+        <a href="{{ '/Lecture-5-Gradient-Descent-and-Backpropagation' | relative_url }}" class="topnav-link{% if page.lecture_num == 5 %} active{% endif %}">5</a>
+        <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/gradient_descent_backprop.pdf" class="topnav-pdf" title="PDF">pdf</a>
+      </span>
+      <span class="topnav-item">
+        <a href="{{ '/Lecture-6-Training-Dynamics-and-Regularization' | relative_url }}" class="topnav-link{% if page.lecture_num == 6 %} active{% endif %}">6</a>
+        <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/training_regularization.pdf" class="topnav-pdf" title="PDF">pdf</a>
+      </span>
+      <span class="topnav-item">
+        <a href="{{ '/Lecture-7-Financial-Applications' | relative_url }}" class="topnav-link{% if page.lecture_num == 7 %} active{% endif %}">7</a>
+        <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/financial_applications.pdf" class="topnav-pdf" title="PDF">pdf</a>
+      </span>
+      <span class="topnav-item">
+        <a href="{{ '/Lecture-8-Modern-Networks-and-Future' | relative_url }}" class="topnav-link{% if page.lecture_num == 8 %} active{% endif %}">8</a>
+        <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/modern_networks_future.pdf" class="topnav-pdf" title="PDF">pdf</a>
+      </span>
     </div>
-
-    {% if page.lecture_num %}
-    <div class="progress-section">
-      <div class="progress-label">Lecture {{ page.lecture_num }} of 8</div>
-      <div class="progress-bar">
-        <div class="progress-fill" style="width: {{ page.lecture_num | times: 12.5 }}%;"></div>
-      </div>
-    </div>
-    {% endif %}
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-title">Lectures</div>
-      <a href="{{ '/Lecture-1-History-and-Biological-Inspiration' | relative_url }}">1. History</a>
-      <a href="{{ '/Lecture-2-Perceptron-Fundamentals' | relative_url }}">2. Perceptron</a>
-      <a href="{{ '/Lecture-3-MLP-Architecture' | relative_url }}">3. MLP Architecture</a>
-      <a href="{{ '/Lecture-4-Activation-and-Loss-Functions' | relative_url }}">4. Activations & Loss</a>
-      <a href="{{ '/Lecture-5-Gradient-Descent-and-Backpropagation' | relative_url }}">5. Backpropagation</a>
-      <a href="{{ '/Lecture-6-Training-Dynamics-and-Regularization' | relative_url }}">6. Training</a>
-      <a href="{{ '/Lecture-7-Financial-Applications' | relative_url }}">7. Finance</a>
-      <a href="{{ '/Lecture-8-Modern-Networks-and-Future' | relative_url }}">8. Modern & Future</a>
-    </div>
-
-    {% if page.pdf_file %}
-    <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/{{ page.pdf_file }}" class="sidebar-pdf-btn">Download Slides (PDF)</a>
-    {% endif %}
-
-    <div class="sidebar-section">
-      <div class="sidebar-section-title">Resources</div>
+    <span class="topnav-sep">|</span>
+    <div class="topnav-right">
       <a href="{{ '/Glossary' | relative_url }}">Glossary</a>
-      <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/lectures">All Slides (PDF)</a>
-    </div>
-
-    <div class="toc-section" id="toc-container">
-      <div class="sidebar-section-title">On This Page</div>
-      <!-- TOC generated by JavaScript -->
-    </div>
-
-    <div class="sidebar-footer">
-      <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction">GitHub Repository</a>
+      <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction">GitHub</a>
     </div>
   </nav>
 
-  <div class="main-wrapper">
-    <div class="breadcrumbs">
-      <a href="{{ '/' | relative_url }}">Home</a>
+  <div class="layout">
+    <!-- Sidebar -->
+    <nav class="sidebar">
       {% if page.lecture_num %}
-      <span>></span>
-      <span class="current">Lecture {{ page.lecture_num }}: {{ page.short_title | default: page.title }}</span>
-      {% elsif page.title != "Neural Networks for Finance" %}
-      <span>></span>
-      <span class="current">{{ page.title }}</span>
+      <div class="sidebar-progress">
+        <div class="progress-text">Lecture {{ page.lecture_num }} of 8</div>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: {{ page.lecture_num | times: 12.5 }}%;"></div>
+        </div>
+      </div>
       {% endif %}
-    </div>
 
-    <main>
-      {{ content }}
-    </main>
+      <div class="sidebar-section">
+        <div class="sidebar-title">Lectures</div>
+        <a href="{{ '/Lecture-1-History-and-Biological-Inspiration' | relative_url }}">1. History</a>
+        <a href="{{ '/Lecture-2-Perceptron-Fundamentals' | relative_url }}">2. Perceptron</a>
+        <a href="{{ '/Lecture-3-MLP-Architecture' | relative_url }}">3. MLP</a>
+        <a href="{{ '/Lecture-4-Activation-and-Loss-Functions' | relative_url }}">4. Activations</a>
+        <a href="{{ '/Lecture-5-Gradient-Descent-and-Backpropagation' | relative_url }}">5. Backprop</a>
+        <a href="{{ '/Lecture-6-Training-Dynamics-and-Regularization' | relative_url }}">6. Training</a>
+        <a href="{{ '/Lecture-7-Financial-Applications' | relative_url }}">7. Finance</a>
+        <a href="{{ '/Lecture-8-Modern-Networks-and-Future' | relative_url }}">8. Modern</a>
+      </div>
 
-    <div class="footer">
-      <p>Neural Networks for Finance | Digital-AI-Finance</p>
+      {% if page.pdf_file %}
+      <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/raw/main/lectures/{{ page.pdf_file }}" class="sidebar-pdf-btn">Download PDF</a>
+      {% endif %}
+
+      <div class="sidebar-section">
+        <div class="sidebar-title">Resources</div>
+        <a href="{{ '/Glossary' | relative_url }}">Glossary</a>
+        <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/lectures">All PDFs</a>
+      </div>
+
+      <div class="sidebar-section toc-section" id="toc-container">
+        <div class="sidebar-title">On This Page</div>
+      </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-wrapper">
+      <div class="breadcrumbs">
+        <a href="{{ '/' | relative_url }}">Home</a>
+        {% if page.lecture_num %}
+        <span>></span>
+        <span class="current">L{{ page.lecture_num }}: {{ page.short_title }}</span>
+        {% elsif page.title != "Neural Networks for Finance" %}
+        <span>></span>
+        <span class="current">{{ page.title }}</span>
+        {% endif %}
+      </div>
+
+      <main>
+        {{ content }}
+      </main>
+
+      <div class="footer">
+        Neural Networks for Finance | Digital-AI-Finance
+      </div>
     </div>
   </div>
 
   <script>
-    // Generate on-page TOC from H2 headings
     document.addEventListener('DOMContentLoaded', function() {
       const tocContainer = document.getElementById('toc-container');
       const headings = document.querySelectorAll('main h2');
-
       if (headings.length === 0) {
         tocContainer.style.display = 'none';
         return;
       }
-
       headings.forEach(function(heading, index) {
-        // Add ID if not present
-        if (!heading.id) {
-          heading.id = 'section-' + index;
-        }
-
+        if (!heading.id) heading.id = 'section-' + index;
         const link = document.createElement('a');
         link.href = '#' + heading.id;
         link.textContent = heading.textContent;
