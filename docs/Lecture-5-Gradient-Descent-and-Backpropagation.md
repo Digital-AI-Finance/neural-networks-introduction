@@ -3,6 +3,8 @@ title: "Gradient Descent and Backpropagation"
 lecture_num: 5
 pdf_file: gradient_descent_backprop.pdf
 short_title: "Backpropagation"
+description: "Learn gradient descent optimization and the backpropagation algorithm. Understand loss landscapes, learning rate, chain rule, and credit assignment in neural networks."
+keywords: ['gradient descent', 'backpropagation', 'chain rule', 'learning rate', 'loss landscape', 'optimization', 'credit assignment']
 ---
 
 # Lecture 5: Gradient Descent and Backpropagation
@@ -61,7 +63,7 @@ The loss function creates a "landscape" over the weight space.
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/loss_landscape_3d">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/loss_landscape_3d/loss_landscape_3d.png" alt="Loss Landscape">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/loss_landscape_3d/loss_landscape_3d.png" alt="Loss Landscape" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -96,7 +98,7 @@ Where:
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/gradient_descent_contour">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/gradient_descent_contour/gradient_descent_contour.png" alt="Gradient Descent Contour">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/gradient_descent_contour/gradient_descent_contour.png" alt="Gradient Descent Contour" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -125,7 +127,7 @@ The learning rate controls step size and is crucial for successful training.
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/learning_rate_comparison">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/learning_rate_comparison/learning_rate_comparison.png" alt="Learning Rate Comparison">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/learning_rate_comparison/learning_rate_comparison.png" alt="Learning Rate Comparison" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -181,7 +183,7 @@ Backpropagation efficiently computes all gradients by working backward through t
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/backprop_flow_diagram">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/backprop_flow_diagram/backprop_flow_diagram.png" alt="Backprop Flow">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/backprop_flow_diagram/backprop_flow_diagram.png" alt="Backprop Flow" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -201,7 +203,7 @@ Backpropagation efficiently computes all gradients by working backward through t
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/credit_assignment">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/credit_assignment/credit_assignment.png" alt="Credit Assignment">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/credit_assignment/credit_assignment.png" alt="Credit Assignment" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>

@@ -3,6 +3,8 @@ title: "Multi-Layer Perceptron Architecture"
 lecture_num: 3
 pdf_file: mlp_architecture.pdf
 short_title: "MLP Architecture"
+description: "Understand multi-layer perceptron (MLP) architecture. Learn forward propagation, matrix notation, hidden layer representations, and how MLPs solve the XOR problem."
+keywords: ['MLP', 'multi-layer perceptron', 'hidden layers', 'forward propagation', 'matrix notation', 'XOR solution', 'universal approximation']
 ---
 
 # Lecture 3: Multi-Layer Perceptron Architecture
@@ -36,7 +38,7 @@ By combining simple linear classifiers, we can create complex non-linear decisio
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/mlp_architecture_2_3_1">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/mlp_architecture_2_3_1/mlp_architecture_2_3_1.png" alt="MLP Architecture">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/mlp_architecture_2_3_1/mlp_architecture_2_3_1.png" alt="MLP Architecture" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -127,7 +129,7 @@ Layer 2:
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/matrix_multiplication_visual">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/matrix_multiplication_visual/matrix_multiplication_visual.png" alt="Matrix Multiplication">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/matrix_multiplication_visual/matrix_multiplication_visual.png" alt="Matrix Multiplication" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -162,7 +164,7 @@ Let's see how a 2-2-1 network solves XOR.
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/xor_solution_mlp">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/xor_solution_mlp/xor_solution_mlp.png" alt="XOR Solution">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/xor_solution_mlp/xor_solution_mlp.png" alt="XOR Solution" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -183,7 +185,7 @@ The hidden layer creates a new feature space where the problem becomes easier.
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/hidden_layer_representations">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/hidden_layer_representations/hidden_layer_representations.png" alt="Hidden Layer Representations">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/hidden_layer_representations/hidden_layer_representations.png" alt="Hidden Layer Representations" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>

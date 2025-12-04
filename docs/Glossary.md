@@ -319,8 +319,48 @@ Another term for L2 regularization, referring to the shrinkage of weights toward
 
 ## X
 
+**Xavier Initialization**
+A weight initialization strategy for neural networks with sigmoid or tanh activations. Weights are sampled from a distribution with variance 2/(n_in + n_out), where n_in and n_out are the number of input and output neurons. Also called Glorot initialization.
+
 **XOR Problem**
 A classification problem that cannot be solved by a single perceptron because it is not linearly separable. Motivated the development of multi-layer networks.
+
+---
+
+## Additional Finance Terms
+
+**Alpha**
+Excess return of an investment relative to a benchmark index. In the context of ML trading strategies, alpha represents the predictive edge the model provides above passive investment.
+
+**Backtesting**
+The process of testing a trading strategy on historical data to evaluate its performance. Requires careful methodology to avoid look-ahead bias and overfitting.
+
+**Feature Importance**
+A measure of how much each input feature contributes to a model's predictions. In financial models, helps identify which factors drive returns and validates economic intuition.
+
+**He Initialization**
+A weight initialization strategy optimized for ReLU activation functions. Weights are sampled with variance 2/n_in, where n_in is the number of inputs. Prevents vanishing/exploding gradients in deep networks.
+
+**Hyperparameter**
+A parameter set before training begins (not learned from data). Examples include learning rate, batch size, number of layers, and regularization strength.
+
+**Market Regime**
+A period of consistent market behavior characterized by similar statistical properties (volatility, correlation, trend). Models trained in one regime may fail in another.
+
+**Non-Stationarity**
+When statistical properties of a time series change over time. Financial data is typically non-stationary, requiring techniques like differencing or rolling normalization.
+
+**Point-in-Time Data**
+Historical data stored exactly as it would have been available at each historical date, without retrospective adjustments. Essential for avoiding look-ahead bias.
+
+**Sharpe Ratio**
+A measure of risk-adjusted return: (Return - Risk-Free Rate) / Volatility. Higher Sharpe ratios indicate better risk-adjusted performance. A Sharpe > 1 is generally considered good.
+
+**SHAP Values**
+SHapley Additive exPlanations. A method for explaining individual predictions by attributing the prediction to each input feature based on game-theoretic principles.
+
+**Survivorship Bias**
+A form of selection bias where only "surviving" entities (companies that didn't go bankrupt) are included in analysis. Leads to overly optimistic historical performance estimates.
 
 ---
 

@@ -3,6 +3,8 @@ title: "History and Biological Inspiration"
 lecture_num: 1
 pdf_file: history_biological_inspiration.pdf
 short_title: "History"
+description: "Learn about the origins of neural networks from 1943-1969, including McCulloch-Pitts neurons, Hebbian learning, and the perceptron. Understand how biological neurons inspired artificial neural networks."
+keywords: ['neural network history', 'McCulloch-Pitts', 'Hebbian learning', 'perceptron', 'biological neurons', 'AI winter', 'Rosenblatt']
 ---
 
 # Lecture 1: History and Biological Inspiration
@@ -70,7 +72,7 @@ Their model:
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module1_perceptron/charts/mcculloch_pitts_diagram">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/mcculloch_pitts_diagram/mcculloch_pitts_diagram.png" alt="McCulloch-Pitts Model">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/mcculloch_pitts_diagram/mcculloch_pitts_diagram.png" alt="McCulloch-Pitts Model" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -143,7 +145,7 @@ To understand artificial neurons, we must first understand their biological insp
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module1_perceptron/charts/biological_vs_artificial_neuron">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/biological_vs_artificial_neuron/biological_vs_artificial_neuron.png" alt="Biological vs Artificial Neuron">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/biological_vs_artificial_neuron/biological_vs_artificial_neuron.png" alt="Biological vs Artificial Neuron" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>

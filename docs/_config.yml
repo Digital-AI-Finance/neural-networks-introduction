@@ -1,12 +1,56 @@
 title: Neural Networks for Finance
-description: BSc-level neural networks lecture series with finance applications
+description: BSc-level neural networks lecture series covering perceptrons, MLPs, backpropagation, and financial applications. 8 comprehensive lectures with interactive charts and Python implementations.
 baseurl: /neural-networks-introduction
 url: https://digital-ai-finance.github.io
+
+# Author and organization
+author:
+  name: Digital AI Finance
+  url: https://github.com/Digital-AI-Finance
+  email: contact@digital-ai-finance.org
+
+# SEO and social metadata
+twitter:
+  username: DigitalAIFinance
+  card: summary_large_image
+
+social:
+  name: Digital AI Finance
+  links:
+    - https://github.com/Digital-AI-Finance
+
+# Default Open Graph image
+og_image: /neural-networks-introduction/assets/images/og-default.png
+
+# Site language
+lang: en
+
+# Keywords for SEO
+keywords:
+  - neural networks
+  - machine learning
+  - deep learning
+  - finance
+  - perceptron
+  - MLP
+  - backpropagation
+  - gradient descent
+  - stock prediction
+  - Python
+
+# GitHub repository
+repository: Digital-AI-Finance/neural-networks-introduction
 
 # Use our custom layout
 defaults:
   - scope:
       path: ""
+    values:
+      layout: default
+      image: /neural-networks-introduction/assets/images/og-default.png
+  - scope:
+      path: ""
+      type: "pages"
     values:
       layout: default
 
@@ -15,3 +59,17 @@ markdown: kramdown
 kramdown:
   input: GFM
   hard_wrap: false
+
+# Exclude from build
+exclude:
+  - README.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# Plugins
+plugins:
+  - jekyll-seo-tag
+  - jekyll-sitemap

@@ -3,6 +3,8 @@ title: "Modern Networks and Future Directions"
 lecture_num: 8
 pdf_file: modern_networks_future.pdf
 short_title: "Modern & Future"
+description: "Explore modern neural network architectures: CNNs, RNNs, LSTMs, and Transformers. Learn about attention mechanisms, ethical AI considerations, and future directions in financial ML."
+keywords: ['CNN', 'RNN', 'LSTM', 'Transformer', 'attention mechanism', 'deep learning', 'ethical AI', 'financial ML future']
 ---
 
 # Lecture 8: Modern Networks and Future Directions
@@ -44,7 +46,7 @@ The field has evolved dramatically since the perceptron:
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module4_applications/charts/full_timeline_1943_2024">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/full_timeline_1943_2024/full_timeline_1943_2024.png" alt="Timeline">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/full_timeline_1943_2024/full_timeline_1943_2024.png" alt="Timeline" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -164,7 +166,7 @@ Neural Networks
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module4_applications/charts/architecture_family_tree">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/architecture_family_tree/architecture_family_tree.png" alt="Architecture Family Tree">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/architecture_family_tree/architecture_family_tree.png" alt="Architecture Family Tree" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>

@@ -3,6 +3,8 @@ title: "Activation and Loss Functions"
 lecture_num: 4
 pdf_file: activation_loss_functions.pdf
 short_title: "Activations & Loss"
+description: "Compare activation functions (sigmoid, tanh, ReLU) and loss functions (MSE, cross-entropy). Learn when to use each for regression and classification problems in neural networks."
+keywords: ['activation function', 'sigmoid', 'tanh', 'ReLU', 'loss function', 'MSE', 'cross-entropy', 'vanishing gradient']
 ---
 
 # Lecture 4: Activation and Loss Functions
@@ -67,7 +69,7 @@ sigmoid'(z) = sigmoid(z) * (1 - sigmoid(z))
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/sigmoid_function">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/sigmoid_function/sigmoid_function.png" alt="Sigmoid Function">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/sigmoid_function/sigmoid_function.png" alt="Sigmoid Function" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -108,7 +110,7 @@ tanh'(z) = 1 - tanh^2(z)
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/tanh_function">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/tanh_function/tanh_function.png" alt="Tanh Function">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/tanh_function/tanh_function.png" alt="Tanh Function" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -148,7 +150,7 @@ ReLU'(z) = { 1 if z > 0
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/relu_function">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/relu_function/relu_function.png" alt="ReLU Function">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/relu_function/relu_function.png" alt="ReLU Function" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -165,7 +167,7 @@ ReLU'(z) = { 1 if z > 0
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/activation_comparison">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/activation_comparison/activation_comparison.png" alt="Activation Comparison">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/activation_comparison/activation_comparison.png" alt="Activation Comparison" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -251,7 +253,7 @@ dL/dy_pred = -2 * (y_true - y_pred)
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/mse_visualization">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/mse_visualization/mse_visualization.png" alt="MSE Visualization">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/mse_visualization/mse_visualization.png" alt="MSE Visualization" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -288,7 +290,7 @@ dL/dy_pred = -y_true/y_pred + (1-y_true)/(1-y_pred)
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module2_mlp/charts/cross_entropy_visualization">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/cross_entropy_visualization/cross_entropy_visualization.png" alt="Cross-Entropy Visualization">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module2_mlp/charts/cross_entropy_visualization/cross_entropy_visualization.png" alt="Cross-Entropy Visualization" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>

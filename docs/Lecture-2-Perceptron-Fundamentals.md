@@ -3,6 +3,8 @@ title: "Perceptron Fundamentals"
 lecture_num: 2
 pdf_file: perceptron_fundamentals.pdf
 short_title: "Perceptron"
+description: "Master the perceptron - the simplest neural network. Learn about weights, bias, activation functions, decision boundaries, and the perceptron learning algorithm. Understand the XOR limitation."
+keywords: ['perceptron', 'decision boundary', 'activation function', 'XOR problem', 'linear separability', 'perceptron learning algorithm', 'weights and bias']
 ---
 
 # Lecture 2: Perceptron Fundamentals
@@ -32,7 +34,7 @@ A perceptron is the simplest possible neural network: a single artificial neuron
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module1_perceptron/charts/perceptron_architecture">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/perceptron_architecture/perceptron_architecture.png" alt="Perceptron Architecture">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/perceptron_architecture/perceptron_architecture.png" alt="Perceptron Architecture" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -144,7 +146,7 @@ This is a line with:
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module1_perceptron/charts/decision_boundary_2d">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/decision_boundary_2d/decision_boundary_2d.png" alt="Decision Boundary">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/decision_boundary_2d/decision_boundary_2d.png" alt="Decision Boundary" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -213,7 +215,7 @@ The XOR (exclusive or) function demonstrates the fundamental limitation of singl
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module1_perceptron/charts/xor_problem">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/xor_problem/xor_problem.png" alt="XOR Problem">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module1_perceptron/charts/xor_problem/xor_problem.png" alt="XOR Problem" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>

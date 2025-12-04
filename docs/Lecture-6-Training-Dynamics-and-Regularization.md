@@ -3,6 +3,8 @@ title: "Training Dynamics and Regularization"
 lecture_num: 6
 pdf_file: training_regularization.pdf
 short_title: "Training"
+description: "Master neural network training with batch vs stochastic gradient descent, overfitting prevention, L1/L2 regularization, dropout, and early stopping techniques."
+keywords: ['overfitting', 'regularization', 'L1', 'L2', 'dropout', 'early stopping', 'batch gradient descent', 'SGD', 'weight decay']
 ---
 
 # Lecture 6: Training Dynamics and Regularization
@@ -93,7 +95,7 @@ Monitoring training progress is essential for understanding model behavior.
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/overfitting_curves">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/overfitting_curves/overfitting_curves.png" alt="Overfitting Curves">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/overfitting_curves/overfitting_curves.png" alt="Overfitting Curves" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -175,7 +177,7 @@ L_total = L_original + lambda * sum(|w_i|)
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/l1_l2_comparison">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/l1_l2_comparison/l1_l2_comparison.png" alt="L1 vs L2">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/l1_l2_comparison/l1_l2_comparison.png" alt="L1 vs L2" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -202,7 +204,7 @@ Dropout randomly "drops" neurons during training by setting their output to zero
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/dropout_visualization">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/dropout_visualization/dropout_visualization.png" alt="Dropout Visualization">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/dropout_visualization/dropout_visualization.png" alt="Dropout Visualization" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -237,7 +239,7 @@ Early stopping stops training when validation performance stops improving.
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/early_stopping_demo">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/early_stopping_demo/early_stopping_demo.png" alt="Early Stopping">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/early_stopping_demo/early_stopping_demo.png" alt="Early Stopping" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -359,7 +361,7 @@ where m = batch size
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module3_training/charts/backtest_trap">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/backtest_trap/backtest_trap.png" alt="Backtest Trap">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module3_training/charts/backtest_trap/backtest_trap.png" alt="Backtest Trap" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>

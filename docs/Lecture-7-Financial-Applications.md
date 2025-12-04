@@ -3,6 +3,8 @@ title: "Financial Applications"
 lecture_num: 7
 pdf_file: financial_applications.pdf
 short_title: "Finance"
+description: "Apply neural networks to finance: walk-forward validation, avoiding look-ahead bias, regime changes, feature engineering for stock prediction, and transaction cost analysis."
+keywords: ['financial ML', 'walk-forward validation', 'look-ahead bias', 'stock prediction', 'regime changes', 'feature engineering', 'transaction costs', 'Sharpe ratio']
 ---
 
 # Lecture 7: Financial Applications
@@ -67,7 +69,7 @@ Period 3:     [====Train====][Val]
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module4_applications/charts/walk_forward_validation">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/walk_forward_validation/walk_forward_validation.png" alt="Walk-Forward Validation">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/walk_forward_validation/walk_forward_validation.png" alt="Walk-Forward Validation" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -94,7 +96,7 @@ Period 3:     [====Train====][Val]
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module4_applications/charts/look_ahead_bias">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/look_ahead_bias/look_ahead_bias.png" alt="Look-Ahead Bias">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/look_ahead_bias/look_ahead_bias.png" alt="Look-Ahead Bias" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
@@ -119,7 +121,7 @@ Markets operate in different "regimes" with different statistical properties.
 
 <div class="chart-container">
 <a href="https://github.com/Digital-AI-Finance/neural-networks-introduction/tree/main/module4_applications/charts/regime_changes">
-<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/regime_changes/regime_changes.png" alt="Regime Changes">
+<img src="https://raw.githubusercontent.com/Digital-AI-Finance/neural-networks-introduction/main/module4_applications/charts/regime_changes/regime_changes.png" alt="Regime Changes" loading="lazy">
 </a>
 <span class="chart-link">Click chart to view Python source code</span>
 </div>
